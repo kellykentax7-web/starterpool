@@ -16,7 +16,6 @@
             background: #fafafa;
         }
         
-        /* Instagram-style Top Bar */
         .top-bar {
             background: white;
             padding: 12px 20px;
@@ -46,14 +45,12 @@
             color: #262626;
         }
         
-        /* Profile Container - Full Width */
         .profile-container {
             max-width: 935px;
             margin: 0 auto;
             padding: 20px;
         }
         
-        /* Profile Header - Instagram Style */
         .profile-header {
             display: flex;
             gap: 60px;
@@ -114,7 +111,6 @@
             margin-bottom: 5px;
         }
         
-        /* Tabs - Posts / Portfolio */
         .profile-tabs {
             display: flex;
             justify-content: center;
@@ -143,7 +139,6 @@
             margin-top: -16px;
         }
         
-        /* Posts Grid - Instagram Style */
         .posts-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -159,35 +154,61 @@
             justify-content: center;
             cursor: pointer;
             position: relative;
-            overflow: hidden;
+            font-size: 30px;
         }
         
-        .post-item img {
-            width: 100%;
-            height: 100%;object-fit: cover;
-        }
-        
-        .post-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
+        .skills {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .skill {
+            background: #efefef;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }.action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .btn-message, .btn-hire {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .btn-message {
+            background: #efefef;
+            color: #262626;
+        }
+        
+        .btn-hire {
+            background: #0095f6;
             color: white;
-            opacity: 0;
-            transition: opacity 0.2s;
         }
         
-        .post-item:hover .post-overlay {
-            opacity: 1;
+        .rate {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2ecc71;
         }
         
-        /* Chat Modal - Instagram DM Style */
+        .premium-badge {
+            background: linear-gradient(135deg, #f5af19, #f12711);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
         .chat-modal {
             display: none;
             position: fixed;
@@ -208,7 +229,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 15px 15px 0 0;
         }
         
         .chat-messages {
@@ -263,77 +283,28 @@
             cursor: pointer;
         }
         
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .btn-message, .btn-hire {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .btn-message {
-            background: #efefef;
-            color: #262626;
-        }
-        
-        .btn-hire {
-            background: #0095f6;
-            color: white;
-        }
-        
-        .rate {
-            font-size: 20px;
-            font-weight: 600;
-            color: #2ecc71;
-        }
-        
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 15px 0;
-        }
-        
-        .skill {
-            background: #efefef;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-        
         @media (max-width: 735px) {
             .profile-header { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
             .profile-name-row { justify-content: center; }
             .profile-stats { justify-content: center; }
             .posts-grid { gap: 2px; }
-            .chat-modal { width: 100%; right: 0; left: 0; bottom: 0; border-radius: 15px 15px 0 0; }
+            .chat-modal { width: 100%; right: 0; left: 0; bottom: 0; }
         }
     </style>
 </head>
 <body>
 
-<!-- Instagram-style Top Bar -->
 <div class="top-bar">
-    <div class="logo">🏊 StarterPool</div>
+    <div class="logo">StarterPool</div>
     <div class="nav-icons">
-        <a href="/">🏠</a><a href="#" onclick="openInbox()">💬</a>
+        <a href="/">🏠</a>
+        <a href="#" onclick="openInbox()">💬</a>
         <a href="/signup" style="font-size: 16px;">Join</a>
     </div>
 </div>
 
-<div class="profile-container" id="profileContainer">
-    <!-- Content loaded by JavaScript -->
-</div>
+<div class="profile-container" id="profileContainer"></div>
 
-<!-- Chat Modal -->
 <div id="chatModal" class="chat-modal">
     <div class="chat-header">
         <strong id="chatStudentName">Chat</strong>
@@ -347,50 +318,70 @@
 </div>
 
 <script>
-    const studentId = window.location.pathname.split('/').pop();
-    let currentChatStudent = null;
+    const studentId = window.location.pathname.split('/').pop();let currentChatStudent = null;
     let conversations = JSON.parse(localStorage.getItem('starterpool_chats')) || {};
     
     const students = {
-        maria: { name: "Maria Chen", avatar: "👩‍💻", username: "mariachen", university: "3rd year CS, UCLA", email: "maria.chen@starterpool.com", rate: 18, bio: "Frontend React developer passionate about building beautiful interfaces. Looking for internship opportunities.", skills: ["React", "HTML/CSS", "JavaScript", "Node.js"], posts: ["🎨 Just launched my new portfolio site! Check it out!", "💻 Working on an e-commerce project...", "📚 Learning Next.js this week"], portfolio: [{ title: "Todo App", link: "#" }], certs: ["Meta Frontend Cert"], premium: false, followers: 245, following: 180 },
-        james: { name: "James Okafor", avatar: "👨‍💻", username: "jamesokafor", university: "Final year, MIT", email: "james.okafor@starterpool.com", rate: 22, bio: "Backend developer specializing in Python and Django. Open for freelance work.", skills: ["Python", "Django", "PostgreSQL"], posts: ["🐍 Built a REST API in 2 hours!", "☁️ Deployed my first app on AWS", "📖 Reading 'Clean Code'"], portfolio: [{ title: "REST API", link: "#" }], certs: ["AWS Cloud"], premium: true, followers: 512, following: 234 }
+        maria: {
+            name: "Maria Chen",
+            avatar: "👩‍💻",
+            username: "mariachen",
+            university: "3rd year CS, UCLA",
+            email: "maria.chen@starterpool.com",
+            rate: 18,
+            bio: "Frontend React developer passionate about building beautiful interfaces.",
+            skills: ["React", "HTML/CSS", "JavaScript", "Node.js"],
+            posts: ["Portfolio project", "E-commerce site", "Learning Next.js"],
+            portfolio: [{ title: "Todo App", link: "#" }],
+            certs: ["Meta Frontend Cert"],
+            premium: false,
+            followers: 245,
+            following: 180
+        },
+        james: {
+            name: "James Okafor",
+            avatar: "👨‍💻",
+            username: "jamesokafor",
+            university: "Final year, MIT",
+            email: "james.okafor@starterpool.com",
+            rate: 22,
+            bio: "Backend developer specializing in Python and Django.",
+            skills: ["Python", "Django", "PostgreSQL"],
+            posts: ["Built a REST API", "Deployed on AWS", "Reading Clean Code"],
+            portfolio: [{ title: "REST API", link: "#" }],
+            certs: ["AWS Cloud"],
+            premium: true,
+            followers: 512,
+            following: 234
+        }
     };
     
     const student = students[studentId];
     
     function renderProfile() {
-        const premiumBadge = student.premium ? '<span style="background: linear-gradient(135deg,#f5af19,#f12711); color:white; padding:2px 8px; border-radius:20px; font-size:12px; margin-left:10px;">⭐ PREMIUM</span>' : '';
+        if (!student) {
+            document.getElementById('profileContainer').innerHTML = '<div style="text-align:center; padding:50px;"><h2>Student not found</h2><a href="/">Go back home</a></div>';
+            return;
+        }
         
-        // Build skills HTML
+        const premiumBadge = student.premium ? '<span class="premium-badge">⭐ PREMIUM</span>' : '';
+        
         let skillsHtml = '<div class="skills">';
-        student.skills.forEach(s => { skillsHtml += <span class="skill">${s}</span>; });
+        student.skills.forEach(function(s) {
+            skillsHtml += '<span class="skill">' + s + '</span>';
+        });
         skillsHtml += '</div>';
         
-        // Build posts grid
         let postsHtml = '<div class="posts-grid">';
-        student.posts.forEach((post, index) => {
-            postsHtml += `
-                <div class="post-item" onclick="alert('Post: ${post}')">
-                    <div style="font-size: 30px;">📷</div>
-                    <div class="post-overlay">
-                        <span>❤️ 123</span>
-                        <span>💬 45</span>
-                    </div>
-                </div>
-            `;
-        });
+        for (let i = 0; i < student.posts.length; i++) {
+            postsHtml += '<div class="post-item" onclick="alert(\\'Post: ' + student.posts[i] + '\\')">📷</div>';
+        }
         postsHtml += '</div>';
         
-        // Build portfolio items
         let portfolioHtml = '<div class="posts-grid">';
-        student.portfolio.forEach(p => {
-            portfolioHtml += `
-                <div class="post-item" onclick="window.open('${p.link}', '_blank')">
-                    <div style="font-size: 30px;">📁</div>
-                    <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); color:white; padding:2px 8px; border-radius:10px; font-size:10px;">${p.title}</div>
-                </div>
-            `;
-        });
+        for (let i = 0; i < student.portfolio.length; i++) {
+            portfolioHtml += '<div class="post-item" onclick="window.open(\\'' + student.portfolio[i].link + '\\', \\'_blank\\')">📁 ' + student.portfolio[i].title + '</div>';
+        }
         portfolioHtml += '</div>';
         
         document.getElementById('profileContainer').innerHTML = `
@@ -413,8 +404,7 @@
                         <div class="rate">💰 $${student.rate}/hour</div>
                         ${skillsHtml}
                     </div>
-                    <div class="action-buttons">
-                        <button class="btn-message" onclick="openChat('${studentId}')">💬 Message</button>
+                    <div class="action-buttons"><button class="btn-message" onclick="openChat('${studentId}')">💬 Message</button>
                         <button class="btn-hire" onclick="hireStudent()">💰 Hire Now</button>
                     </div>
                 </div>
@@ -453,17 +443,18 @@
     }
     
     function hireStudent() {
+        if (!student) return;
         const hours = prompt(`How many hours will ${student.name} work? ($${student.rate}/hour)`, "10");
         if (hours && !isNaN(hours)) {
             const total = student.rate * hours;
             const fee = total * 0.1;
-            alert(`✅ Hire request sent to ${student.name}!\n\nTotal: $${total}\nStarterPool fee (10%): $${fee}\n${student.name} receives: $${total - fee}\n\nYou'll receive payment instructions via email.`);
+            alert(`✅ Hire request sent to ${student.name}!\n\nTotal: $${total}\nStarterPool fee (10%): $${fee}\n${student.name} receives: $${total - fee}\n\nYou will receive payment instructions via email.`);
         }
     }
     
-    function openChat(studentId) {
-        currentChatStudent = studentId;
-        document.getElementById('chatStudentName').innerText = Chat with ${student.name};
+    function openChat(id) {
+        currentChatStudent = id;
+        document.getElementById('chatStudentName').innerText = 'Chat with ' + student.name;
         document.getElementById('chatModal').style.display = 'flex';
         loadMessages();
     }
@@ -479,12 +470,13 @@
         }
         const messagesDiv = document.getElementById('chatMessages');
         messagesDiv.innerHTML = '';
-        conversations[currentChatStudent].forEach(msg => {
+        for (let i = 0; i < conversations[currentChatStudent].length; i++) {
+            const msg = conversations[currentChatStudent][i];
             const msgDiv = document.createElement('div');
-            msgDiv.className = message ${msg.sender === 'employer' ? 'message-sent' : 'message-received'};
+            msgDiv.className = 'message ' + (msg.sender === 'employer' ? 'message-sent' : 'message-received');
             msgDiv.innerHTML = msg.text;
             messagesDiv.appendChild(msgDiv);
-        });
+        }
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
     
@@ -504,21 +496,22 @@
     
     function openInbox() {
         let inboxMsg = "📥 Your Conversations:\n\n";
-        for (const [id, msgs] of Object.entries(conversations)) {
-            if (msgs.length > 0) {
-                const studentName = students[id]?.name || id;
-                inboxMsg += 💬 ${studentName}: ${msgs[msgs.length-1].text.substring(0,30)}...\n;
+        let hasMessages = false;
+        for (const id in conversations) {
+            if (conversations[id].length > 0) {
+                hasMessages = true;const studentName = students[id] ? students[id].name : id;
+                const lastMsg = conversations[id][conversations[id].length - 1];
+                inboxMsg += "💬 " + studentName + ": " + lastMsg.text.substring(0, 30) + "...\n";
             }
         }
-        if (Object.keys(conversations).length === 0) {
+        if (!hasMessages) {
             inboxMsg = "No messages yet. Start a conversation!";
         }
         alert(inboxMsg);
     }
     
-    if (student) {
-        renderProfile();
-    }
+    renderProfile();
 </script>
+
 </body>
 </html>
