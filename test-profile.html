@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Profile</title>
+</head>
+<body>
+    <h1>TEST PAGE</h1>
+    <p>If you see this, the new code is working!</p>
+    <p>Student ID: <span id="studentId"></span></p>
+    <script>
+        var id = window.location.pathname.split('/').pop();
+        document.getElementById('studentId').innerText = id;
+    </script>
+</body>
+</html>

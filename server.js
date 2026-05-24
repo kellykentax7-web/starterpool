@@ -49,6 +49,11 @@ app.get('/student/:id', (req, res) => {
     res.sendFile(path.join(__dirname, 'profile.html'));
 });
 
+// TEST profile page
+app.get('/test/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'test-profile.html'));
+});
+
 // API endpoints
 app.get('/api/hires', (req, res) => {
     const hiresFile = path.join(__dirname, 'hires.json');
@@ -103,5 +108,6 @@ app.listen(PORT, () => {
     console.log(`✅ Server running on http://localhost:${PORT}`);
     console.log(`🔒 Admin login: http://localhost:${PORT}/admin`);
     console.log(`📝 Student signup: http://localhost:${PORT}/signup`);
+    console.log(`🧪 Test page: http://localhost:${PORT}/test/maria`);
     console.log(`🔑 Admin Password: ${ADMIN_PASSWORD}`);
 });
