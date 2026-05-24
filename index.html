@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StarterPool - Connect With Junior Talent</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="Find talented students and early-career professionals for your projects. Affordable rates, verified talent.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0f3460;
+            border-radius: 10px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 12px 25px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 32px;
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-links a {
+            color: #1a1a2e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background: #0f3460;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .signup-link {
+            background: linear-gradient(135deg, #e94560, #c7354f);
+            color: white !important;
+            box-shadow: 0 4px 10px rgba(233,69,96,0.3);
+        }
+        
+        .signup-link:hover {
+            background: linear-gradient(135deg, #c7354f, #a82840);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin: 40px 0 30px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+        }
+        
+        .hero .tagline {
+            font-size: 18px;
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .hero .badge {
+            display: inline-block;
+            background: rgba(233,69,96,0.1);
+            color: #e94560;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 15px;
+        }/* Filter Buttons */
+        .filter-section {
+            background: white;
+            border-radius: 50px;
+            padding: 8px 15px;
+            margin: 30px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .filter-buttons {
+            display: inline-flex;
+            gap: 8px;
+            flex-wrap: nowrap;
+        }
+        
+        .filter-btn {
+            background: #f0f2f5;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #1a1a2e;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #0f3460, #16213e);
+            color: white;
+            box-shadow: 0 4px 12px rgba(15,52,96,0.3);
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            background: #0f3460;
+            color: white;
+        }
+        
+        /* Sector Sections */
+        .sector-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .sector-section.active-sector {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .sector-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 40px 0 20px;
+            padding-left: 15px;
+            border-left: 5px solid #e94560;
+            color: #1a1a2e;
+        }
+        
+        /* Student Cards Grid */
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        
+        /* Student Card */
+        .student-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            gap: 18px;
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+        
+        .premium-card {
+            background: linear-gradient(135deg, white, #fffef5);
+            border: 2px solid #f5af19;
+        }
+        
+        .premium-badge {
+            position: absolute;
+            top: -12px;
+            right: 15px;
+            background: linear-gradient(135deg, #f5af19, #f12711);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .student-avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .student-info {
+            flex: 1;
+        }
+        
+        .student-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+        
+        .student-info p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 10px 0;
+        }
+        
+        .skill-tag {
+            background: #f0f2f5;
+            color: #e94560;
+            padding: 3px 10px;border-radius: 20px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        
+        .rate {
+            color: #2ecc71;
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        
+        /* Footer */
+        .footer-note {
+            text-align: center;
+            margin-top: 50px;
+            padding: 25px;
+            background: white;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .footer-note a {
+            color: #e94560;
+            text-decoration: none;
+        }
+        
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .hero h1 { font-size: 32px; }
+            .hero .tagline { font-size: 14px; }
+            .sector-title { font-size: 20px; }
+            .students-grid { grid-template-columns: 1fr; }
+            .top-bar { flex-direction: column; text-align: center; }
+            .nav-links { justify-content: center; }
+            .student-card { padding: 15px; gap: 12px; }
+            .student-avatar { width: 60px; height: 60px; font-size: 28px; }
+        }
+        
+        @media (max-width: 480px) {
+            .filter-section { border-radius: 20px; }
+            .filter-btn { padding: 6px 14px; font-size: 12px; }
+            .student-info h3 { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Top Navigation -->
+    <div class="top-bar">
+        <div class="logo-area">
+            <span class="logo-icon">🏊</span>
+            <span class="logo-text">StarterPool</span>
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/signup" class="signup-link">📝 Join as Talent</a>
+            <a href="/admin">🔒 Admin</a>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Find Junior Talent</h1>
+        <p class="tagline">Connect with talented students and early-career professionals ready to bring your projects to life</p>
+        <div class="badge">💰 10% commission • 90% to talent</div>
+    </div>
+    
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-sector="all">All Sectors</button>
+            <button class="filter-btn" data-sector="web">💻 Web Dev</button>
+            <button class="filter-btn" data-sector="design">🎨 Graphic Design</button>
+            <button class="filter-btn" data-sector="writing">✍️ Content</button>
+            <button class="filter-btn" data-sector="data">📊 Data</button>
+            <button class="filter-btn" data-sector="marketing">📱 Marketing</button>
+            <button class="filter-btn" data-sector="video">🎬 Video</button>
+            <button class="filter-btn" data-sector="va">📋 Virtual Assistant</button>
+            <button class="filter-btn" data-sector="translation">🌐 Translation</button>
+        </div>
+    </div>
+
+    <!-- SECTOR 1: Web Development -->
+    <div class="sector-section" data-sector="web">
+        <div class="sector-title">💻 Web Development</div>
+        <div class="students-grid">
+            <div class="student-card" onclick="window.location.href='/student/maria'">
+                <div class="student-avatar">👩‍💻</div>
+                <div class="student-info">
+                    <h3>Maria Chen</h3>
+                    <p>Student • 3rd year CS, UCLA</p>
+                    <div class="skills"><span class="skill-tag">React</span><span class="skill-tag">Node.js</span></div>
+                    <span class="rate">$18/hr</span>
+                </div>
+            </div>
+            <div class="student-card premium-card" onclick="window.location.href='/student/james'">
+                <div class="premium-badge">⭐ PREMIUM</div><div class="student-avatar">👨‍💻</div>
+                <div class="student-info">
+                    <h3>James Okafor</h3>
+                    <p>Student • Final year, MIT</p>
+                    <div class="skills"><span class="skill-tag">Python</span><span class="skill-tag">Django</span></div>
+                    <span class="rate">$22/hr</span>
+                </div>
+            </div>
+            <div class="student-card" onclick="window.location.href='/student/alex'">
+                <div class="student-avatar">👨‍💻</div>
+                <div class="student-info">
+                    <h3>Alex Zhang</h3>
+                    <p>Student • Senior, Stanford</p>
+                    <div class="skills"><span class="skill-tag">Vue.js</span><span class="skill-tag">Tailwind</span></div>
+                    <span class="rate">$20/hr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTOR 2: Graphic Design -->
+    <div class="sector-section" data-sector="design">
+        <div class="sector-title">🎨 Graphic Design</div>
+        <div class="students-grid">
+            <div class="student-card" onclick="window.location.href='/student/emma'">
+                <div class="student-avatar">🎨</div>
+                <div class="student-info">
+                    <h3>Emma Watson</h3>
+                    <p>Student • 2nd year, RISD</p>
+                    <div class="skills"><span class="skill-tag">Figma</span><span class="skill-tag">Illustrator</span></div>
+                    <span class="rate">$19/hr</span>
+                </div>
+            </div>
+            <div class="student-card premium-card" onclick="window.location.href='/student/olivia'">
+                <div class="premium-badge">⭐ PREMIUM</div>
+                <div class="student-avatar">🎨</div>
+                <div class="student-info">
+                    <h3>Olivia Martinez</h3>
+                    <p>Student • Final year, Parsons</p>
+                    <div class="skills"><span class="skill-tag">Branding</span><span class="skill-tag">Photoshop</span></div>
+                    <span class="rate">$23/hr</span>
+                </div>
+            </div>
+            <div class="student-card" onclick="window.location.href='/student/ethan'">
+                <div class="student-avatar">🎨</div>
+                <div class="student-info">
+                    <h3>Ethan Kim</h3>
+                    <p>Student • 3rd year, CalArts</p>
+                    <div class="skills"><span class="skill-tag">Logo Design</span><span class="skill-tag">Procreate</span></div>
+                    <span class="rate">$17/hr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTOR 3: Content Writing -->
+    <div class="sector-section" data-sector="writing">
+        <div class="sector-title">✍️ Content Writing</div>
+        <div class="students-grid">
+            <div class="student-card" onclick="window.location.href='/student/sarah'">
+                <div class="student-avatar">✍️</div>
+                <div class="student-info">
+                    <h3>Sarah Johnson</h3>
+                    <p>Student • 2nd year, NYU</p>
+                    <div class="skills"><span class="skill-tag">Blogging</span><span class="skill-tag">SEO</span></div>
+                    <span class="rate">$15/hr</span>
+                </div>
+            </div>
+            <div class="student-card" onclick="window.location.href='/student/david'">
+                <div class="student-avatar">✍️</div>
+                <div class="student-info">
+                    <h3>David Kim</h3>
+                    <p>Student • Senior, UC Berkeley</p>
+                    <div class="skills"><span class="skill-tag">Copywriting</span><span class="skill-tag">Email</span></div>
+                    <span class="rate">$20/hr</span>
+                </div>
+            </div>
+            <div class="student-card" onclick="window.location.href='/student/chloe'">
+                <div class="student-avatar">✍️</div>
+                <div class="student-info"><h3>Chloe Williams</h3>
+                    <p>Student • 3rd year, Northwestern</p>
+                    <div class="skills"><span class="skill-tag">Ghostwriting</span><span class="skill-tag">Editing</span></div>
+                    <span class="rate">$16/hr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTOR 4: Data & Analytics -->
+    <div class="sector-section" data-sector="data">
+        <div class="sector-title">📊 Data & Analytics</div>
+        <div class="students-grid">
+            <div class="student-card" onclick="window.location.href='/student/datadavid'">
+                <div class="student-avatar">📊</div>
+                <div class="student-info">
+                    <h3>David Park</h3>
+                    <p>Student • Senior, Carnegie Mellon</p>
+                    <div class="skills"><span class="skill-tag">Python</span><span class="skill-tag">SQL</span></div>
+                    <span class="rate">$21/hr</span>
+                </div>
+            </div>
+            <div class="student-card" onclick="window.location.href='/student/michelle'">
+                <div class="student-avatar">📊</div>
+                <div class="student-info">
+                    <h3>Michelle Lee</h3>
+                    <p>Student • 3rd year, UPenn</p>
+                    <div class="skills"><span class="skill-tag">Excel</span><span class="skill-tag">Power BI</span></div>
+                    <span class="rate">$16/hr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTOR 5: Digital Marketing -->
+    <div class="sector-section" data-sector="marketing">
+        <div class="sector-title">📱 Digital Marketing</div>
+        <div class="students-grid">
+            <div class="student-card" onclick="window.location.href='/student/emily'">
+                <div class="student-avatar">📱</div>
+                <div class="student-info">
+                    <h3>Emily Rodriguez</h3>
+                    <p>Student • 3rd year, USC</p>
+                    <div class="skills"><span class="skill-tag">Social Media</span><span class="skill-tag">SEO</span></div>
+                    <span class="rate">$17/hr</span>
+                </div>
+            </div>
+            <div class="student-card" onclick="window.location.href='/student/marcus'">
+                <div class="student-avatar">📱</div>
+                <div class="student-info">
+                    <h3>Marcus Brown</h3>
+                    <p>Student • Senior, Howard</p>
+                    <div class="skills"><span class="skill-tag">Google Ads</span><span class="skill-tag">Analytics</span></div>
+                    <span class="rate">$19/hr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTOR 6: Video Editing -->
+    <div class="sector-section" data-sector="video">
+        <div class="sector-title">🎬 Video Editing</div>
+        <div class="students-grid">
+            <div class="student-card" onclick="window.location.href='/student/alexw'">
+                <div class="student-avatar">🎬</div>
+                <div class="student-info">
+                    <h3>Alex Wong</h3>
+                    <p>Student • Final year, NYU Film</p>
+                    <div class="skills"><span class="skill-tag">Premiere Pro</span><span class="skill-tag">After Effects</span></div>
+                    <span class="rate">$21/hr</span>
+                </div>
+            </div>
+            <div class="student-card" onclick="window.location.href='/student/maya'">
+                <div class="student-avatar">🎬</div>
+                <div class="student-info">
+                    <h3>Maya Patel</h3>
+                    <p>Student • 3rd year, Columbia</p>
+                    <div class="skills"><span class="skill-tag">DaVinci</span><span class="skill-tag">Final Cut</span></div>
+                    <span class="rate">$18/hr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTOR 7: Virtual Assistant --><div class="sector-section" data-sector="va">
+        <div class="sector-title">📋 Virtual Assistant</div>
+        <div class="students-grid">
+            <div class="student-card" onclick="window.location.href='/student/jessica'">
+                <div class="student-avatar">📋</div>
+                <div class="student-info">
+                    <h3>Jessica Taylor</h3>
+                    <p>Student • 2nd year, ASU</p>
+                    <div class="skills"><span class="skill-tag">Admin</span><span class="skill-tag">Scheduling</span></div>
+                    <span class="rate">$14/hr</span>
+                </div>
+            </div>
+            <div class="student-card" onclick="window.location.href='/student/rachel'">
+                <div class="student-avatar">📋</div>
+                <div class="student-info">
+                    <h3>Rachel Green</h3>
+                    <p>Student • Senior, Texas A&M</p>
+                    <div class="skills"><span class="skill-tag">Email Mgmt</span><span class="skill-tag">Research</span></div>
+                    <span class="rate">$15/hr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTOR 8: Translation -->
+    <div class="sector-section" data-sector="translation">
+        <div class="sector-title">🌐 Translation</div>
+        <div class="students-grid">
+            <div class="student-card" onclick="window.location.href='/student/carlos'">
+                <div class="student-avatar">🌐</div>
+                <div class="student-info">
+                    <h3>Carlos Mendez</h3>
+                    <p>Student • Senior, UT Austin</p>
+                    <div class="skills"><span class="skill-tag">Spanish</span><span class="skill-tag">French</span></div>
+                    <span class="rate">$19/hr</span>
+                </div>
+            </div>
+            <div class="student-card" onclick="window.location.href='/student/ling'">
+                <div class="student-avatar">🌐</div>
+                <div class="student-info">
+                    <h3>Ling Wei</h3>
+                    <p>Student • 3rd year, UBC</p>
+                    <div class="skills"><span class="skill-tag">Chinese</span><span class="skill-tag">English</span></div>
+                    <span class="rate">$17/hr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-note">
+        <p>💰 <strong>How it works:</strong> StarterPool takes 10% commission on every hire. Students and professionals receive 90%.</p>
+        <p>⭐ <a href="#" onclick="alert('⭐ Upgrade to Premium: $8.99/month or $79.99/year!\n\nBenefits:\n- 5% commission (instead of 10%)\n- Premium badge on profile\n- Appear at top of search results\n- Priority support\n\nContact admin@starterpool.com to upgrade.')">Upgrade to Premium</a> for 5% commission and top placement</p>
+        <p style="margin-top: 12px; font-size: 11px;">© 2024 StarterPool — Connecting talent with opportunity</p>
+    </div>
+</div>
+
+<script>
+    const sectorSections = document.querySelectorAll('.sector-section');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    
+    function filterSectors(sectorId) {
+        sectorSections.forEach(section => {
+            section.classList.remove('active-sector');
+        });
+        
+        if (sectorId === 'all') {
+            sectorSections.forEach(section => {
+                section.classList.add('active-sector');
+            });
+        } else {
+            const targetSection = document.querySelector(`.sector-section[data-sector="${sectorId}"]`);
+            if (targetSection) {
+                targetSection.classList.add('active-sector');
+            }
+        }
+    }
+    
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const sector = btn.getAttribute('data-sector');
+            filterSectors(sector);
+        });
+    });
+    
+    filterSectors('all');
+</script></body>
+</html>

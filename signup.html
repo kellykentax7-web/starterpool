@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Join StarterPool - Student or Professional Signup</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 600px; margin: auto; }
+        
+        .signup-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .signup-card h1 {
+            text-align: center;
+            color: #0f3460;
+            margin-bottom: 10px;
+        }
+        .signup-card .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .role-selector {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        .role-btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .role-btn.active {
+            border-color: #0f3460;
+            background: #e8f0fe;
+        }
+        .role-btn .emoji {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .role-btn .title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .role-btn .desc {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .skill-tag {
+            background: #e0e0e0;
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .skill-tag.selected {
+            background: #0f3460;
+            color: white;
+        }
+        button {
+            background: #0f3460;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #e94560;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #777;
+            text-decoration: none;
+        }
+        .success-msg {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .hidden {
+            display: none;
+        }
+        .field-note {
+            font-size: 11px;
+            color: #888;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="signup-card">
+        <h1>🏊 Join StarterPool</h1>
+        <p class="subtitle">Get hired by real clients. Build your career.</p>
+        
+        <div id="successMsg" class="success-msg"></div>
+        
+        <!-- Role Selection -->
+        <div class="role-selector">
+            <div class="role-btn active" data-role="student">
+                <div class="emoji">🎓</div>
+                <div class="title">Student</div><div class="desc">Currently in school/university</div>
+            </div>
+            <div class="role-btn" data-role="professional">
+                <div class="emoji">💼</div>
+                <div class="title">Professional</div>
+                <div class="desc">Graduate or early-career</div>
+            </div>
+        </div>
+        
+        <form id="signupForm">
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="fullName" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="email" required>
+            </div>
+            
+            <!-- Student Fields -->
+            <div id="studentFields">
+                <div class="form-group">
+                    <label>University/School *</label>
+                    <input type="text" id="university" placeholder="e.g., Makerere University, MIT, etc.">
+                </div>
+                <div class="form-group">
+                    <label>Year of Study *</label>
+                    <select id="year">
+                        <option value="1st year">1st year</option>
+                        <option value="2nd year">2nd year</option>
+                        <option value="3rd year">3rd year</option>
+                        <option value="4th year">4th year</option>
+                        <option value="5th year">5th year</option>
+                        <option value="Graduated">Graduated</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Professional Fields -->
+            <div id="professionalFields" style="display: none;">
+                <div class="form-group">
+                    <label>Current Position/Job Title *</label>
+                    <input type="text" id="jobTitle" placeholder="e.g., Freelance Designer, Junior Developer">
+                </div>
+                <div class="form-group">
+                    <label>Years of Experience *</label>
+                    <select id="experience">
+                        <option value="0-1 year">0-1 year</option>
+                        <option value="1-2 years">1-2 years</option>
+                        <option value="2-3 years">2-3 years</option>
+                        <option value="3-5 years">3-5 years</option>
+                        <option value="5+ years">5+ years</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Company/Portfolio Website</label>
+                    <input type="url" id="companyWebsite" placeholder="https://...">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Sector *</label>
+                <select id="sector">
+                    <option value="web">💻 Web Development</option>
+                    <option value="design">🎨 Graphic Design</option>
+                    <option value="writing">✍️ Content Writing</option>
+                    <option value="data">📊 Data & Analytics</option>
+                    <option value="marketing">📱 Digital Marketing</option>
+                    <option value="video">🎬 Video Editing</option>
+                    <option value="va">📋 Virtual Assistant</option>
+                    <option value="translation">🌐 Translation</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Skills (click to select)</label>
+                <div class="skills-container" id="skillsContainer"></div>
+            </div>
+            
+            <div class="form-group">
+                <label>Hourly Rate ($) *</label>
+                <input type="number" id="rate" placeholder="e.g., 15" required>
+                <div class="field-note">💡 Students $10-25 | Professionals $20-50</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Portfolio Link</label><input type="url" id="portfolio" placeholder="GitHub, Behance, LinkedIn, etc.">
+            </div>
+            
+            <div class="form-group">
+                <label>Resume/CV Link</label>
+                <input type="url" id="resume" placeholder="Google Drive, Dropbox, LinkedIn">
+            </div>
+            
+            <div class="form-group">
+                <label>Bio</label>
+                <textarea id="bio" rows="3" placeholder="Tell clients about yourself..."></textarea>
+            </div>
+            
+            <button type="submit">Submit Application →</button>
+        </form>
+        
+        <div class="back-link">
+            <a href="/">← Back to Home</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Skills by sector
+    const skillsBySector = {
+        web: ['React', 'Node.js', 'Python', 'HTML/CSS', 'JavaScript', 'Django', 'Vue.js', 'PHP', 'WordPress'],
+        design: ['Figma', 'Illustrator', 'Photoshop', 'Branding', 'Logo Design', 'Typography', 'InDesign'],
+        writing: ['Blog Writing', 'SEO', 'Copywriting', 'Ghostwriting', 'Editing', 'Research', 'Technical Writing'],
+        data: ['Excel', 'SQL', 'Python', 'Tableau', 'Power BI', 'Statistics', 'Data Visualization'],
+        marketing: ['Social Media', 'SEO', 'Google Ads', 'Email Marketing', 'Analytics', 'Content Strategy'],
+        video: ['Premiere Pro', 'After Effects', 'DaVinci', 'Final Cut', 'Motion Graphics', 'Color Grading'],
+        va: ['Admin', 'Scheduling', 'Email Management', 'Research', 'Data Entry', 'Customer Service', 'Project Management'],
+        translation: ['Spanish', 'French', 'Chinese', 'German', 'Arabic', 'Portuguese', 'Japanese']
+    };
+    
+    // Role switching
+    const studentBtn = document.querySelector('.role-btn[data-role="student"]');
+    const professionalBtn = document.querySelector('.role-btn[data-role="professional"]');
+    const studentFields = document.getElementById('studentFields');
+    const professionalFields = document.getElementById('professionalFields');
+    const universityInput = document.getElementById('university');
+    const jobTitleInput = document.getElementById('jobTitle');
+    
+    function setRole(role) {
+        if (role === 'student') {
+            studentBtn.classList.add('active');
+            professionalBtn.classList.remove('active');
+            studentFields.style.display = 'block';
+            professionalFields.style.display = 'none';
+            universityInput.required = true;
+            if (jobTitleInput) jobTitleInput.required = false;
+        } else {
+            professionalBtn.classList.add('active');
+            studentBtn.classList.remove('active');
+            studentFields.style.display = 'none';
+            professionalFields.style.display = 'block';
+            universityInput.required = false;
+            if (jobTitleInput) jobTitleInput.required = true;
+        }
+    }
+    
+    studentBtn.onclick = () => setRole('student');
+    professionalBtn.onclick = () => setRole('professional');
+    
+    // Update skills when sector changes
+    const sectorSelect = document.getElementById('sector');
+    const skillsContainer = document.getElementById('skillsContainer');
+    
+    function updateSkills() {
+        const sector = sectorSelect.value;
+        const skills = skillsBySector[sector] || [];
+        skillsContainer.innerHTML = '';
+        skills.forEach(skill => {
+            const tag = document.createElement('div');
+            tag.className = 'skill-tag';
+            tag.textContent = skill;
+            tag.onclick = function() {
+                this.classList.toggle('selected');
+            };
+            skillsContainer.appendChild(tag);
+        });
+    }
+    
+    sectorSelect.onchange = updateSkills;
+    updateSkills();
+    
+    // Form submission
+    const form = document.getElementById('signupForm');
+    const successMsg = document.getElementById('successMsg');
+    
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        
+        const selectedSkills = Array.from(document.querySelectorAll('.skill-tag.selected')).map(tag => tag.textContent);
+        
+        const isStudent = studentBtn.classList.contains('active');
+        
+        let applicationData = {
+            id: Date.now(),
+            name: document.getElementById('fullName').value,
+            email: document.getElementById('email').value,
+            role: isStudent ? 'student' : 'professional',
+            sector: sectorSelect.value,
+            skills: selectedSkills,
+            rate: parseInt(document.getElementById('rate').value),
+            portfolio: document.getElementById('portfolio').value || '#',
+            resume: document.getElementById('resume').value || '#',
+            bio: document.getElementById('bio').value || (isStudent ? 'Passionate student ready to work!' : 'Experienced professional ready to help!'),
+            status: 'pending',
+            appliedAt: new Date().toISOString()
+        };
+        
+        if (isStudent) {
+            applicationData.university = document.getElementById('university').value;
+            applicationData.year = document.getElementById('year').value;
+        } else {
+            applicationData.jobTitle = document.getElementById('jobTitle').value;
+            applicationData.experience = document.getElementById('experience').value;
+            applicationData.companyWebsite = document.getElementById('companyWebsite').value || null;
+        }
+        
+        // Save to localStorage
+        let pending = JSON.parse(localStorage.getItem('pending_applicants')) || [];
+        pending.push(applicationData);
+        localStorage.setItem('pending_applicants', JSON.stringify(pending));
+        
+        successMsg.innerHTML = '✅ Application submitted! Our team will review within 24-48 hours.';
+        successMsg.style.display = 'block';
+        
+        form.reset();
+        updateSkills();
+        
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 3000);
+    };
+</script>
+</body>
+</html>

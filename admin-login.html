@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login - StarterPool</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .login-box h1 {
+            margin-bottom: 10px;
+            color: #0f3460;
+        }
+        .login-box p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        .login-box button {
+            background: #0f3460;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .login-box button:hover {
+            background: #e94560;
+        }
+        .error {
+            color: #e94560;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            color: #777;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-link:hover {
+            color: #0f3460;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h1>🔒 StarterPool</h1>
+        <p>Admin Login</p>
+        <input type="password" id="password" placeholder="Enter admin password">
+        <button onclick="checkPassword()">Login</button>
+        <div id="errorMsg" class="error"></div>
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+
+    <script>
+        async function checkPassword() {
+            const password = document.getElementById('password').value;
+            const response = await fetch('/admin/check', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: password })
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                localStorage.setItem('adminAuth', 'true');
+                window.location.href = '/admin-dashboard';
+            } else {
+                document.getElementById('errorMsg').innerText = 'Incorrect password. Try again.';
+            }
+        }
+        
+        // Press Enter key to submit
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StarterPool - Admin Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; padding: 20px; }
+        
+        .container { max-width: 1400px; margin: auto; }
+        
+        .header { background: #1e293b; padding: 20px; border-radius: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .header h1 { color: white; }
+        .logout-btn { background: #ef4444; color: white; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; }
+        .stats { display: flex; gap: 20px; flex-wrap: wrap; }
+        .stat-box { background: #0f172a; padding: 10px 20px; border-radius: 10px; text-align: center; }
+        .stat-box .number { font-size: 24px; font-weight: bold; color: #f5af19; }
+        .stat-box .label { font-size: 12px; color: #94a3b8; }
+        
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab { background: #1e293b; color: #94a3b8; padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-size: 14px; }
+        .tab.active { background: #f5af19; color: #0f172a; font-weight: bold; }
+        
+        .card { background: #1e293b; border-radius: 15px; padding: 20px; margin-bottom: 20px; }
+        .card h2 { color: white; margin-bottom: 15px; font-size: 18px; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #334155; color: #cbd5e1; }
+        th { background: #0f172a; color: #f5af19; font-weight: bold; }
+        tr:hover { background: #334155; }
+        
+        .status-pending { background: #f59e0b; color: #0f172a; padding: 4px 8px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
+        .status-paid { background: #10b981; color: white; padding: 4px 8px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
+        
+        button { background: #f5af19; color: #0f172a; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 2px; }
+        button.danger { background: #ef4444; color: white; }
+        button.success { background: #10b981; color: white; }
+        
+        .premium-badge { background: linear-gradient(135deg, #f5af19, #f12711); color: white; padding: 2px 8px; border-radius: 20px; font-size: 10px; display: inline-block; }
+        
+        @media (max-width: 700px) { th, td { font-size: 12px; padding: 8px; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🏊 StarterPool - Admin Dashboard</h1>
+        <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+    </div>
+    <div class="stats">
+        <div class="stat-box"><div class="number" id="totalHires">0</div><div class="label">Total Hires</div></div>
+        <div class="stat-box"><div class="number" id="pendingHires">0</div><div class="label">Pending</div></div>
+        <div class="stat-box"><div class="number" id="completedHires">0</div><div class="label">Completed</div></div>
+        <div class="stat-box"><div class="number" id="totalRevenue">$0</div><div class="label">Revenue (10%)</div></div>
+        <div class="stat-box"><div class="number" id="premiumStudents">0</div><div class="label">Premium Students</div></div>
+    </div>
+    
+    <div class="tabs">
+        <button class="tab active" data-tab="hires">📋 Hire Requests</button>
+        <button class="tab" data-tab="students">👨‍🎓 Students</button>
+        <button class="tab" data-tab="payments">💰 Payments</button>
+        <button class="tab" data-tab="settings">⚙️ Settings</button>
+    </div>
+    
+    <div id="hiresTab" class="tab-content">
+        <div class="card">
+            <h2>📋 Pending Hire Requests</h2>
+            <div style="overflow-x: auto;">
+                <table id="pendingTable"><thead><tr><th>Date</th><th>Employer</th><th>Student</th><th>Hours</th><th>Total</th><th>Your Fee</th><th>Student Gets</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody id="pendingHiresList"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <h2>✅ Completed Hires</h2>
+            <div style="overflow-x: auto;">
+                <table id="completedTable">
+                    <thead><tr><th>Date</th><th>Employer</th><th>Student</th><th>Hours</th><th>Total</th><th>Your Fee</th><th>Student Got</th></tr></thead>
+                    <tbody id="completedHiresList"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div id="studentsTab" class="tab-content" style="display: none;">
+        <div class="card">
+            <h2>👨‍🎓 All Students</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead><tr><th>Name</th><th>University</th><th>Rate</th><th>Premium</th><th>Commission</th><th>Actions</th></tr></thead>
+                    <tbody id="studentsList"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div id="paymentsTab" class="tab-content" style="display: none;">
+        <div class="card">
+            <h2>💰 Payment Tracking</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead><tr><th>Hire ID</th><th>Employer</th><th>Student</th><th>Amount</th><th>Your Fee</th><th>To Student</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody id="paymentsList"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div id="settingsTab" class="tab-content" style="display: none;">
+        <div class="card">
+            <h2>⚙️ Platform Settings</h2>
+            <div style="color: #cbd5e1;">
+                <p><strong>💰 Commission:</strong> 10% Standard / 5% Premium</p>
+                <p><strong>⭐ Premium:</strong> $8.99/month or $79.99/year</p>
+                <p><strong>💳 Payments:</strong> PayPal, Bank Transfer, Mobile Money</p>
+                <p><strong>⏱️ Processing:</strong> 5 minutes - 1 day</p>
+                <hr style="margin: 15px 0; border-color: #334155;">
+                <h3>📧 Your Payment Info</h3>
+                <input type="text" id="paypalEmail" placeholder="PayPal Email" style="width:100%; padding:10px; margin:5px 0; background:#0f172a; border:1px solid #334155; border-radius:8px; color:white;">
+                <input type="text" id="mobileMoney" placeholder="Mobile Money Number" style="width:100%; padding:10px; margin:5px 0; background:#0f172a; border:1px solid #334155; border-radius:8px; color:white;">
+                <input type="text" id="bankAccount" placeholder="Bank Account" style="width:100%; padding:10px; margin:5px 0; background:#0f172a; border:1px solid #334155; border-radius:8px; color:white;">
+                <button id="saveSettings" style="margin-top:10px;">💾 Save Settings</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Check authentication
+    if (!localStorage.getItem('adminAuth')) {
+        window.location.href = '/admin';
+    }
+    
+    let hires = JSON.parse(localStorage.getItem('starterpool_hires')) || [];
+    let studentsData = JSON.parse(localStorage.getItem('starterpool_students')) || {};
+    let settings = JSON.parse(localStorage.getItem('starterpool_settings')) || {};
+    
+    function logout() {
+        localStorage.removeItem('adminAuth');
+        window.location.href = '/admin';
+    }
+    
+    function updateStats() {
+        const pending = hires.filter(h => h.status === 'pending').length;
+        const completed = hires.filter(h => h.status === 'completed').length;
+        const totalRevenue = hires.filter(h => h.status === 'completed').reduce((sum, h) => sum + (h.fee || 0), 0);
+        const premiumCount = Object.values(studentsData).filter(s => s.premium).length;
+        document.getElementById('totalHires').innerText = hires.length;document.getElementById('pendingHires').innerText = pending;
+        document.getElementById('completedHires').innerText = completed;
+        document.getElementById('totalRevenue').innerHTML = $${totalRevenue};
+        document.getElementById('premiumStudents').innerText = premiumCount;
+    }
+    
+    function renderHires() {
+        const pendingHires = hires.filter(h => h.status === 'pending');
+        const completedHires = hires.filter(h => h.status === 'completed');
+        
+        let pendingHtml = '';
+        pendingHires.forEach(h => {
+            pendingHtml += `<tr>
+                <td>${new Date(h.timestamp).toLocaleDateString()}</td>
+                <td>${h.employer?.name  'Unknown'}<br><small>${h.employer?.email  ''}</small></td>
+                <td>${h.student}</td>
+                <td>${h.hours}</td>
+                <td>$${h.total}</td>
+                <td style="color:#f5af19;">$${h.fee}</td>
+                <td>$${h.studentGets}</td>
+                <td><span class="status-pending">Pending</span></td>
+                <td><button class="success" onclick="markPaid(${h.id})">✅ Mark Paid</button><button class="danger" onclick="cancelHire(${h.id})">❌ Cancel</button></td>
+            </tr>`;
+        });
+        document.getElementById('pendingHiresList').innerHTML = pendingHtml || '<tr><td colspan="9" style="text-align:center;">No pending hires</td></tr>';
+        
+        let completedHtml = '';
+        completedHires.forEach(h => {
+            completedHtml += `<tr>
+                <td>${new Date(h.timestamp).toLocaleDateString()}</td>
+                <td>${h.employer?.name || 'Unknown'}</td>
+                <td>${h.student}</td>
+                <td>${h.hours}</td>
+                <td>$${h.total}</td>
+                <td>$${h.fee}</td>
+                <td>$${h.studentGets}</td>
+            </tr>`;
+        });
+        document.getElementById('completedHiresList').innerHTML = completedHtml || '<tr><td colspan="7" style="text-align:center;">No completed hires</td></tr>';
+    }
+    
+    function renderStudents() {
+        let html = '';
+        Object.entries(studentsData).forEach(([id, s]) => {
+            html += `<tr>
+                <td>${s.name}</td>
+                <td>${s.university}</td>
+                <td>$${s.rate}/hr</td>
+                <td>${s.premium ? '<span class="premium-badge">⭐ PREMIUM</span>' : 'Standard'}</td>
+                <td>${s.premium ? '5%' : '10%'}</td>
+                <td>${!s.premium ? <button onclick="makePremium('${id}')">⭐ Make Premium</button> : `<button class="danger" onclick="removePremium('${id}')">Remove</button>`}</td>
+            </tr>`;
+        });
+        document.getElementById('studentsList').innerHTML = html || '<tr><td colspan="6">No students</td></tr>';
+    }
+    
+    function renderPayments() {
+        let html = '';
+        hires.forEach(h => {
+            html += `<tr>
+                <td>#${h.id}</td>
+                <td>${h.employer?.name || 'Unknown'}</td>
+                <td>${h.student}</td>
+                <td>$${h.total}</td>
+                <td style="color:#f5af19;">$${h.fee}</td>
+                <td>$${h.studentGets}</td>
+                <td><span class="${h.paymentStatus === 'paid' ? 'status-paid' : 'status-pending'}">${h.paymentStatus === 'paid' ? 'Paid' : 'Awaiting'}</span></td>
+                <td>${h.paymentStatus !== 'paid' ? <button onclick="markPaid(${h.id})">✅ Confirm</button> : ''}</td>
+            </tr>`;
+        });
+        document.getElementById('paymentsList').innerHTML = html || '<tr><td colspan="8">No payments</td></tr>';
+    }
+    
+    function markPaid(id) {
+        const hire = hires.find(h => h.id === id);
+        if (hire) {
+            hire.paymentStatus = 'paid';
+            hire.status = 'completed';
+            localStorage.setItem('starterpool_hires', JSON.stringify(hires));
+            alert(`✅ Payment confirmed! Keep $${hire.fee}, send $${hire.studentGets} to ${hire.student}`);
+            renderAll();
+        }
+    }
+    
+    function cancelHire(id) {
+        if (confirm('Cancel this hire?')) {hires = hires.filter(h => h.id !== id);
+            localStorage.setItem('starterpool_hires', JSON.stringify(hires));
+            renderAll();
+        }
+    }
+    
+    function makePremium(id) {
+        if (confirm('Make this student Premium? They will pay $8.99/month or $79.99/year.')) {
+            studentsData[id] = { ...studentsData[id], premium: true };
+            localStorage.setItem('starterpool_students', JSON.stringify(studentsData));
+            renderAll();
+        }
+    }
+    
+    function removePremium(id) {
+        if (confirm('Remove Premium?')) {
+            studentsData[id].premium = false;
+            localStorage.setItem('starterpool_students', JSON.stringify(studentsData));
+            renderAll();
+        }
+    }
+    
+    function renderAll() {
+        updateStats();
+        renderHires();
+        renderStudents();
+        renderPayments();
+    }
+    
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const tabName = tab.getAttribute('data-tab');
+            document.getElementById('hiresTab').style.display = tabName === 'hires' ? 'block' : 'none';
+            document.getElementById('studentsTab').style.display = tabName === 'students' ? 'block' : 'none';
+            document.getElementById('paymentsTab').style.display = tabName === 'payments' ? 'block' : 'none';
+            document.getElementById('settingsTab').style.display = tabName === 'settings' ? 'block' : 'none';
+        });
+    });
+    
+    document.getElementById('paypalEmail').value = settings.paypalEmail || '';
+    document.getElementById('mobileMoney').value = settings.mobileMoney || '';
+    document.getElementById('bankAccount').value = settings.bankAccount || '';
+    
+    document.getElementById('saveSettings').addEventListener('click', () => {
+        const newSettings = {
+            paypalEmail: document.getElementById('paypalEmail').value,
+            mobileMoney: document.getElementById('mobileMoney').value,
+            bankAccount: document.getElementById('bankAccount').value
+        };
+        localStorage.setItem('starterpool_settings', JSON.stringify(newSettings));
+        alert('✅ Settings saved!');
+    });
+    
+    renderAll();
+</script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StarterPool - Student Profile</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+        .profile-container { max-width: 1000px; margin: auto; }
+        
+        .nav { background: white; border-radius: 15px; padding: 15px 25px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .nav a { text-decoration: none; color: #0f3460; font-weight: bold; }
+        .premium-btn { background: linear-gradient(135deg, #f5af19, #f12711); color: white; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: bold; }
+        
+        .back-btn { display: inline-block; margin-bottom: 20px; background: #0f3460; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; }
+        .back-btn:hover { background: #e94560; }
+        
+        .profile-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .cover-photo { height: 150px; background: linear-gradient(135deg, #0f3460, #e94560); }
+        .profile-header { text-align: center; margin-top: -60px; }
+        .avatar { width: 120px; height: 120px; background: white; border-radius: 60px; display: flex; align-items: center; justify-content: center; font-size: 60px; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.2); border: 4px solid white; }
+        .premium-badge-header { background: linear-gradient(135deg, #f5af19, #f12711); display: inline-block; padding: 5px 15px; border-radius: 30px; color: white; font-size: 12px; margin-top: 10px; }
+        
+        .profile-info { text-align: center; padding: 20px; }
+        .profile-info h1 { font-size: 28px; color: #1a1a2e; }
+        .university { color: #666; margin-bottom: 10px; }
+        .email { margin-bottom: 15px; }
+        .email a { color: #0f3460; text-decoration: none; }
+        .bio { max-width: 500px; margin: 10px auto; color: #333; }
+        .rate { font-size: 28px; color: #2ecc71; font-weight: bold; margin: 15px 0; }
+        .skills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
+        .skill { background: #e94560; color: white; padding: 6px 15px; border-radius: 25px; font-size: 13px; }
+        .action-buttons { display: flex; gap: 15px; justify-content: center; margin: 20px 0; flex-wrap: wrap; }
+        .btn-message { background: #28a745; color: white; padding: 12px 30px; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; }
+        .btn-hire { background: #0f3460; color: white; padding: 12px 30px; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; }
+        .section { padding: 20px 30px; border-top: 1px solid #eee; }
+        .section h3 { margin-bottom: 15px; color: #0f3460; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
+        .portfolio-item { background: #f8f9fa; border-radius: 10px; padding: 15px; text-align: center; }
+        .portfolio-item a { color: #0f3460; text-decoration: none; font-weight: bold; }
+        .cert-list { list-style: none; }
+        .cert-list li { padding: 8px 0; border-bottom: 1px solid #eee; }
+        .footer { text-align: center; padding: 20px; color: #777; font-size: 12px; background: #f8f9fa; }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; border-radius: 20px; max-width: 500px; width: 90%; padding: 25px; max-height: 85vh; overflow-y: auto; }
+        .modal-content h3 { margin-bottom: 15px; color: #0f3460; }
+        .modal-content input, .modal-content textarea, .modal-content select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; }
+        .payment-timing { background: #e3f2fd; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
+        .payment-timing .time { font-size: 24px; font-weight: bold; color: #0f3460; }
+        .close-modal { float: right; font-size: 24px; cursor: pointer; color: #999; }
+        .submit-btn { background: #0f3460; color: white; padding: 14px; border: none; border-radius: 10px; width: 100%; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .payment-methods { display: flex; gap: 10px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+        .payment-method { background: #f0f2f5; padding: 8px 15px; border-radius: 20px; font-size: 12px; }
+        
+        .pricing-card { background: white; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 30px; }
+        .pricing-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 30px 0; }
+        .plan { background: #f8f9fa; border-radius: 20px; padding: 25px; width: 280px; text-align: center; transition: transform 0.2s; cursor: pointer; }
+        .plan:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .plan.popular { border: 2px solid #f5af19; background: linear-gradient(135deg, #fff8e7, white); }
+        .plan h3 { font-size: 24px; margin-bottom: 10px; }
+        .price { font-size: 36px; font-weight: bold; color: #0f3460; margin: 15px 0; }
+        .price small { font-size: 14px; font-weight: normal; }
+        .features { list-style: none; margin: 20px 0; text-align: left; }
+        .features li { padding: 8px 0; }
+        .upgrade-btn { background: #0f3460; color: white; padding: 12px 30px; border: none; border-radius: 30px; cursor: pointer; width: 100%; }
+        .popular-badge { background: #f5af19; color: #333; display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-bottom: 10px; }
+        
+        @media (max-width: 600px) { .section { padding: 15px; } .plan { width: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <div class="nav">
+        <a href="/">🏊 StarterPool</a>
+        <div>
+            <a href="#" id="upgradeNavBtn" style="margin-right: 15px;">⭐ Upgrade to Premium</a>
+            <a href="/">← Back to Home</a>
+        </div>
+    </div>
+    
+    <div id="profileView">
+        <div class="profile-card">
+            <div class="cover-photo"></div>
+            <div class="profile-header">
+                <div class="avatar" id="avatar">👩‍💻</div>
+                <div id="premiumBadge"></div>
+            </div>
+            <div class="profile-info">
+                <h1 id="name">Loading...</h1>
+                <p class="university" id="university"></p>
+                <p class="email" id="email"></p>
+                <p class="bio" id="bio"></p>
+                <div class="rate" id="rate"></div>
+                <div id="skills"></div>
+                <div class="action-buttons">
+                    <button class="btn-message" id="messageBtn">💬 Send Message</button>
+                    <button class="btn-hire" id="hireBtn">💰 Hire Now</button>
+                </div>
+            </div>
+            <div class="section"><h3>📁 Portfolio</h3><div id="portfolio"></div></div>
+            <div class="section"><h3>🎓 Certifications</h3><ul class="cert-list" id="certs"></ul></div>
+            <div class="footer">
+                <p>💰 StarterPool takes 10% commission on every hire. Students receive 90%.</p>
+                <p>⭐ <a href="#" id="upgradeFooterBtn">Upgrade to Premium</a> for 5% commission and top placement</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="upgradeView" style="display: none;">
+        <div class="pricing-card">
+            <h2>⭐ Upgrade to Premium</h2>
+            <p>Get lower commission, premium badge, and appear at the top of search results</p>
+            
+            <div class="pricing-grid">
+                <div class="plan" onclick="selectPlan('monthly')">
+                    <h3>Monthly</h3><div class="price">$8.99 <small>/month</small></div>
+                    <ul class="features">
+                        <li>✅ 5% commission (instead of 10%)</li>
+                        <li>✅ Premium badge on profile</li>
+                        <li>✅ Appear at top of search</li>
+                        <li>✅ Featured in "Top Talent"</li>
+                        <li>✅ Cancel anytime</li>
+                    </ul>
+                    <button class="upgrade-btn">Upgrade Monthly →</button>
+                </div>
+                
+                <div class="plan popular" onclick="selectPlan('yearly')">
+                    <div class="popular-badge">⭐ BEST VALUE</div>
+                    <h3>Yearly</h3>
+                    <div class="price">$79.99 <small>/year</small></div>
+                    <div style="color:#2ecc71; font-size:14px;">Save $28 (2 months free!)</div>
+                    <ul class="features">
+                        <li>✅ 5% commission (instead of 10%)</li>
+                        <li>✅ Premium badge on profile</li>
+                        <li>✅ Appear at top of search</li>
+                        <li>✅ Featured in "Top Talent"</li>
+                        <li>✅ Priority support</li>
+                    </ul>
+                    <button class="upgrade-btn">Upgrade Yearly →</button>
+                </div>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #777;">🔒 Secure payment via PayPal. 30-day money-back guarantee.</p>
+            <button class="back-to-profile" style="background: none; border: none; color: #0f3460; margin-top: 20px; cursor: pointer;">← Back to Profile</button>
+        </div>
+    </div>
+</div>
+
+<div id="hireModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeHireModal()">&times;</span>
+        <h3>💰 Hire <span id="modalStudentName"></span></h3>
+        
+        <div class="payment-timing">
+            ⏱️ <span class="time">5 minutes - 1 day</span><br>
+            Payment processing time
+        </div>
+        
+        <input type="text" id="employerName" placeholder="Your full name" required>
+        <input type="email" id="employerEmail" placeholder="Your email address" required>
+        <input type="text" id="employerPhone" placeholder="Your phone number (optional)">
+        <textarea id="projectDetails" rows="3" placeholder="Briefly describe your project"></textarea>
+        
+        <div id="costBreakdown" style="background: #e8f5e9; padding: 12px; border-radius: 8px; margin: 10px 0;"></div>
+        
+        <div class="payment-methods">
+            <span class="payment-method">💳 PayPal</span>
+            <span class="payment-method">🏦 Bank Transfer</span>
+            <span class="payment-method">📱 Mobile Money</span>
+        </div>
+        
+        <button class="submit-btn" id="submitHireRequestBtn">📩 Submit Hire Request</button>
+        <p style="font-size: 11px; text-align: center; margin-top: 10px;">You'll receive payment instructions within 5 minutes - 1 day</p>
+    </div>
+</div>
+
+<script>
+    const studentId = window.location.pathname.split('/').pop();
+    let currentHours = 0, currentTotal = 0, currentFee = 0, currentStudentGets = 0;
+    
+    const students = {
+        maria: { name: "Maria Chen", avatar: "👩‍💻", university: "3rd year CS, UCLA", email: "maria.chen@starterpool.com", rate: 18, bio: "Frontend React developer.", skills: ["React", "HTML/CSS", "JavaScript"], portfolio: [{ title: "Todo App", link: "#" }], certs: ["Meta Frontend Cert"], premium: false },
+        james: { name: "James Okafor", avatar: "👨‍💻", university: "Final year, MIT", email: "james.okafor@starterpool.com", rate: 22, bio: "Backend developer.", skills: ["Python", "Django"], portfolio: [{ title: "REST API", link: "#" }], certs: ["AWS Cloud"], premium: true },
+        alex: { name: "Alex Zhang", avatar: "👨‍💻", university: "Senior, Stanford", email: "alex.zhang@starterpool.com", rate: 20, bio: "Vue.js frontend dev.", skills: ["Vue.js", "Tailwind"], portfolio: [{ title: "Dashboard", link: "#" }], certs: ["Vue Mastery"], premium: false },
+        emma: { name: "Emma Watson", avatar: "🎨", university: "2nd year, RISD", email: "emma.watson@starterpool.com", rate: 19, bio: "Logo & brand designer.", skills: ["Figma", "Illustrator"], portfolio: [{ title: "Brand Identity", link: "#" }], certs: ["Google UX"], premium: false },
+        olivia: { name: "Olivia Martinez", avatar: "🎨", university: "Final year, Parsons", email: "olivia.martinez@starterpool.com", rate: 23, bio: "Branding expert.", skills: ["Branding", "Photoshop"], portfolio: [{ title: "Brand Kit", link: "#" }], certs: ["Adobe Certified"], premium: true },
+        ethan: { name: "Ethan Kim", avatar: "🎨", university: "3rd year, CalArts", email: "ethan.kim@starterpool.com", rate: 17, bio: "Logo specialist.", skills: ["Logo Design", "Procreate"], portfolio: [{ title: "Logo Collection", link: "#" }], certs: ["Logo Design Master"], premium: false },
+        sarah: { name: "Sarah Johnson", avatar: "✍️", university: "2nd year, NYU", email: "sarah.johnson@starterpool.com", rate: 15, bio: "SEO blog writer.", skills: ["Blogging", "SEO"], portfolio: [{ title: "Tech Blog", link: "#" }], certs: ["HubSpot SEO"], premium: false },
+        david: { name: "David Kim", avatar: "✍️", university: "Senior, UC Berkeley", email: "david.kim@starterpool.com", rate: 20, bio: "Copywriter.", skills: ["Copywriting", "Email"], portfolio: [{ title: "Sales Copy", link: "#" }], certs: ["Copywriting Cert"], premium: false },
+        chloe: { name: "Chloe Williams", avatar: "✍️", university: "3rd year, Northwestern", email: "chloe.williams@starterpool.com", rate: 16, bio: "Ghostwriter/editor.", skills: ["Ghostwriting", "Editing"], portfolio: [{ title: "Published Articles", link: "#" }], certs: ["Editing Cert"], premium: false },
+        datadavid: { name: "David Park", avatar: "📊", university: "Senior, Carnegie Mellon", email: "david.park@starterpool.com", rate: 21, bio: "Data analyst.", skills: ["Python", "SQL", "Tableau"], portfolio: [{ title: "Sales Dashboard", link: "#" }], certs: ["Google Data Analytics"], premium: false },
+        michelle: { name: "Michelle Lee", avatar: "📊", university: "3rd year, UPenn", email: "michelle.lee@starterpool.com", rate: 16, bio: "Excel & Power BI expert.", skills: ["Excel", "Power BI"], portfolio: [{ title: "Excel Dashboard", link: "#" }], certs: ["Excel Expert"], premium: false },
+        emily: { name: "Emily Rodriguez", avatar: "📱", university: "3rd year, USC", email: "emily.rodriguez@starterpool.com", rate: 17, bio: "Social media manager.", skills: ["Social Media", "SEO"], portfolio: [{ title: "Instagram Campaign", link: "#" }], certs: ["Meta Social Media"], premium: false },
+        marcus: { name: "Marcus Brown", avatar: "📱", university: "Senior, Howard", email: "marcus.brown@starterpool.com", rate: 19, bio: "Google Ads expert.", skills: ["Google Ads", "Analytics"], portfolio: [{ title: "Ad Campaign", link: "#" }], certs: ["Google Ads Certified"], premium: false },
+        alexw: { name: "Alex Wong", avatar: "🎬", university: "Final year, NYU Film", email: "alex.wong@starterpool.com", rate: 21, bio: "Video editor.", skills: ["Premiere Pro", "After Effects"], portfolio: [{ title: "Short Film", link: "#" }], certs: ["Adobe Premiere"], premium: false },
+        maya: { name: "Maya Patel", avatar: "🎬", university: "3rd year, Columbia", email: "maya.patel@starterpool.com", rate: 18, bio: "DaVinci editor.", skills: ["DaVinci", "Final Cut"], portfolio: [{ title: "Music Video", link: "#" }], certs: ["DaVinci Resolve"], premium: false },
+        jessica: { name: "Jessica Taylor", avatar: "📋", university: "2nd year, ASU", email: "jessica.taylor@starterpool.com", rate: 14, bio: "Virtual assistant.", skills: ["Admin", "Scheduling"], portfolio: [{ title: "Calendar Mgmt", link: "#" }], certs: ["VA Certified"], premium: false },
+        rachel: { name: "Rachel Green", avatar: "📋", university: "Senior, Texas A&M", email: "rachel.green@starterpool.com", rate: 15, bio: "Email & research assistant.", skills: ["Email Mgmt", "Research"], portfolio: [{ title: "Research Report", link: "#" }], certs: ["Admin Pro"], premium: false },
+        carlos: { name: "Carlos Mendez", avatar: "🌐", university: "Senior, UT Austin", email: "carlos.mendez@starterpool.com", rate: 19, bio: "Spanish/French translator.", skills: ["Spanish", "French"], portfolio: [{ title: "Document Translation", link: "#" }], certs: ["ATA Certified"], premium: false },
+        ling: { name: "Ling Wei", avatar: "🌐", university: "3rd year, UBC", email: "ling.wei@starterpool.com", rate: 17, bio: "Chinese/English translator.", skills: ["Chinese", "English"], portfolio: [{ title: "Localization", link: "#" }], certs: ["Translation Cert"], premium: false }
+    };
+    
+    const student = students[studentId];
+    
+    function showProfile() {
+        document.getElementById('profileView').style.display = 'block';
+        document.getElementById('upgradeView').style.display = 'none';
+    }
+    
+    function showUpgrade() {
+        document.getElementById('profileView').style.display = 'none';
+        document.getElementById('upgradeView').style.display = 'block';
+    }
+    
+    function selectPlan(plan) {
+        if (plan === 'monthly') {
+            alert('⭐ Upgrade to Monthly Premium: $8.99/month\n\nWe\'ll send payment instructions to your email.\n\nBenefits:\n- 5% commission (instead of 10%)\n- Premium badge\n- Top search placement');
+        } else {
+            alert('⭐ Upgrade to Yearly Premium: $79.99/year\n\nSave $28 (2 months free!)\n\nWe\'ll send payment instructions to your email.\n\nBenefits:\n- 5% commission\n- Premium badge\n- Top search placement\n- Priority support');
+        }
+    }
+    
+    function openHireModal() {
+        const commission = student.premium ? 0.05 : 0.10;
+        const hours = prompt(`How many hours will ${student.name} work?\nRate: $${student.rate}/hour\nCommission: ${commission * 100}%`, "10");
+        if (hours && !isNaN(hours) && hours > 0) {
+            currentHours = hours;
+            currentTotal = student.rate * hours;
+            currentFee = currentTotal * commission;
+            currentStudentGets = currentTotal - currentFee;
+            
+            document.getElementById('modalStudentName').innerText = student.name;
+            document.getElementById('costBreakdown').innerHTML = `
+                <strong>💰 Breakdown:</strong><br>
+                Total: $${currentTotal}<br>
+                StarterPool fee (${commission*100}%): $${currentFee}<br>
+                <span style="color:#2ecc71;">${student.name} receives: $${currentStudentGets}</span>
+            `;
+            document.getElementById('hireModal').style.display = 'flex';
+        }
+    }
+    
+    function closeHireModal() {
+        document.getElementById('hireModal').style.display = 'none';
+    }
+    
+    if (student) {
+        const commission = student.premium ? 0.05 : 0.10;
+        
+        document.getElementById('avatar').innerText = student.avatar;
+        document.getElementById('name').innerText = student.name;
+        document.getElementById('university').innerHTML = '<strong>' + student.university + '</strong>';
+        document.getElementById('email').innerHTML = '📧 <a href="mailto:' + student.email + '">' + student.email + '</a>';
+        document.getElementById('bio').innerText = student.bio;
+        document.getElementById('rate').innerHTML = '💰 $' + student.rate + '/hour';
+        
+        if (student.premium) {
+            document.getElementById('premiumBadge').innerHTML = '<div class="premium-badge-header">⭐ PREMIUM (5% commission)</div>';
+        }
+        
+        let skillsHtml = '<div class="skills">';
+        student.skills.forEach(s => { skillsHtml += '<span class="skill">' + s + '</span>'; });
+        skillsHtml += '</div>';
+        document.getElementById('skills').innerHTML = skillsHtml;
+        
+        let portfolioHtml = '<div class="portfolio-grid">';
+        student.portfolio.forEach(p => { portfolioHtml += '<div class="portfolio-item"><strong>' + p.title + '</strong><br><a href="' + p.link + '" target="_blank">View Project →</a></div>'; });
+        portfolioHtml += '</div>';
+        document.getElementById('portfolio').innerHTML = portfolioHtml;
+        
+        let certsHtml = '';
+        student.certs.forEach(c => { certsHtml += '<li>✅ ' + c + '</li>'; });
+        document.getElementById('certs').innerHTML = certsHtml;
+        
+        document.getElementById('messageBtn').onclick = () => { window.location.href = 'mailto:' + student.email; };
+        document.getElementById('hireBtn').onclick = openHireModal;
+        
+        document.getElementById('submitHireRequestBtn').onclick = () => {
+            const employerName = document.getElementById('employerName').value;
+            const employerEmail = document.getElementById('employerEmail').value;
+            const employerPhone = document.getElementById('employerPhone').value;
+            const projectDetails = document.getElementById('projectDetails').value;
+            
+            if (!employerName || !employerEmail) {
+                alert('Please enter your name and email.');
+                return;
+            }
+            
+            alert(`✅ Hire request sent to ${student.name}!\n\n📧 We'll email ${employerEmail} within 5 minutes - 1 day with payment instructions.\n\n📊 Total: $${currentTotal}\n💳 Pay via: PayPal, Bank Transfer, or Mobile Money\n\nThank you for using StarterPool!`);
+            
+            closeHireModal();
+            document.getElementById('employerName').value = '';
+            document.getElementById('employerEmail').value = '';
+            document.getElementById('employerPhone').value = '';
+            document.getElementById('projectDetails').value = '';
+        };
+    }
+    
+    document.getElementById('upgradeNavBtn').onclick = (e) => { e.preventDefault(); showUpgrade(); };
+    document.getElementById('upgradeFooterBtn').onclick = (e) => { e.preventDefault(); showUpgrade(); };
+    document.querySelector('.back-to-profile')?.addEventListener('click', showProfile);
+</script>
+</body>
+</html>
