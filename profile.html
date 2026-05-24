@@ -128,9 +128,6 @@
             color: #8e8e8e;
             cursor: pointer;
             padding: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
         
         .tab-btn.active {
@@ -153,8 +150,8 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            position: relative;
             font-size: 30px;
+            border-radius: 8px;
         }
         
         .skills {
@@ -169,10 +166,11 @@
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 12px;
-        }.action-buttons {
+        }
+        
+        .action-buttons {
             display: flex;
-            gap: 15px;
-            margin: 20px 0;
+            gap: 15px;margin: 20px 0;
         }
         
         .btn-message, .btn-hire {
@@ -287,7 +285,6 @@
             .profile-header { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
             .profile-name-row { justify-content: center; }
             .profile-stats { justify-content: center; }
-            .posts-grid { gap: 2px; }
             .chat-modal { width: 100%; right: 0; left: 0; bottom: 0; }
         }
     </style>
@@ -295,7 +292,7 @@
 <body>
 
 <div class="top-bar">
-    <div class="logo">StarterPool</div>
+    <div class="logo">🏊 StarterPool</div>
     <div class="nav-icons">
         <a href="/">🏠</a>
         <a href="#" onclick="openInbox()">💬</a>
@@ -318,22 +315,20 @@
 </div>
 
 <script>
-    const studentId = window.location.pathname.split('/').pop();let currentChatStudent = null;
-    let conversations = JSON.parse(localStorage.getItem('starterpool_chats')) || {};
+    var studentId = window.location.pathname.split('/').pop();
+    var currentChatStudent = null;
+    var conversations = JSON.parse(localStorage.getItem('starterpool_chats')) || {};
     
-    const students = {
-        maria: {
+    var students = {maria: {
             name: "Maria Chen",
             avatar: "👩‍💻",
-            username: "mariachen",
             university: "3rd year CS, UCLA",
             email: "maria.chen@starterpool.com",
             rate: 18,
             bio: "Frontend React developer passionate about building beautiful interfaces.",
-            skills: ["React", "HTML/CSS", "JavaScript", "Node.js"],
+            skills: ["React", "HTML/CSS", "JavaScript"],
             posts: ["Portfolio project", "E-commerce site", "Learning Next.js"],
             portfolio: [{ title: "Todo App", link: "#" }],
-            certs: ["Meta Frontend Cert"],
             premium: false,
             followers: 245,
             following: 180
@@ -341,7 +336,6 @@
         james: {
             name: "James Okafor",
             avatar: "👨‍💻",
-            username: "jamesokafor",
             university: "Final year, MIT",
             email: "james.okafor@starterpool.com",
             rate: 22,
@@ -349,14 +343,13 @@
             skills: ["Python", "Django", "PostgreSQL"],
             posts: ["Built a REST API", "Deployed on AWS", "Reading Clean Code"],
             portfolio: [{ title: "REST API", link: "#" }],
-            certs: ["AWS Cloud"],
             premium: true,
             followers: 512,
             following: 234
         }
     };
     
-    const student = students[studentId];
+    var student = students[studentId];
     
     function renderProfile() {
         if (!student) {
@@ -364,70 +357,70 @@
             return;
         }
         
-        const premiumBadge = student.premium ? '<span class="premium-badge">⭐ PREMIUM</span>' : '';
+        var premiumBadge = '';
+        if (student.premium) {
+            premiumBadge = '<span class="premium-badge">⭐ PREMIUM</span>';
+        }
         
-        let skillsHtml = '<div class="skills">';
-        student.skills.forEach(function(s) {
-            skillsHtml += '<span class="skill">' + s + '</span>';
-        });
+        var skillsHtml = '<div class="skills">';
+        for (var i = 0; i < student.skills.length; i++) {
+            skillsHtml += '<span class="skill">' + student.skills[i] + '</span>';
+        }
         skillsHtml += '</div>';
         
-        let postsHtml = '<div class="posts-grid">';
-        for (let i = 0; i < student.posts.length; i++) {
-            postsHtml += '<div class="post-item" onclick="alert(\\'Post: ' + student.posts[i] + '\\')">📷</div>';
+        var postsHtml = '<div class="posts-grid">';
+        for (var p = 0; p < student.posts.length; p++) {
+            postsHtml += '<div class="post-item" onclick="alert(\\'Post: ' + student.posts[p] + '\\')">📷</div>';
         }
         postsHtml += '</div>';
         
-        let portfolioHtml = '<div class="posts-grid">';
-        for (let i = 0; i < student.portfolio.length; i++) {
-            portfolioHtml += '<div class="post-item" onclick="window.open(\\'' + student.portfolio[i].link + '\\', \\'_blank\\')">📁 ' + student.portfolio[i].title + '</div>';
+        var portfolioHtml = '<div class="posts-grid">';
+        for (var f = 0; f < student.portfolio.length; f++) {
+            portfolioHtml += '<div class="post-item" onclick="window.open(\\'' + student.portfolio[f].link + '\\', \\'_blank\\')">📁 ' + student.portfolio[f].title + '</div>';
         }
         portfolioHtml += '</div>';
         
-        document.getElementById('profileContainer').innerHTML = `
-            <div class="profile-header">
-                <div class="profile-avatar">${student.avatar}</div>
-                <div class="profile-info">
-                    <div class="profile-name-row">
-                        <span class="profile-name">${student.name}</span>
-                        ${premiumBadge}
-                        <button class="btn-message" onclick="openChat('${studentId}')" style="padding:5px 15px;">Message</button>
-                    </div>
-                    <div class="profile-stats">
-                        <div class="stat"><span class="stat-number">${student.posts.length}</span> posts</div>
-                        <div class="stat"><span class="stat-number">${student.followers}</span> followers</div>
-                        <div class="stat"><span class="stat-number">${student.following}</span> following</div>
-                    </div>
-                    <div class="profile-bio">
-                        <h1>${student.university}</h1>
-                        <p>${student.bio}</p>
-                        <div class="rate">💰 $${student.rate}/hour</div>
-                        ${skillsHtml}
-                    </div>
-                    <div class="action-buttons"><button class="btn-message" onclick="openChat('${studentId}')">💬 Message</button>
-                        <button class="btn-hire" onclick="hireStudent()">💰 Hire Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="profile-tabs">
-                <button class="tab-btn active" onclick="switchTab('posts')">📷 POSTS</button>
-                <button class="tab-btn" onclick="switchTab('portfolio')">📁 PORTFOLIO</button>
-            </div>
-            
-            <div id="postsTab">${postsHtml}</div>
-            <div id="portfolioTab" style="display: none;">${portfolioHtml}</div>
-            
-            <div style="margin-top: 20px; text-align: center; padding: 20px; border-top: 1px solid #dbdbdb;">
-                <p style="font-size: 12px; color: #8e8e8e;">💰 StarterPool takes 10% commission. Students receive 90%.</p>
-            </div>
-        `;
+        var html = '<div class="profile-header">';
+        html += '<div class="profile-avatar">' + student.avatar + '</div>';
+        html += '<div class="profile-info">';
+        html += '<div class="profile-name-row">';
+        html += '<span class="profile-name">' + student.name + '</span>';
+        html += premiumBadge;
+        html += '<button class="btn-message" onclick="openChat(\\'' + studentId + '\\')" style="padding:5px 15px;">Message</button>';
+        html += '</div>';
+        html += '<div class="profile-stats">';
+        html += '<div class="stat"><span class="stat-number">' + student.posts.length + '</span> posts</div>';
+        html += '<div class="stat"><span class="stat-number">' + student.followers + '</span> followers</div>';
+        html += '<div class="stat"><span class="stat-number">' + student.following + '</span> following</div>';
+        html += '</div>';
+        html += '<div class="profile-bio">';
+        html += '<h1>' + student.university + '</h1>';
+        html += '<p>' + student.bio + '</p>';
+        html += '<div class="rate">💰 $' + student.rate + '/hour</div>';
+        html += skillsHtml;
+        html += '</div>';
+        html += '<div class="action-buttons">';
+        html += '<button class="btn-message" onclick="openChat(\\'' + studentId + '\\')">💬 Message</button>';
+        html += '<button class="btn-hire" onclick="hireStudent()">💰 Hire Now</button>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '<div class="profile-tabs">';html += '<button class="tab-btn active" onclick="switchTab(\\'posts\\')">📷 POSTS</button>';
+        html += '<button class="tab-btn" onclick="switchTab(\\'portfolio\\')">📁 PORTFOLIO</button>';
+        html += '</div>';
+        html += '<div id="postsTab">' + postsHtml + '</div>';
+        html += '<div id="portfolioTab" style="display: none;">' + portfolioHtml + '</div>';
+        html += '<div style="margin-top: 20px; text-align: center; padding: 20px; border-top: 1px solid #dbdbdb;">';
+        html += '<p style="font-size: 12px; color: #8e8e8e;">💰 StarterPool takes 10% commission. Students receive 90%.</p>';
+        html += '</div>';
+        
+        document.getElementById('profileContainer').innerHTML = html;
     }
     
     function switchTab(tab) {
-        const postsTab = document.getElementById('postsTab');
-        const portfolioTab = document.getElementById('portfolioTab');
-        const btns = document.querySelectorAll('.tab-btn');
+        var postsTab = document.getElementById('postsTab');
+        var portfolioTab = document.getElementById('portfolioTab');
+        var btns = document.querySelectorAll('.tab-btn');
         
         if (tab === 'posts') {
             postsTab.style.display = 'block';
@@ -444,11 +437,11 @@
     
     function hireStudent() {
         if (!student) return;
-        const hours = prompt(`How many hours will ${student.name} work? ($${student.rate}/hour)`, "10");
+        var hours = prompt('How many hours will ' + student.name + ' work? ($' + student.rate + '/hour)', '10');
         if (hours && !isNaN(hours)) {
-            const total = student.rate * hours;
-            const fee = total * 0.1;
-            alert(`✅ Hire request sent to ${student.name}!\n\nTotal: $${total}\nStarterPool fee (10%): $${fee}\n${student.name} receives: $${total - fee}\n\nYou will receive payment instructions via email.`);
+            var total = student.rate * hours;
+            var fee = total * 0.1;
+            alert('✅ Hire request sent to ' + student.name + '!\n\nTotal: $' + total + '\nStarterPool fee (10%): $' + fee + '\n' + student.name + ' receives: $' + (total - fee) + '\n\nYou will receive payment instructions via email.');
         }
     }
     
@@ -468,11 +461,11 @@
         if (!conversations[currentChatStudent]) {
             conversations[currentChatStudent] = [];
         }
-        const messagesDiv = document.getElementById('chatMessages');
+        var messagesDiv = document.getElementById('chatMessages');
         messagesDiv.innerHTML = '';
-        for (let i = 0; i < conversations[currentChatStudent].length; i++) {
-            const msg = conversations[currentChatStudent][i];
-            const msgDiv = document.createElement('div');
+        for (var i = 0; i < conversations[currentChatStudent].length; i++) {
+            var msg = conversations[currentChatStudent][i];
+            var msgDiv = document.createElement('div');
             msgDiv.className = 'message ' + (msg.sender === 'employer' ? 'message-sent' : 'message-received');
             msgDiv.innerHTML = msg.text;
             messagesDiv.appendChild(msgDiv);
@@ -481,8 +474,8 @@
     }
     
     function sendMessage() {
-        const input = document.getElementById('chatInput');
-        const message = input.value.trim();
+        var input = document.getElementById('chatInput');
+        var message = input.value.trim();
         if (!message || !currentChatStudent) return;
         
         if (!conversations[currentChatStudent]) {
@@ -495,12 +488,13 @@
     }
     
     function openInbox() {
-        let inboxMsg = "📥 Your Conversations:\n\n";
-        let hasMessages = false;
-        for (const id in conversations) {
+        var inboxMsg = "📥 Your Conversations:\n\n";
+        var hasMessages = false;
+        for (var id in conversations) {
             if (conversations[id].length > 0) {
-                hasMessages = true;const studentName = students[id] ? students[id].name : id;
-                const lastMsg = conversations[id][conversations[id].length - 1];
+                hasMessages = true;
+                var studentName = students[id] ? students[id].name : id;
+                var lastMsg = conversations[id][conversations[id].length - 1];
                 inboxMsg += "💬 " + studentName + ": " + lastMsg.text.substring(0, 30) + "...\n";
             }
         }
