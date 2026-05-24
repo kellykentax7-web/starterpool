@@ -23,9 +23,6 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #dbdbdb;
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
         
         .logo {
@@ -46,56 +43,44 @@
         }
         
         .profile-container {
-            max-width: 935px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
         
         .profile-header {
             display: flex;
-            gap: 60px;
+            gap: 40px;
             padding: 30px 0;
             border-bottom: 1px solid #dbdbdb;
             flex-wrap: wrap;
         }
         
         .profile-avatar {
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             background: linear-gradient(135deg, #0f3460, #e94560);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 70px;
+            font-size: 50px;
         }
         
         .profile-info {
             flex: 1;
         }
         
-        .profile-name-row {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        
         .profile-name {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 300;
+            margin-bottom: 15px;
         }
         
         .profile-stats {
             display: flex;
-            gap: 40px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .stat {
-            font-size: 16px;
+            gap: 30px;
+            margin-bottom: 15px;
         }
         
         .stat-number {
@@ -104,54 +89,6 @@
         
         .profile-bio {
             margin-top: 10px;
-        }
-        
-        .profile-bio h1 {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-        
-        .profile-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            padding: 15px 0;
-            border-top: 1px solid #dbdbdb;
-            margin-top: 20px;
-        }
-        
-        .tab-btn {
-            background: none;
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            color: #8e8e8e;
-            cursor: pointer;
-            padding: 10px;
-        }
-        
-        .tab-btn.active {
-            color: #262626;
-            border-top: 1px solid #262626;
-            margin-top: -16px;
-        }
-        
-        .posts-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            margin-top: 10px;
-        }
-        
-        .post-item {
-            aspect-ratio: 1;
-            background: #efefef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 30px;
-            border-radius: 8px;
         }
         
         .skills {
@@ -170,7 +107,8 @@
         
         .action-buttons {
             display: flex;
-            gap: 15px;margin: 20px 0;
+            gap: 15px;
+            margin: 20px 0;
         }
         
         .btn-message, .btn-hire {
@@ -207,85 +145,10 @@
             margin-left: 10px;
         }
         
-        .chat-modal {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            right: 20px;
-            width: 350px;
-            background: white;
-            border-radius: 15px 15px 0 0;
-            box-shadow: 0 -2px 20px rgba(0,0,0,0.15);
-            z-index: 1000;
-            flex-direction: column;
-        }
-        
-        .chat-header {
-            padding: 15px;
-            background: white;
-            border-bottom: 1px solid #dbdbdb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .chat-messages {
-            height: 300px;
-            overflow-y: auto;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .message {
-            max-width: 80%;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-        
-        .message-sent {
-            background: #0f3460;
-            color: white;
-            align-self: flex-end;
-        }
-        
-        .message-received {
-            background: #efefef;
-            color: #262626;
-            align-self: flex-start;
-        }
-        
-        .chat-input-area {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid #dbdbdb;
-            gap: 10px;
-        }
-        
-        .chat-input {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: #efefef;
-            border-radius: 20px;
-        }
-        
-        .send-btn {
-            background: #0095f6;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-        
-        @media (max-width: 735px) {
-            .profile-header { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
-            .profile-name-row { justify-content: center; }
+        @media (max-width: 600px) {
+            .profile-header { flex-direction: column; align-items: center; text-align: center; }
             .profile-stats { justify-content: center; }
-            .chat-modal { width: 100%; right: 0; left: 0; bottom: 0; }
+            .action-buttons { flex-direction: column; }
         }
     </style>
 </head>
@@ -295,31 +158,21 @@
     <div class="logo">🏊 StarterPool</div>
     <div class="nav-icons">
         <a href="/">🏠</a>
-        <a href="#" onclick="openInbox()">💬</a>
         <a href="/signup" style="font-size: 16px;">Join</a>
     </div>
 </div>
 
-<div class="profile-container" id="profileContainer"></div>
-
-<div id="chatModal" class="chat-modal">
-    <div class="chat-header">
-        <strong id="chatStudentName">Chat</strong>
-        <button onclick="closeChat()" style="background:none; border:none; font-size:20px; cursor:pointer;">×</button>
-    </div>
-    <div id="chatMessages" class="chat-messages"></div>
-    <div class="chat-input-area">
-        <input type="text" id="chatInput" class="chat-input" placeholder="Message...">
-        <button class="send-btn" onclick="sendMessage()">Send</button>
-    </div>
+<div class="profile-container" id="profileContainer">
+    <div style="text-align:center; padding:50px;">Loading...</div>
 </div>
 
 <script>
-    var studentId = window.location.pathname.split('/').pop();
-    var currentChatStudent = null;
-    var conversations = JSON.parse(localStorage.getItem('starterpool_chats')) || {};
+    // Get student ID from URLvar pathParts = window.location.pathname.split('/');
+    var studentId = pathParts[pathParts.length - 1];
     
-    var students = {maria: {
+    // Student database
+    var students = {
+        maria: {
             name: "Maria Chen",
             avatar: "👩‍💻",
             university: "3rd year CS, UCLA",
@@ -327,8 +180,6 @@
             rate: 18,
             bio: "Frontend React developer passionate about building beautiful interfaces.",
             skills: ["React", "HTML/CSS", "JavaScript"],
-            posts: ["Portfolio project", "E-commerce site", "Learning Next.js"],
-            portfolio: [{ title: "Todo App", link: "#" }],
             premium: false,
             followers: 245,
             following: 180
@@ -341,11 +192,33 @@
             rate: 22,
             bio: "Backend developer specializing in Python and Django.",
             skills: ["Python", "Django", "PostgreSQL"],
-            posts: ["Built a REST API", "Deployed on AWS", "Reading Clean Code"],
-            portfolio: [{ title: "REST API", link: "#" }],
             premium: true,
             followers: 512,
             following: 234
+        },
+        emma: {
+            name: "Emma Watson",
+            avatar: "🎨",
+            university: "2nd year, RISD",
+            email: "emma.watson@starterpool.com",
+            rate: 19,
+            bio: "Graphic designer specializing in branding and logo design.",
+            skills: ["Figma", "Illustrator", "Photoshop"],
+            premium: false,
+            followers: 389,
+            following: 145
+        },
+        sarah: {
+            name: "Sarah Johnson",
+            avatar: "✍️",
+            university: "2nd year, NYU",
+            email: "sarah.johnson@starterpool.com",
+            rate: 15,
+            bio: "Content writer with SEO expertise.",
+            skills: ["Blog Writing", "SEO", "Copywriting"],
+            premium: false,
+            followers: 178,
+            following: 92
         }
     };
     
@@ -357,151 +230,60 @@
             return;
         }
         
+        // Build premium badge
         var premiumBadge = '';
         if (student.premium) {
             premiumBadge = '<span class="premium-badge">⭐ PREMIUM</span>';
         }
         
+        // Build skills HTML
         var skillsHtml = '<div class="skills">';
         for (var i = 0; i < student.skills.length; i++) {
             skillsHtml += '<span class="skill">' + student.skills[i] + '</span>';
         }
         skillsHtml += '</div>';
         
-        var postsHtml = '<div class="posts-grid">';
-        for (var p = 0; p < student.posts.length; p++) {
-            postsHtml += '<div class="post-item" onclick="alert(\\'Post: ' + student.posts[p] + '\\')">📷</div>';
-        }
-        postsHtml += '</div>';
-        
-        var portfolioHtml = '<div class="posts-grid">';
-        for (var f = 0; f < student.portfolio.length; f++) {
-            portfolioHtml += '<div class="post-item" onclick="window.open(\\'' + student.portfolio[f].link + '\\', \\'_blank\\')">📁 ' + student.portfolio[f].title + '</div>';
-        }
-        portfolioHtml += '</div>';
-        
-        var html = '<div class="profile-header">';
+        // Build the full HTML
+        var html = '';
+        html += '<div class="profile-header">';
         html += '<div class="profile-avatar">' + student.avatar + '</div>';
         html += '<div class="profile-info">';
-        html += '<div class="profile-name-row">';
-        html += '<span class="profile-name">' + student.name + '</span>';
-        html += premiumBadge;
-        html += '<button class="btn-message" onclick="openChat(\\'' + studentId + '\\')" style="padding:5px 15px;">Message</button>';
-        html += '</div>';
+        html += '<div class="profile-name">' + student.name + ' ' + premiumBadge + '</div>';
         html += '<div class="profile-stats">';
-        html += '<div class="stat"><span class="stat-number">' + student.posts.length + '</span> posts</div>';
-        html += '<div class="stat"><span class="stat-number">' + student.followers + '</span> followers</div>';
-        html += '<div class="stat"><span class="stat-number">' + student.following + '</span> following</div>';
+        html += '<div><span class="stat-number">' + student.posts + '</span> posts</div>';
+        html += '<div><span class="stat-number">' + student.followers + '</span> followers</div>';
+        html += '<div><span class="stat-number">' + student.following + '</span> following</div>';
         html += '</div>';
         html += '<div class="profile-bio">';
-        html += '<h1>' + student.university + '</h1>';
+        html += '<p><strong>' + student.university + '</strong></p>';
         html += '<p>' + student.bio + '</p>';
         html += '<div class="rate">💰 $' + student.rate + '/hour</div>';
         html += skillsHtml;
         html += '</div>';
         html += '<div class="action-buttons">';
-        html += '<button class="btn-message" onclick="openChat(\\'' + studentId + '\\')">💬 Message</button>';
+        html += '<button class="btn-message" onclick="sendEmail()">💬 Send Message</button>';
         html += '<button class="btn-hire" onclick="hireStudent()">💰 Hire Now</button>';
         html += '</div>';
         html += '</div>';
         html += '</div>';
-        html += '<div class="profile-tabs">';html += '<button class="tab-btn active" onclick="switchTab(\\'posts\\')">📷 POSTS</button>';
-        html += '<button class="tab-btn" onclick="switchTab(\\'portfolio\\')">📁 PORTFOLIO</button>';
-        html += '</div>';
-        html += '<div id="postsTab">' + postsHtml + '</div>';
-        html += '<div id="portfolioTab" style="display: none;">' + portfolioHtml + '</div>';
-        html += '<div style="margin-top: 20px; text-align: center; padding: 20px; border-top: 1px solid #dbdbdb;">';
-        html += '<p style="font-size: 12px; color: #8e8e8e;">💰 StarterPool takes 10% commission. Students receive 90%.</p>';
+        html += '<div style="margin-top: 20px; text-align: center; padding: 20px; border-top: 1px solid #dbdbdb;">';html += '<p style="font-size: 12px; color: #8e8e8e;">💰 StarterPool takes 10% commission. Students receive 90%.</p>';
         html += '</div>';
         
         document.getElementById('profileContainer').innerHTML = html;
     }
     
-    function switchTab(tab) {
-        var postsTab = document.getElementById('postsTab');
-        var portfolioTab = document.getElementById('portfolioTab');
-        var btns = document.querySelectorAll('.tab-btn');
-        
-        if (tab === 'posts') {
-            postsTab.style.display = 'block';
-            portfolioTab.style.display = 'none';
-            btns[0].classList.add('active');
-            btns[1].classList.remove('active');
-        } else {
-            postsTab.style.display = 'none';
-            portfolioTab.style.display = 'block';
-            btns[0].classList.remove('active');
-            btns[1].classList.add('active');
-        }
+    function sendEmail() {
+        window.location.href = 'mailto:' + student.email + '?subject=Interested in hiring you from StarterPool&body=Hi ' + student.name + ', I saw your profile and I am interested in working with you.';
     }
     
     function hireStudent() {
-        if (!student) return;
         var hours = prompt('How many hours will ' + student.name + ' work? ($' + student.rate + '/hour)', '10');
-        if (hours && !isNaN(hours)) {
+        if (hours && !isNaN(hours) && hours > 0) {
             var total = student.rate * hours;
             var fee = total * 0.1;
-            alert('✅ Hire request sent to ' + student.name + '!\n\nTotal: $' + total + '\nStarterPool fee (10%): $' + fee + '\n' + student.name + ' receives: $' + (total - fee) + '\n\nYou will receive payment instructions via email.');
+            var studentGets = total - fee;
+            alert('✅ Hire request sent to ' + student.name + '!\n\nTotal: $' + total + '\nStarterPool fee (10%): $' + fee + '\n' + student.name + ' receives: $' + studentGets + '\n\nYou will receive payment instructions via email.');
         }
-    }
-    
-    function openChat(id) {
-        currentChatStudent = id;
-        document.getElementById('chatStudentName').innerText = 'Chat with ' + student.name;
-        document.getElementById('chatModal').style.display = 'flex';
-        loadMessages();
-    }
-    
-    function closeChat() {
-        document.getElementById('chatModal').style.display = 'none';
-        currentChatStudent = null;
-    }
-    
-    function loadMessages() {
-        if (!conversations[currentChatStudent]) {
-            conversations[currentChatStudent] = [];
-        }
-        var messagesDiv = document.getElementById('chatMessages');
-        messagesDiv.innerHTML = '';
-        for (var i = 0; i < conversations[currentChatStudent].length; i++) {
-            var msg = conversations[currentChatStudent][i];
-            var msgDiv = document.createElement('div');
-            msgDiv.className = 'message ' + (msg.sender === 'employer' ? 'message-sent' : 'message-received');
-            msgDiv.innerHTML = msg.text;
-            messagesDiv.appendChild(msgDiv);
-        }
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-    
-    function sendMessage() {
-        var input = document.getElementById('chatInput');
-        var message = input.value.trim();
-        if (!message || !currentChatStudent) return;
-        
-        if (!conversations[currentChatStudent]) {
-            conversations[currentChatStudent] = [];
-        }
-        conversations[currentChatStudent].push({ sender: 'employer', text: message, time: new Date().toISOString() });
-        localStorage.setItem('starterpool_chats', JSON.stringify(conversations));
-        input.value = '';
-        loadMessages();
-    }
-    
-    function openInbox() {
-        var inboxMsg = "📥 Your Conversations:\n\n";
-        var hasMessages = false;
-        for (var id in conversations) {
-            if (conversations[id].length > 0) {
-                hasMessages = true;
-                var studentName = students[id] ? students[id].name : id;
-                var lastMsg = conversations[id][conversations[id].length - 1];
-                inboxMsg += "💬 " + studentName + ": " + lastMsg.text.substring(0, 30) + "...\n";
-            }
-        }
-        if (!hasMessages) {
-            inboxMsg = "No messages yet. Start a conversation!";
-        }
-        alert(inboxMsg);
     }
     
     renderProfile();
