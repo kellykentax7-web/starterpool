@@ -32,6 +32,12 @@
             transition: all 0.3s ease;
         }
         
+        /* Hide scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        
         .top-bar {
             background: var(--nav-bg);
             padding: 12px 16px;
@@ -64,6 +70,7 @@
             font-size: 24px;
             cursor: pointer;
             color: var(--text);
+            padding: 5px;
         }
         
         .search-container {
@@ -146,12 +153,12 @@
         .post-avatar {
             width: 44px;
             height: 44px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #0f3460, #e94560);
+            border-radius: 50%;background: linear-gradient(135deg, #0f3460, #e94560);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;cursor: pointer;
+            font-size: 24px;
+            cursor: pointer;
             overflow: hidden;
         }
         
@@ -191,6 +198,7 @@
             border-radius: 12px;
             position: relative;
             cursor: pointer;
+            overflow: hidden;
         }
         
         .post-emoji { font-size: 80px; }
@@ -288,8 +296,10 @@
         .profile-result-name { font-weight: 600; }
         .profile-result-category { font-size: 12px; color: #0095f6; }
         
+        /* Instagram-style Profile View */
         .profile-view {
             background: var(--card-bg);
+            min-height: 100vh;
         }
         
         .profile-cover {
@@ -297,23 +307,27 @@
             background: linear-gradient(135deg, #0f3460, #e94560);
         }
         
+        .profile-info-section {
+            padding: 0 16px;
+        }
+        
         .profile-avatar-large {
             width: 100px;
             height: 100px;
-            border-radius: 50%;
-            background: var(--card-bg);
+            border-radius: 50%;background: var(--card-bg);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 50px;
-            margin: -50px auto 10px;
+            margin-top: -50px;
             border: 3px solid var(--card-bg);
             position: relative;
             overflow: hidden;
         }
         
         .profile-avatar-large img {
-            width: 100%;height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
         
@@ -333,23 +347,14 @@
         }
         
         .profile-name-large {
-            text-align: center;
             font-size: 20px;
             font-weight: 600;
-        }
-        
-        .profile-bio-section {
-            text-align: center;
-            padding: 15px;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .profile-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
             margin-top: 10px;
+        }
+        
+        .profile-bio-text {
+            margin: 8px 0;
+            font-size: 14px;
         }
         
         .profile-link {
@@ -364,21 +369,49 @@
             padding: 8px 16px;
             border-radius: 25px;
             cursor: pointer;
-            margin-top: 15px;
+            margin: 15px 0;
             font-size: 14px;
             color: var(--text);
+            width: 100%;
         }
         
         .message-btn {
             background: #0095f6;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 25px;
             cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
         }
         
-        /* Edit Profile Modal */
+        /* Stats Row */
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            margin: 15px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #8e8e8e;
+        }
+        
+        /* Edit Modal */
         .edit-modal {
             display: none;
             position: fixed;
@@ -420,29 +453,42 @@
             margin-top: 10px;
         }
         
-        .chat-modal {
+        /* Instagram-style DM Page */
+        .dm-page {
             display: none;
             position: fixed;
-            bottom: 0;
+            top: 0;
             left: 0;
             right: 0;
+            bottom: 0;
             background: var(--card-bg);
-            border-top: 1px solid var(--border);
-            z-index: 1000;
-            max-width: 500px;
-            margin: 0 auto;
-            border-radius: 20px 20px 0 0;
+            z-index: 200;
+            flex-direction: column;
         }
         
-        .chat-header {
+        .dm-header {
             padding: 15px;
             border-bottom: 1px solid var(--border);
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            background: var(--nav-bg);}
+        
+        .dm-back {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text);
         }
         
-        .chat-messages {
-            height: 350px;
+        .dm-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .dm-messages {
+            flex: 1;
             overflow-y: auto;
             padding: 15px;
             display: flex;
@@ -450,31 +496,15 @@
             gap: 10px;
         }
         
-        .msg-sent {
-            background: #0095f6;
-            color: white;
-            align-self: flex-end;
-            padding: 10px 15px;
-            border-radius: 20px;
-            max-width: 75%;
-        }
-        
-        .msg-received {
-            background: var(--input-bg);
-            color: var(--text);
-            align-self: flex-start;
-            padding: 10px 15px;
-            border-radius: 20px;
-            max-width: 75%;
-        }
-        
-        .chat-input-area {
-            display: flex;padding: 12px;
+        .dm-input-area {
+            display: flex;
+            padding: 12px;
             gap: 10px;
             border-top: 1px solid var(--border);
+            background: var(--nav-bg);
         }
         
-        .chat-input {
+        .dm-input {
             flex: 1;
             padding: 12px;
             border: none;
@@ -492,6 +522,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            color: var(--text);
         }
         
         .empty-state {
@@ -513,7 +544,6 @@
         
         @media (max-width: 600px) {
             .post-media { min-height: 250px; }
-            .chat-modal { max-width: 100%; }
         }
     </style>
 </head>
@@ -551,28 +581,30 @@
     <div class="empty-state">Loading...</div>
 </div>
 
-<div id="chatModal" class="chat-modal">
-    <div class="chat-header">
-        <span id="chatName">Chat</span>
-        <button onclick="closeChat()" style="background:none; border:none; font-size:24px; cursor:pointer;">×</button>
+<!-- Instagram-style DM Page -->
+<div id="dmPage" class="dm-page">
+    <div class="dm-header">
+        <button class="dm-back" onclick="closeDM()">←</button>
+        <span class="dm-name" id="dmName">Chat</span>
     </div>
-    <div id="chatMessages" class="chat-messages"></div>
-    <div class="chat-input-area">
-        <input type="text" id="chatInput" class="chat-input" placeholder="Message...">
-        <button onclick="sendMessage()" style="background:#0095f6; color:white; border:none; padding:12px 20px; border-radius:25px;">Send</button>
+    <div id="dmMessages" class="dm-messages"></div>
+    <div class="dm-input-area">
+        <input type="text" id="dmInput" class="dm-input" placeholder="Message...">
+        <button onclick="sendDM()" style="background:#0095f6; color:white; border:none; padding:12px 20px; border-radius:25px;">Send</button>
     </div>
 </div>
 
-<div id="overlay" class="overlay" onclick="closeEditModal()"></div>
 <div id="editModal" class="edit-modal">
-    <h3 style="margin-bottom:15px;">Edit Profile</h3>
-    <input type="text" id="editName" placeholder="Name">
-    <textarea id="editBio" placeholder="Bio - tell us about yourself"></textarea>
-    <input type="url" id="editLink" placeholder="Website / Portfolio / LinkedIn">
+    <h3 style="margin-bottom:15px;">Edit Profile</h3><input type="text" id="editName" placeholder="Name">
+    <textarea id="editBio" placeholder="Bio"></textarea>
+    <input type="url" id="editLink" placeholder="Website / Portfolio">
     <input type="file" id="editAvatar" accept="image/*">
-    <button class="save-btn" onclick="saveProfile()">Save Changes</button>
-    <button onclick="closeEditModal()" style="margin-top:10px; background:none; border:none; cursor:pointer; color:#8e8e8e;">Cancel</button>
-</div><script>
+    <button class="save-btn" onclick="saveProfile()">Save</button>
+    <button onclick="closeEditModal()" style="margin-top:10px; background:none; border:none; cursor:pointer;">Cancel</button>
+</div>
+<div id="overlay" class="overlay" onclick="closeEditModal()"></div>
+
+<script>
     // Theme
     function toggleTheme() {
         var body = document.body;
@@ -594,53 +626,47 @@
         document.body.classList.add('light');
     }
     
-    // Load user profile from localStorage
-    var currentUserId = "current_user";
+    // User Profile
+    var currentUserId = "1";
     var userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
-        name: "Maria Chen",
-        avatar: "👩‍💻",
-        avatarImg: null,
-        category: "developer",
-        rate: 18,
-        bio: "React frontend developer passionate about building beautiful interfaces.",
-        location: "UCLA",
-        link: "https://github.com/mariachen"
+        id: "1", name: "Maria Chen", avatar: "👩‍💻", avatarImg: null,
+        category: "developer", rate: 18, bio: "React frontend developer passionate about building beautiful interfaces.",
+        location: "UCLA", link: "https://github.com/mariachen", posts: 12, followers: 245, following: 180
     };
     
     var userLikedPosts = JSON.parse(localStorage.getItem('userLikedPosts')) || {};
     
     var students = [
-        { id: "1", name: "Maria Chen", avatar: "👩‍💻", avatarImg: null, category: "developer", rate: 18, bio: "React frontend developer", location: "UCLA", link: "https://github.com/mariachen" },
-        { id: "2", name: "James Okafor", avatar: "👨‍💻", avatarImg: null, category: "developer", rate: 22, bio: "Python backend developer", location: "MIT", link: "https://github.com/jamesokafor" },
-        { id: "3", name: "Sarah Johnson", avatar: "✍️", avatarImg: null, category: "writer", rate: 15, bio: "SEO content writer", location: "NYU", link: "https://sarahjohnson.contently.com" },
-        { id: "4", name: "Emma Watson", avatar: "🎨", avatarImg: null, category: "designer", rate: 19, bio: "Logo designer", location: "RISD", link: "https://behance.net/emmawatson" },
-        { id: "5", name: "Michael Chen", avatar: "🔧", avatarImg: null, category: "engineer", rate: 25, bio: "Mechanical engineer", location: "Texas A&M", link: "https://linkedin.com/in/michaelchen" }
+        userProfile,
+        { id: "2", name: "James Okafor", avatar: "👨‍💻", avatarImg: null, category: "developer", rate: 22, bio: "Python backend developer", location: "MIT", link: "https://github.com/jamesokafor", posts: 8, followers: 512, following: 234 },
+        { id: "3", name: "Sarah Johnson", avatar: "✍️", avatarImg: null, category: "writer", rate: 15, bio: "SEO content writer", location: "NYU", link: "https://sarahjohnson.contently.com", posts: 20, followers: 278, following: 92 },
+        { id: "4", name: "Emma Watson", avatar: "🎨", avatarImg: null, category: "designer", rate: 19, bio: "Logo designer", location: "RISD", link: "https://behance.net/emmawatson", posts: 15, followers: 389, following: 145 },
+        { id: "5", name: "Michael Chen", avatar: "🔧", avatarImg: null, category: "engineer", rate: 25, bio: "Mechanical engineer", location: "Texas A&M", link: "https://linkedin.com/in/michaelchen", posts: 10, followers: 167, following: 88 }
     ];
-    
-    // Update current user in students array
-    students[0] = userProfile;
     
     var posts = [
         { id: 1, userId: "1", name: userProfile.name, avatar: userProfile.avatar, avatarImg: userProfile.avatarImg, category: "developer", content: "Just finished a React dashboard! Check it out", mediaType: "emoji", mediaUrl: "💻", likes: 45, comments: [], time: "2h ago" },
-        { id: 2, userId: "2", name: "James Okafor", avatar: "👨‍💻", avatarImg: null, category: "developer", content: "Deployed my API on AWS", mediaType: "video", mediaUrl: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4", likes: 89, comments: [], time: "5h ago" },
-        { id: 3, userId: "4", name: "Emma Watson", avatar: "🎨", avatarImg: null, category: "designer", content: "New logo for a coffee shop", mediaType: "emoji", mediaUrl: "🎨", likes: 234, comments: [], time: "1d ago" },
-        { id: 4, userId: "3", name: "Sarah Johnson", avatar: "✍️", avatarImg: null, category: "writer", content: "SEO guide for beginners", mediaType: "emoji", mediaUrl: "📝", likes: 67, comments: [], time: "3h ago" }
+        { id: 2, userId: "2", name: "James Okafor", avatar: "👨‍💻", avatarImg: null, category: "developer", content: "Deployed my API on AWS", mediaType: "video", mediaUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", likes: 89, comments: [], time: "5h ago" },
+        { id: 3, userId: "4", name: "Emma Watson", avatar: "🎨", avatarImg: null, category: "designer", content: "New logo for a coffee shop", mediaType: "emoji", mediaUrl: "🎨", likes: 234, comments: [], time: "1d ago" }
     ];
     
-    var conversations = JSON.parse(localStorage.getItem('starterpool_chats')) || {};
+    var conversations = JSON.parse(localStorage.getItem('starterpool_conversations')) || {};
     var currentView = 'feed';
     var currentCategory = 'all';
-    var currentChatUser = null;
+    var currentDMUser = null;
     
     function showFeed() {
         currentView = 'feed';
         document.getElementById('searchContainer').style.display = 'none';
+        document.getElementById('dmPage').style.display = 'none';
+        document.getElementById('mainContainer').style.display = 'block';
         renderFeed();
     }
     
     function showSearch() {
-        currentView = 'search';
-        document.getElementById('searchContainer').style.display = 'block';
+        currentView = 'search';document.getElementById('searchContainer').style.display = 'block';
+        document.getElementById('dmPage').style.display = 'none';
+        document.getElementById('mainContainer').style.display = 'block';
         renderSearchResults(students);
     }
     
@@ -680,7 +706,12 @@
             var p = filteredPosts[i];
             var hasLiked = userLikedPosts[p.id] === true;
             var avatarHtml = p.avatarImg ? '<img src="' + p.avatarImg + '">' : p.avatar;
-            var mediaHtml = p.mediaType === 'video' ? '<video class="post-video" controls src="' + p.mediaUrl + '"></video>' : '<div class="post-emoji">' + p.mediaUrl + '</div>';
+            var mediaHtml = '';
+            if (p.mediaType === 'video') {
+                mediaHtml = '<video class="post-video" controls controlsList="nodownload" src="' + p.mediaUrl + '"></video>';
+            } else {
+                mediaHtml = '<div class="post-emoji">' + p.mediaUrl + '</div>';
+            }
             
             var commentsHtml = '';
             if (p.comments && p.comments.length > 0) {
@@ -689,7 +720,7 @@
                 }
             }
             
-            html += '<div class="post" data-post-id="' + p.id + '">';
+            html += '<div class="post">';
             html += '<div class="post-header">';
             html += '<div class="post-avatar" onclick="viewProfile(\'' + p.userId + '\')">' + avatarHtml + '</div>';
             html += '<div class="post-user-info" onclick="viewProfile(\'' + p.userId + '\')">';
@@ -719,10 +750,7 @@
     }
     
     function likePost(postId) {
-        if (userLikedPosts[postId]) {
-            alert("You already liked this post!");
-            return;
-        }
+        if (userLikedPosts[postId]) { alert("You already liked this post!"); return; }
         for (var i = 0; i < posts.length; i++) {
             if (posts[i].id === postId) {
                 posts[i].likes++;
@@ -812,8 +840,7 @@
     }
     
     function saveProfile() {
-        userProfile.name = document.getElementById('editName').value;
-        userProfile.bio = document.getElementById('editBio').value;
+        userProfile.name = document.getElementById('editName').value;userProfile.bio = document.getElementById('editBio').value;
         userProfile.link = document.getElementById('editLink').value;
         
         var avatarFile = document.getElementById('editAvatar').files[0];
@@ -824,7 +851,8 @@
                 userProfile.avatar = null;
                 localStorage.setItem('userProfile', JSON.stringify(userProfile));
                 students[0] = userProfile;
-                posts[0].name = userProfile.name;posts[0].avatar = userProfile.avatar;
+                posts[0].name = userProfile.name;
+                posts[0].avatar = userProfile.avatar;
                 posts[0].avatarImg = userProfile.avatarImg;
                 closeEditModal();
                 renderFeed();
@@ -855,39 +883,46 @@
         html += '<button class="back-btn" onclick="showSearch()">← Back</button>';
         html += '<div class="profile-view">';
         html += '<div class="profile-cover"></div>';
+        html += '<div class="profile-info-section">';
         html += '<div class="profile-avatar-large">' + avatarHtml + (isOwner ? '<div class="edit-avatar-btn" onclick="openEditModal()">✏️</div>' : '') + '</div>';
         html += '<div class="profile-name-large">' + student.name + '</div>';
         html += '<div class="profile-category-large">' + student.category.toUpperCase() + ' • $' + student.rate + '/hour</div>';
-        html += '<div class="profile-bio-section">';
-        html += '<p>' + (student.bio || "No bio yet") + '</p>';
-        html += '<p>📍 ' + student.location + '</p>';
-        if (student.link) html += '<div class="profile-links"><a href="' + student.link + '" target="_blank" class="profile-link">🔗 ' + student.link + '</a></div>';
+        html += '<div class="profile-bio-text">' + (student.bio || "No bio yet") + '</div>';
+        html += '<div>📍 ' + student.location + '</div>';
+        if (student.link) html += '<div><a href="' + student.link + '" target="_blank" class="profile-link">🔗 ' + student.link + '</a></div>';
+        html += '<div class="stats-row">';
+        html += '<div class="stat-item"><div class="stat-number">' + student.posts + '</div><div class="stat-label">posts</div></div>';
+        html += '<div class="stat-item"><div class="stat-number">' + student.followers + '</div><div class="stat-label">followers</div></div>';
+        html += '<div class="stat-item"><div class="stat-number">' + student.following + '</div><div class="stat-label">following</div></div>';
+        html += '</div>';
         if (isOwner) html += '<button class="edit-profile-btn" onclick="openEditModal()">✏️ Edit Profile</button>';
-        else html += '<button class="message-btn" onclick="openChat(\'' + student.id + '\', \'' + student.name + '\')">💬 Message</button>';
+        else html += '<button class="message-btn" onclick="openDM(\'' + student.id + '\', \'' + student.name + '\')">💬 Message</button>';
         html += '</div>';
         if (userPosts.length > 0) html += '<div style="padding:15px;"><h3>Recent Work</h3>' + postsHtml + '</div>';
         html += '</div>';
         document.getElementById('mainContainer').innerHTML = html;
     }
     
-    function openChat(userId, name) {
-        currentChatUser = userId;
-        document.getElementById('chatName').innerHTML = '💬 ' + name;
-        document.getElementById('chatModal').style.display = 'flex';
-        loadMessages();
+    function openDM(userId, name) {
+        currentDMUser = userId;
+        document.getElementById('dmName').innerHTML = name;
+        document.getElementById('dmPage').style.display = 'flex';
+        document.getElementById('mainContainer').style.display = 'none';
+        loadDMMessages();
     }
     
-    function closeChat() {
-        document.getElementById('chatModal').style.display = 'none';
-        currentChatUser = null;
+    function closeDM() {
+        document.getElementById('dmPage').style.display = 'none';
+        document.getElementById('mainContainer').style.display = 'block';
+        currentDMUser = null;
     }
     
-    function loadMessages() {
-        if (!conversations[currentChatUser]) conversations[currentChatUser] = [];
-        var msgsDiv = document.getElementById('chatMessages');
+    function loadDMMessages() {
+        if (!conversations[currentDMUser]) conversations[currentDMUser] = [];
+        var msgsDiv = document.getElementById('dmMessages');
         msgsDiv.innerHTML = '';
-        for (var i = 0; i < conversations[currentChatUser].length; i++) {
-            var msg = conversations[currentChatUser][i];
+        for (var i = 0; i < conversations[currentDMUser].length; i++) {
+            var msg = conversations[currentDMUser][i];
             var div = document.createElement('div');
             div.className = msg.sender === 'employer' ? 'msg-sent' : 'msg-received';
             div.innerHTML = msg.text;
@@ -896,14 +931,23 @@
         msgsDiv.scrollTop = msgsDiv.scrollHeight;
     }
     
-    function sendMessage() {
-        var input = document.getElementById('chatInput');
+    function sendDM() {
+        var input = document.getElementById('dmInput');
         var message = input.value.trim();
-        if (!message || !currentChatUser) return;
-        if (!conversations[currentChatUser]) conversations[currentChatUser] = [];
-        conversations[currentChatUser].push({ sender: 'employer', text: message });localStorage.setItem('starterpool_chats', JSON.stringify(conversations));
+        if (!message || !currentDMUser) return;
+        if (!conversations[currentDMUser]) conversations[currentDMUser] = [];
+        conversations[currentDMUser].push({ sender: 'employer', text: message });
+        localStorage.setItem('starterpool_conversations', JSON.stringify(conversations));
         input.value = '';
-        loadMessages();
+        loadDMMessages();
+        
+        setTimeout(function() {
+            if (conversations[currentDMUser]) {
+                conversations[currentDMUser].push({ sender: 'student', text: 'Thanks for your message! Let me know more about your project.' });
+                localStorage.setItem('starterpool_conversations', JSON.stringify(conversations));
+                loadDMMessages();
+            }
+        }, 1000);
     }
     
     showFeed();
