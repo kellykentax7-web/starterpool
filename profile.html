@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #fafafa; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #fafafa;
+        }
         
         .top-bar {
             background: white;
@@ -18,44 +22,234 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-        .logo { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #0f3460, #e94560); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .nav-icons { display: flex; gap: 20px; align-items: center; }
-        .nav-icons a { text-decoration: none; font-size: 14px; color: #262626; }
         
-        .profile-container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .nav-icons a {
+            text-decoration: none;
+            font-size: 14px;
+            color: #262626;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+        
+        .nav-icons a:hover {
+            background: #efefef;
+        }
+        
+        .profile-container {
+            max-width: 935px;
+            margin: 0 auto;
+            padding: 20px;
+        }
         
         .profile-header {
             display: flex;
-            gap: 40px;
-            padding: 30px 0;
+            gap: 60px;
+            padding: 30px 0 30px;
             border-bottom: 1px solid #dbdbdb;
             flex-wrap: wrap;
         }
+        
         .profile-avatar {
-            width: 120px;
-            height: 120px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             background: linear-gradient(135deg, #0f3460, #e94560);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 50px;
+            font-size: 65px;
         }
-        .profile-info { flex: 1; }
-        .profile-name { font-size: 24px; font-weight: 300; margin-bottom: 15px; }
-        .profile-stats { display: flex; gap: 30px; margin-bottom: 15px; }
-        .skills { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; }
-        .skill { background: #efefef; padding: 5px 12px; border-radius: 20px; font-size: 12px; }
-        .action-buttons { display: flex; gap: 15px; margin: 20px 0; }
-        .btn-message, .btn-hire { flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
-        .btn-message { background: #efefef; color: #262626; }
-        .btn-hire { background: #0095f6; color: white; }
-        .rate { font-size: 20px; font-weight: 600; color: #2ecc71; }
-        .premium-badge { background: linear-gradient(135deg, #f5af19, #f12711); color: white; padding: 2px 8px; border-radius: 20px; font-size: 12px; margin-left: 10px; }
         
-        @media (max-width: 600px) {
-            .profile-header { flex-direction: column; align-items: center; text-align: center; }
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-number {
+            font-weight: 600;
+        }
+        
+        .profile-bio {
+            margin-top: 10px;
+        }
+        
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .skill {
+            background: #efefef;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .btn-message, .btn-hire {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn-message {
+            background: #efefef;
+            color: #262626;
+        }
+        
+        .btn-hire {
+            background: #0095f6;
+            color: white;
+        }
+        
+        .btn-message:hover {
+            background: #dbdbdb;
+        }
+        
+        .btn-hire:hover {
+            background: #007acc;
+        }
+        
+        .rate {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2ecc71;
+        }
+        
+        .premium-badge {
+            background: linear-gradient(135deg, #f5af19, #f12711);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        /* Tabs */
+        .profile-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            padding: 15px 0;
+            border-top: 1px solid #dbdbdb;
+            margin-top: 20px;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: #8e8e8e;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .tab-btn.active {
+            color: #262626;
+            border-top: 1px solid #262626;
+            margin-top: -16px;
+        }
+        
+        /* Posts Grid */
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            margin-top: 10px;
+        }
+        
+        .post-item {
+            aspect-ratio: 1;
+            background: #efefef;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .post-item:hover {
+            opacity: 0.8;
+        }
+        
+        .post-emoji {
+            font-size: 40px;
+        }
+        
+        .post-caption {
+            font-size: 12px;
+            margin-top: 8px;
+            text-align: center;
+            padding: 0 10px;
+        }
+        
+        .post-stats {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 735px) {
+            .profile-header { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
             .profile-stats { justify-content: center; }
+            .profile-name { justify-content: center; }
+            .action-buttons { flex-direction: column; }
         }
     </style>
 </head>
@@ -70,34 +264,121 @@
 </div>
 
 <div class="profile-container" id="profileContainer">
-    <p>Loading profile...</p>
+    <div style="text-align:center; padding:50px;">Loading profile...</div>
 </div>
 
 <script>
     var studentId = window.location.pathname.split('/').pop();
     
+    // Complete student database with posts
     var students = {
-        maria: { name: "Maria Chen", avatar: "👩‍💻", university: "3rd year CS, UCLA", email: "maria.chen@starterpool.com", rate: 18, bio: "Frontend React developer passionate about building beautiful interfaces.", skills: ["React", "HTML/CSS", "JavaScript"], premium: false, posts: 12, followers: 245, following: 180 },
-        james: { name: "James Okafor", avatar: "👨‍💻", university: "Final year, MIT", email: "james.okafor@starterpool.com", rate: 22, bio: "Backend developer specializing in Python and Django.", skills: ["Python", "Django", "PostgreSQL"], premium: true, posts: 8, followers: 512, following: 234 },
-        alex: { name: "Alex Zhang", avatar: "👨‍💻", university: "Senior, Stanford", email: "alex.zhang@starterpool.com", rate: 20, bio: "Frontend developer specializing in Vue.js.", skills: ["Vue.js", "Tailwind", "JavaScript"], premium: false, posts: 15, followers: 189, following: 120 },emma: { name: "Emma Watson", avatar: "🎨", university: "2nd year, RISD", email: "emma.watson@starterpool.com", rate: 19, bio: "Graphic designer specializing in branding.", skills: ["Figma", "Illustrator"], premium: false, posts: 20, followers: 389, following: 145 },
-        olivia: { name: "Olivia Martinez", avatar: "🎨", university: "Final year, Parsons", email: "olivia.martinez@starterpool.com", rate: 23, bio: "Branding expert with 3 years experience.", skills: ["Branding", "Photoshop"], premium: true, posts: 25, followers: 612, following: 200 },
-        ethan: { name: "Ethan Kim", avatar: "🎨", university: "3rd year, CalArts", email: "ethan.kim@starterpool.com", rate: 17, bio: "Logo design specialist.", skills: ["Logo Design", "Procreate"], premium: false, posts: 10, followers: 156, following: 89 },
-        sarah: { name: "Sarah Johnson", avatar: "✍️", university: "2nd year, NYU", email: "sarah.johnson@starterpool.com", rate: 15, bio: "SEO content writer.", skills: ["Blog Writing", "SEO"], premium: false, posts: 35, followers: 278, following: 92 },
-        david: { name: "David Kim", avatar: "✍️", university: "Senior, UC Berkeley", email: "david.kim@starterpool.com", rate: 20, bio: "Copywriting expert.", skills: ["Copywriting", "Email Marketing"], premium: false, posts: 18, followers: 234, following: 110 },
-        chloe: { name: "Chloe Williams", avatar: "✍️", university: "3rd year, Northwestern", email: "chloe.williams@starterpool.com", rate: 16, bio: "Ghostwriter and editor.", skills: ["Ghostwriting", "Editing"], premium: false, posts: 22, followers: 198, following: 95 },
-        datadavid: { name: "David Park", avatar: "📊", university: "Senior, Carnegie Mellon", email: "david.park@starterpool.com", rate: 21, bio: "Data analyst skilled in Python and SQL.", skills: ["Python", "SQL", "Tableau"], premium: false, posts: 8, followers: 167, following: 88 },
-        michelle: { name: "Michelle Lee", avatar: "📊", university: "3rd year, UPenn", email: "michelle.lee@starterpool.com", rate: 16, bio: "Excel and Power BI expert.", skills: ["Excel", "Power BI"], premium: false, posts: 12, followers: 145, following: 76 },
-        emily: { name: "Emily Rodriguez", avatar: "📱", university: "3rd year, USC", email: "emily.rodriguez@starterpool.com", rate: 17, bio: "Social media strategist.", skills: ["Social Media", "SEO"], premium: false, posts: 45, followers: 890, following: 234 },
-        marcus: { name: "Marcus Brown", avatar: "📱", university: "Senior, Howard", email: "marcus.brown@starterpool.com", rate: 19, bio: "Google Ads certified specialist.", skills: ["Google Ads", "Analytics"], premium: false, posts: 15, followers: 345, following: 120 },
-        alexw: { name: "Alex Wong", avatar: "🎬", university: "Final year, NYU Film", email: "alex.wong@starterpool.com", rate: 21, bio: "Video editor with 4 years experience.", skills: ["Premiere Pro", "After Effects"], premium: false, posts: 30, followers: 567, following: 189 },
-        maya: { name: "Maya Patel", avatar: "🎬", university: "3rd year, Columbia", email: "maya.patel@starterpool.com", rate: 18, bio: "Color grading and DaVinci expert.", skills: ["DaVinci", "Final Cut"], premium: false, posts: 22, followers: 234, following: 98 },
-        jessica: { name: "Jessica Taylor", avatar: "📋", university: "2nd year, ASU", email: "jessica.taylor@starterpool.com", rate: 14, bio: "Virtual assistant with admin experience.", skills: ["Admin", "Scheduling"], premium: false, posts: 8, followers: 123, following: 67 },
-        rachel: { name: "Rachel Green", avatar: "📋", university: "Senior, Texas A&M", email: "rachel.green@starterpool.com", rate: 15, bio: "Email management specialist.", skills: ["Email Mgmt", "Research"], premium: false, posts: 12, followers: 167, following: 89 },
-        carlos: { name: "Carlos Mendez", avatar: "🌐", university: "Senior, UT Austin", email: "carlos.mendez@starterpool.com", rate: 19, bio: "Spanish and French translator.", skills: ["Spanish", "French"], premium: false, posts: 8, followers: 189, following: 76 },ling: { name: "Ling Wei", avatar: "🌐", university: "3rd year, UBC", email: "ling.wei@starterpool.com", rate: 17, bio: "Chinese/English translation expert.", skills: ["Chinese", "English"], premium: false, posts: 10, followers: 156, following: 82 }
+        maria: {
+            name: "Maria Chen", avatar: "👩‍💻", university: "3rd year CS, UCLA", email: "maria.chen@starterpool.com",
+            rate: 18, bio: "Frontend React developer passionate about building beautiful interfaces.",
+            skills: ["React", "HTML/CSS", "JavaScript"], premium: false,
+            posts: [
+                { emoji: "💻", caption: "Built a todo app with React!", likes: 45, comments: 12 },
+                { emoji: "🎨", caption: "New portfolio design", likes: 89, comments: 23 },
+                { emoji: "📱", caption: "Working on a mobile app", likes: 34, comments: 8 },
+                { emoji: "🚀", caption: "Launched my first API", likes: 67, comments: 15 },
+                { emoji: "📚", caption: "Learning Next.js", likes: 23, comments: 5 },
+                { emoji: "💡", caption: "UI/UX design ideas", likes: 56, comments: 11 }
+            ],
+            followers: 245, following: 180
+        },
+        james: {
+            name: "James Okafor", avatar: "👨‍💻", university: "Final year, MIT", email: "james.okafor@starterpool.com",
+            rate: 22, bio: "Backend developer specializing in Python and Django.",
+            skills: ["Python", "Django", "PostgreSQL"], premium: true,
+            posts: [
+                { emoji: "🐍", caption: "Built a REST API in 2 hours!", likes: 120, comments: 34 },{ emoji: "☁️", caption: "Deployed on AWS", likes: 89, comments: 23 },
+                { emoji: "📖", caption: "Reading 'Clean Code'", likes: 56, comments: 12 },
+                { emoji: "🔧", caption: "Database optimization", likes: 45, comments: 9 },
+                { emoji: "🚀", caption: "Microservices architecture", likes: 78, comments: 18 },
+                { emoji: "💡", caption: "System design tips", likes: 67, comments: 14 }
+            ],
+            followers: 512, following: 234
+        },
+        emma: {
+            name: "Emma Watson", avatar: "🎨", university: "2nd year, RISD", email: "emma.watson@starterpool.com",
+            rate: 19, bio: "Graphic designer specializing in branding and logo design.",
+            skills: ["Figma", "Illustrator", "Photoshop"], premium: false,
+            posts: [
+                { emoji: "🎨", caption: "New logo design for client", likes: 234, comments: 45 },
+                { emoji: "🖌️", caption: "Brand identity package", likes: 189, comments: 34 },
+                { emoji: "📱", caption: "App UI design", likes: 156, comments: 28 },
+                { emoji: "🖼️", caption: "Poster design", likes: 98, comments: 15 },
+                { emoji: "🌈", caption: "Color palette exploration", likes: 145, comments: 22 },
+                { emoji: "✏️", caption: "Sketch to vector", likes: 112, comments: 19 }
+            ],
+            followers: 389, following: 145
+        },
+        sarah: {
+            name: "Sarah Johnson", avatar: "✍️", university: "2nd year, NYU", email: "sarah.johnson@starterpool.com",
+            rate: 15, bio: "Content writer with SEO expertise.",
+            skills: ["Blog Writing", "SEO", "Copywriting"], premium: false,
+            posts: [
+                { emoji: "📝", caption: "New blog post: SEO tips", likes: 89, comments: 23 },
+                { emoji: "✍️", caption: "Copywriting portfolio", likes: 67, comments: 12 },
+                { emoji: "📊", caption: "Content strategy", likes: 45, comments: 8 },
+                { emoji: "📖", caption: "Ghostwriting project", likes: 78, comments: 15 },
+                { emoji: "💡", caption: "Writing tips", likes: 56, comments: 11 },
+                { emoji: "🎯", caption: "SEO case study", likes: 92, comments: 19 }
+            ],
+            followers: 278, following: 92
+        }
     };
+    
+    // Add posts for other students dynamically
+    var defaultPosts = [
+        { emoji: "📷", caption: "Check out my latest work!", likes: 45, comments: 12 },
+        { emoji: "🎯", caption: "Project milestone reached", likes: 34, comments: 8 },
+        { emoji: "💪", caption: "Learning new skills", likes: 56, comments: 15 },
+        { emoji: "🚀", caption: "New achievement unlocked", likes: 78, comments: 18 },
+        { emoji: "🎉", caption: "Client feedback positive", likes: 67, comments: 14 },
+        { emoji: "📚", caption: "Continuous learning", likes: 43, comments: 9 }
+    ];
+    
+    // Add missing students with default posts
+    var allStudentIds = ["alex", "olivia", "ethan", "david", "chloe", "datadavid", "michelle", "emily", "marcus", "alexw", "maya", "jessica", "rachel", "carlos", "ling"];
+    for (var i = 0; i < allStudentIds.length; i++) {
+        var id = allStudentIds[i];
+        if (!students[id]) {
+            students[id] = {
+                name: id.charAt(0).toUpperCase() + id.slice(1),
+                avatar: "👤",
+                university: "University Student",
+                email: id + "@starterpool.com",
+                rate: 15 + Math.floor(Math.random() * 10),
+                bio: "Passionate student ready to work on exciting projects.",
+                skills: ["Skill 1", "Skill 2", "Skill 3"],
+                premium: false,
+                posts: defaultPosts,
+                followers: 100 + Math.floor(Math.random() * 400),
+                following: 50 + Math.floor(Math.random() * 150)
+            };
+        }
+    }
     
     var student = students[studentId];
     var container = document.getElementById('profileContainer');
+    
+    function showTab(tabId) {var postsTab = document.getElementById('postsTab');
+        var portfolioTab = document.getElementById('portfolioTab');
+        var btns = document.querySelectorAll('.tab-btn');
+        
+        if (tabId === 'posts') {
+            postsTab.style.display = 'block';
+            portfolioTab.style.display = 'none';
+            btns[0].classList.add('active');
+            btns[1].classList.remove('active');
+        } else {
+            postsTab.style.display = 'none';
+            portfolioTab.style.display = 'block';
+            btns[0].classList.remove('active');
+            btns[1].classList.add('active');
+        }
+    }
     
     if (!student) {
         container.innerHTML = '<div style="text-align:center; padding:50px;"><h2>Student not found</h2><a href="/">Go back home</a></div>';
@@ -105,10 +386,29 @@
         var premiumBadge = student.premium ? '<span class="premium-badge">⭐ PREMIUM</span>' : '';
         
         var skillsHtml = '<div class="skills">';
-        for (var i = 0; i < student.skills.length; i++) {
-            skillsHtml += '<span class="skill">' + student.skills[i] + '</span>';
+        for (var s = 0; s < student.skills.length; s++) {
+            skillsHtml += '<span class="skill">' + student.skills[s] + '</span>';
         }
         skillsHtml += '</div>';
+        
+        // Build posts grid
+        var postsHtml = '<div class="posts-grid">';
+        for (var p = 0; p < student.posts.length; p++) {
+            var post = student.posts[p];
+            postsHtml += '<div class="post-item" onclick="alert(\'📌 ' + post.caption + '\\n❤️ ' + post.likes + ' likes\\n💬 ' + post.comments + ' comments\')">';
+            postsHtml += '<div class="post-emoji">' + post.emoji + '</div>';
+            postsHtml += '<div class="post-caption">' + post.caption.substring(0, 30) + '</div>';
+            postsHtml += '<div class="post-stats">❤️ ' + post.likes + ' 💬 ' + post.comments + '</div>';
+            postsHtml += '</div>';
+        }
+        postsHtml += '</div>';
+        
+        // Build portfolio (sample work)
+        var portfolioHtml = '<div class="posts-grid">';
+        portfolioHtml += '<div class="post-item" onclick="window.open(\'#\', \'_blank\')"><div class="post-emoji">📁</div><div class="post-caption">Portfolio Sample 1</div></div>';
+        portfolioHtml += '<div class="post-item" onclick="window.open(\'#\', \'_blank\')"><div class="post-emoji">📁</div><div class="post-caption">Portfolio Sample 2</div></div>';
+        portfolioHtml += '<div class="post-item" onclick="window.open(\'#\', \'_blank\')"><div class="post-emoji">📁</div><div class="post-caption">Portfolio Sample 3</div></div>';
+        portfolioHtml += '</div>';
         
         var html = '';
         html += '<div class="profile-header">';
@@ -116,7 +416,7 @@
         html += '<div class="profile-info">';
         html += '<div class="profile-name">' + student.name + ' ' + premiumBadge + '</div>';
         html += '<div class="profile-stats">';
-        html += '<div><span class="stat-number">' + student.posts + '</span> posts</div>';
+        html += '<div><span class="stat-number">' + student.posts.length + '</span> posts</div>';
         html += '<div><span class="stat-number">' + student.followers + '</span> followers</div>';
         html += '<div><span class="stat-number">' + student.following + '</span> following</div>';
         html += '</div>';
@@ -127,16 +427,25 @@
         html += skillsHtml;
         html += '</div>';
         html += '<div class="action-buttons">';
-        html += '<button class="btn-message" onclick="window.location.href=\'mailto:' + student.email + '\'">💬 Send Message</button>';
+        html += '<button class="btn-message" onclick="sendMessage(\'' + student.email + '\', \'' + student.name + '\')">💬 Send Message</button>';
         html += '<button class="btn-hire" onclick="hireStudent(\'' + student.name + '\', ' + student.rate + ')">💰 Hire Now</button>';
         html += '</div>';
         html += '</div>';
         html += '</div>';
+        html += '<div class="profile-tabs">';
+        html += '<button class="tab-btn active" onclick="showTab(\'posts\')">📷 POSTS</button>';html += '<button class="tab-btn" onclick="showTab(\'portfolio\')">📁 PORTFOLIO</button>';
+        html += '</div>';
+        html += '<div id="postsTab">' + postsHtml + '</div>';
+        html += '<div id="portfolioTab" style="display: none;">' + portfolioHtml + '</div>';
         html += '<div style="margin-top: 20px; text-align: center; padding: 20px; border-top: 1px solid #dbdbdb;">';
         html += '<p style="font-size: 12px; color: #8e8e8e;">💰 StarterPool takes 10% commission. Students receive 90%.</p>';
         html += '</div>';
         
         container.innerHTML = html;
+    }
+    
+    function sendMessage(email, name) {
+        window.location.href = 'mailto:' + email + '?subject=Interested in hiring you from StarterPool&body=Hi ' + name + ',%0D%0A%0D%0AI saw your profile on StarterPool and I\'m interested in working with you.%0D%0A%0D%0ACan we discuss further?%0D%0A%0D%0AThanks!';
     }
     
     function hireStudent(name, rate) {
