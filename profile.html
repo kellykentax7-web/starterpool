@@ -7,20 +7,45 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        /* Light Theme (default) */
+        body.light {
+            --bg: #fafafa;
+            --card-bg: white;
+            --text: #262626;
+            --border: #dbdbdb;
+            --nav-bg: white;
+            --skill-bg: #efefef;
+        }
+        
+        /* Dark Theme */
+        body.dark {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #ffffff;
+            --border: #2c2c2c;
+            --nav-bg: #1e1e1e;
+            --skill-bg: #2c2c2c;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: #fafafa;
+            background: var(--bg);
+            color: var(--text);
+            transition: all 0.3s ease;
         }
         
         .top-bar {
-            background: white;
+            background: var(--nav-bg);
             padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #dbdbdb;
+            border-bottom: 1px solid var(--border);
             flex-wrap: wrap;
             gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .logo {
@@ -41,13 +66,23 @@
         .nav-icons a {
             text-decoration: none;
             font-size: 14px;
-            color: #262626;
+            color: var(--text);
             padding: 5px 12px;
             border-radius: 20px;
         }
         
         .nav-icons a:hover {
-            background: #efefef;
+            background: var(--skill-bg);
+        }
+        
+        .theme-toggle {
+            background: var(--skill-bg);
+            border: 1px solid var(--border);
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text);
         }
         
         .profile-container {
@@ -60,7 +95,7 @@
             display: flex;
             gap: 60px;
             padding: 30px 0 30px;
-            border-bottom: 1px solid #dbdbdb;
+            border-bottom: 1px solid var(--border);
             flex-wrap: wrap;
         }
         
@@ -112,7 +147,7 @@
         }
         
         .skill {
-            background: #efefef;
+            background: var(--skill-bg);
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 12px;
@@ -135,21 +170,13 @@
         }
         
         .btn-message {
-            background: #efefef;
-            color: #262626;
+            background: var(--skill-bg);
+            color: var(--text);
         }
         
         .btn-hire {
             background: #0095f6;
             color: white;
-        }
-        
-        .btn-message:hover {
-            background: #dbdbdb;
-        }
-        
-        .btn-hire:hover {
-            background: #007acc;
         }
         
         .rate {
@@ -166,13 +193,12 @@
             font-size: 12px;
         }
         
-        /* Tabs */
         .profile-tabs {
             display: flex;
             justify-content: center;
             gap: 60px;
             padding: 15px 0;
-            border-top: 1px solid #dbdbdb;
+            border-top: 1px solid var(--border);
             margin-top: 20px;
         }
         
@@ -190,12 +216,11 @@
         }
         
         .tab-btn.active {
-            color: #262626;
-            border-top: 1px solid #262626;
+            color: var(--text);
+            border-top: 1px solid var(--text);
             margin-top: -16px;
         }
         
-        /* Posts Grid */
         .posts-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -205,7 +230,7 @@
         
         .post-item {
             aspect-ratio: 1;
-            background: #efefef;
+            background: var(--skill-bg);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -214,10 +239,12 @@
             position: relative;
             overflow: hidden;
             border-radius: 8px;
+            transition: transform 0.2s;
         }
         
         .post-item:hover {
-            opacity: 0.8;
+            transform: scale(1.02);
+            opacity: 0.9;
         }
         
         .post-emoji {
@@ -225,7 +252,7 @@
         }
         
         .post-caption {
-            font-size: 12px;
+            font-size: 11px;
             margin-top: 8px;
             text-align: center;
             padding: 0 10px;
@@ -233,16 +260,91 @@
         
         .post-stats {
             position: absolute;
-            bottom: 10px;
+            bottom: 5px;
             left: 0;
             right: 0;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            background: rgba(0,0,0,0.6);
+            gap: 15px;
+            background: rgba(0,0,0,0.7);
             color: white;
-            padding: 5px;
-            font-size: 12px;
+            padding: 4px;
+            font-size: 10px;
+        }
+        
+        /* Chat Modal */
+        .chat-modal {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 20px;
+            width: 350px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 -2px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        
+        .message-sent {
+            background: #0095f6;
+            color: white;
+            align-self: flex-end;
+        }
+        
+        .message-received {
+            background: var(--skill-bg);
+            color: var(--text);
+            align-self: flex-start;}
+        
+        .chat-input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid var(--border);
+            gap: 10px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: var(--skill-bg);
+            border-radius: 20px;
+            color: var(--text);
+        }
+        
+        .send-btn {
+            background: #0095f6;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
         }
         
         @media (max-width: 735px) {
@@ -250,6 +352,7 @@
             .profile-stats { justify-content: center; }
             .profile-name { justify-content: center; }
             .action-buttons { flex-direction: column; }
+            .chat-modal { width: 100%; right: 0; left: 0; bottom: 0; }
         }
     </style>
 </head>
@@ -260,6 +363,7 @@
     <div class="nav-icons">
         <a href="/">🏠 Home</a>
         <a href="/signup">Join as Talent</a>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn">🌙 Dark</button>
     </div>
 </div>
 
@@ -267,10 +371,53 @@
     <div style="text-align:center; padding:50px;">Loading profile...</div>
 </div>
 
+<!-- Chat Modal -->
+<div id="chatModal" class="chat-modal">
+    <div class="chat-header">
+        <strong id="chatStudentName">Chat</strong>
+        <button onclick="closeChat()" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text);">×</button>
+    </div>
+    <div id="chatMessages" class="chat-messages"></div>
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Type a message...">
+        <button class="send-btn" onclick="sendChatMessage()">Send</button>
+    </div>
+</div>
+
 <script>
-    var studentId = window.location.pathname.split('/').pop();
+    // Theme handling - saves preference
+    function toggleTheme() {
+        var body = document.body;
+        var btn = document.getElementById('themeToggleBtn');
+        if (body.classList.contains('light')) {
+            body.classList.remove('light');
+            body.classList.add('dark');
+            btn.innerHTML = '☀️ Light';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            body.classList.remove('dark');
+            body.classList.add('light');
+            btn.innerHTML = '🌙 Dark';
+            localStorage.setItem('theme', 'light');
+        }
+    }
     
-    // Complete student database with posts
+    // Load saved theme
+    var savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.remove('light');
+        document.body.classList.add('dark');
+        var themeBtn = document.getElementById('themeToggleBtn');
+        if (themeBtn) themeBtn.innerHTML = '☀️ Light';
+    } else {
+        document.body.classList.add('light');
+    }
+    
+    var studentId = window.location.pathname.split('/').pop();
+    var currentChatStudent = null;
+    var conversations = JSON.parse(localStorage.getItem('starterpool_chats')) || {};
+    
+    // Complete student database
     var students = {
         maria: {
             name: "Maria Chen", avatar: "👩‍💻", university: "3rd year CS, UCLA", email: "maria.chen@starterpool.com",
@@ -281,8 +428,7 @@
                 { emoji: "🎨", caption: "New portfolio design", likes: 89, comments: 23 },
                 { emoji: "📱", caption: "Working on a mobile app", likes: 34, comments: 8 },
                 { emoji: "🚀", caption: "Launched my first API", likes: 67, comments: 15 },
-                { emoji: "📚", caption: "Learning Next.js", likes: 23, comments: 5 },
-                { emoji: "💡", caption: "UI/UX design ideas", likes: 56, comments: 11 }
+                { emoji: "📚", caption: "Learning Next.js", likes: 23, comments: 5 },{ emoji: "💡", caption: "UI/UX design ideas", likes: 56, comments: 11 }
             ],
             followers: 245, following: 180
         },
@@ -291,79 +437,41 @@
             rate: 22, bio: "Backend developer specializing in Python and Django.",
             skills: ["Python", "Django", "PostgreSQL"], premium: true,
             posts: [
-                { emoji: "🐍", caption: "Built a REST API in 2 hours!", likes: 120, comments: 34 },{ emoji: "☁️", caption: "Deployed on AWS", likes: 89, comments: 23 },
-                { emoji: "📖", caption: "Reading 'Clean Code'", likes: 56, comments: 12 },
-                { emoji: "🔧", caption: "Database optimization", likes: 45, comments: 9 },
-                { emoji: "🚀", caption: "Microservices architecture", likes: 78, comments: 18 },
-                { emoji: "💡", caption: "System design tips", likes: 67, comments: 14 }
+                { emoji: "🐍", caption: "Built a REST API in 2 hours!", likes: 120, comments: 34 },
+                { emoji: "☁️", caption: "Deployed on AWS", likes: 89, comments: 23 },
+                { emoji: "📖", caption: "Reading 'Clean Code'", likes: 56, comments: 12 }
             ],
             followers: 512, following: 234
         },
         emma: {
             name: "Emma Watson", avatar: "🎨", university: "2nd year, RISD", email: "emma.watson@starterpool.com",
-            rate: 19, bio: "Graphic designer specializing in branding and logo design.",
-            skills: ["Figma", "Illustrator", "Photoshop"], premium: false,
+            rate: 19, bio: "Graphic designer specializing in branding.",
+            skills: ["Figma", "Illustrator"], premium: false,
             posts: [
-                { emoji: "🎨", caption: "New logo design for client", likes: 234, comments: 45 },
-                { emoji: "🖌️", caption: "Brand identity package", likes: 189, comments: 34 },
-                { emoji: "📱", caption: "App UI design", likes: 156, comments: 28 },
-                { emoji: "🖼️", caption: "Poster design", likes: 98, comments: 15 },
-                { emoji: "🌈", caption: "Color palette exploration", likes: 145, comments: 22 },
-                { emoji: "✏️", caption: "Sketch to vector", likes: 112, comments: 19 }
+                { emoji: "🎨", caption: "New logo design", likes: 234, comments: 45 },
+                { emoji: "🖌️", caption: "Brand identity", likes: 189, comments: 34 },
+                { emoji: "📱", caption: "App UI design", likes: 156, comments: 28 }
             ],
             followers: 389, following: 145
         },
         sarah: {
             name: "Sarah Johnson", avatar: "✍️", university: "2nd year, NYU", email: "sarah.johnson@starterpool.com",
             rate: 15, bio: "Content writer with SEO expertise.",
-            skills: ["Blog Writing", "SEO", "Copywriting"], premium: false,
+            skills: ["Blog Writing", "SEO"], premium: false,
             posts: [
                 { emoji: "📝", caption: "New blog post: SEO tips", likes: 89, comments: 23 },
                 { emoji: "✍️", caption: "Copywriting portfolio", likes: 67, comments: 12 },
-                { emoji: "📊", caption: "Content strategy", likes: 45, comments: 8 },
-                { emoji: "📖", caption: "Ghostwriting project", likes: 78, comments: 15 },
-                { emoji: "💡", caption: "Writing tips", likes: 56, comments: 11 },
-                { emoji: "🎯", caption: "SEO case study", likes: 92, comments: 19 }
+                { emoji: "📊", caption: "Content strategy", likes: 45, comments: 8 }
             ],
             followers: 278, following: 92
         }
     };
     
-    // Add posts for other students dynamically
-    var defaultPosts = [
-        { emoji: "📷", caption: "Check out my latest work!", likes: 45, comments: 12 },
-        { emoji: "🎯", caption: "Project milestone reached", likes: 34, comments: 8 },
-        { emoji: "💪", caption: "Learning new skills", likes: 56, comments: 15 },
-        { emoji: "🚀", caption: "New achievement unlocked", likes: 78, comments: 18 },
-        { emoji: "🎉", caption: "Client feedback positive", likes: 67, comments: 14 },
-        { emoji: "📚", caption: "Continuous learning", likes: 43, comments: 9 }
-    ];
-    
-    // Add missing students with default posts
-    var allStudentIds = ["alex", "olivia", "ethan", "david", "chloe", "datadavid", "michelle", "emily", "marcus", "alexw", "maya", "jessica", "rachel", "carlos", "ling"];
-    for (var i = 0; i < allStudentIds.length; i++) {
-        var id = allStudentIds[i];
-        if (!students[id]) {
-            students[id] = {
-                name: id.charAt(0).toUpperCase() + id.slice(1),
-                avatar: "👤",
-                university: "University Student",
-                email: id + "@starterpool.com",
-                rate: 15 + Math.floor(Math.random() * 10),
-                bio: "Passionate student ready to work on exciting projects.",
-                skills: ["Skill 1", "Skill 2", "Skill 3"],
-                premium: false,
-                posts: defaultPosts,
-                followers: 100 + Math.floor(Math.random() * 400),
-                following: 50 + Math.floor(Math.random() * 150)
-            };
-        }
-    }
-    
     var student = students[studentId];
     var container = document.getElementById('profileContainer');
     
-    function showTab(tabId) {var postsTab = document.getElementById('postsTab');
+    function showTab(tabId) {
+        var postsTab = document.getElementById('postsTab');
         var portfolioTab = document.getElementById('portfolioTab');
         var btns = document.querySelectorAll('.tab-btn');
         
@@ -380,6 +488,69 @@
         }
     }
     
+    function viewPost(post) {
+        alert('📌 ' + post.caption + '\n\n❤️ ' + post.likes + ' likes\n💬 ' + post.comments + ' comments');
+    }
+    
+    function openChat(studentId, studentName) {
+        currentChatStudent = studentId;
+        document.getElementById('chatStudentName').innerText = 'Chat with ' + studentName;
+        document.getElementById('chatModal').style.display = 'flex';
+        loadChatMessages();
+    }
+    
+    function closeChat() {
+        document.getElementById('chatModal').style.display = 'none';
+        currentChatStudent = null;
+    }
+    
+    function loadChatMessages() {
+        if (!conversations[currentChatStudent]) {
+            conversations[currentChatStudent] = [];
+        }
+        var messagesDiv = document.getElementById('chatMessages');
+        messagesDiv.innerHTML = '';
+        for (var i = 0; i < conversations[currentChatStudent].length; i++) {
+            var msg = conversations[currentChatStudent][i];
+            var msgDiv = document.createElement('div');
+            msgDiv.className = 'message ' + (msg.sender === 'employer' ? 'message-sent' : 'message-received');
+            msgDiv.innerHTML = msg.text;
+            messagesDiv.appendChild(msgDiv);
+        }
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+    
+    function sendChatMessage() {
+        var input = document.getElementById('chatInput');
+        var message = input.value.trim();
+        if (!message || !currentChatStudent) return;
+        
+        if (!conversations[currentChatStudent]) {
+            conversations[currentChatStudent] = [];
+        }
+        conversations[currentChatStudent].push({ sender: 'employer', text: message, time: new Date().toISOString() });
+        localStorage.setItem('starterpool_chats', JSON.stringify(conversations));
+        input.value = '';
+        loadChatMessages();
+        
+        // Auto-reply for demo
+        setTimeout(function() {
+            conversations[currentChatStudent].push({ sender: 'student', text: 'Thanks for your message! I will get back to you soon.', time: new Date().toISOString() });
+            localStorage.setItem('starterpool_chats', JSON.stringify(conversations));
+            loadChatMessages();
+        }, 1000);
+    }
+    
+    function hireStudent(name, rate) {
+        var hours = prompt('How many hours will ' + name + ' work? ($' + rate + '/hour)', '10');
+        if (hours && !isNaN(hours) && hours > 0) {
+            var total = rate * hours;
+            var fee = total * 0.1;
+            var studentGets = total - fee;
+            alert('✅ Hire request sent to ' + name + '!\n\nTotal: $' + total + '\nStarterPool fee (10%): $' + fee + '\n' + name + ' receives: $' + studentGets + '\n\nYou will receive payment instructions via email.');
+        }
+    }
+    
     if (!student) {
         container.innerHTML = '<div style="text-align:center; padding:50px;"><h2>Student not found</h2><a href="/">Go back home</a></div>';
     } else {
@@ -391,11 +562,10 @@
         }
         skillsHtml += '</div>';
         
-        // Build posts grid
         var postsHtml = '<div class="posts-grid">';
         for (var p = 0; p < student.posts.length; p++) {
             var post = student.posts[p];
-            postsHtml += '<div class="post-item" onclick="alert(\'📌 ' + post.caption + '\\n❤️ ' + post.likes + ' likes\\n💬 ' + post.comments + ' comments\')">';
+            postsHtml += '<div class="post-item" onclick="viewPost(' + JSON.stringify(post).replace(/"/g, '&quot;') + ')">';
             postsHtml += '<div class="post-emoji">' + post.emoji + '</div>';
             postsHtml += '<div class="post-caption">' + post.caption.substring(0, 30) + '</div>';
             postsHtml += '<div class="post-stats">❤️ ' + post.likes + ' 💬 ' + post.comments + '</div>';
@@ -403,11 +573,10 @@
         }
         postsHtml += '</div>';
         
-        // Build portfolio (sample work)
         var portfolioHtml = '<div class="posts-grid">';
-        portfolioHtml += '<div class="post-item" onclick="window.open(\'#\', \'_blank\')"><div class="post-emoji">📁</div><div class="post-caption">Portfolio Sample 1</div></div>';
-        portfolioHtml += '<div class="post-item" onclick="window.open(\'#\', \'_blank\')"><div class="post-emoji">📁</div><div class="post-caption">Portfolio Sample 2</div></div>';
-        portfolioHtml += '<div class="post-item" onclick="window.open(\'#\', \'_blank\')"><div class="post-emoji">📁</div><div class="post-caption">Portfolio Sample 3</div></div>';
+        portfolioHtml += '<div class="post-item" onclick="alert(\'Portfolio: React Project\')"><div class="post-emoji">📁</div><div class="post-caption">React E-commerce Site</div></div>';
+        portfolioHtml += '<div class="post-item" onclick="alert(\'Portfolio: API Project\')"><div class="post-emoji">📁</div><div class="post-caption">REST API with Node.js</div></div>';
+        portfolioHtml += '<div class="post-item" onclick="alert(\'Portfolio: Design Project\')"><div class="post-emoji">📁</div><div class="post-caption">Brand Identity Design</div></div>';
         portfolioHtml += '</div>';
         
         var html = '';
@@ -420,42 +589,28 @@
         html += '<div><span class="stat-number">' + student.followers + '</span> followers</div>';
         html += '<div><span class="stat-number">' + student.following + '</span> following</div>';
         html += '</div>';
-        html += '<div class="profile-bio">';
-        html += '<p><strong>' + student.university + '</strong></p>';
+        html += '<div class="profile-bio">';html += '<p><strong>' + student.university + '</strong></p>';
         html += '<p>' + student.bio + '</p>';
         html += '<div class="rate">💰 $' + student.rate + '/hour</div>';
         html += skillsHtml;
         html += '</div>';
         html += '<div class="action-buttons">';
-        html += '<button class="btn-message" onclick="sendMessage(\'' + student.email + '\', \'' + student.name + '\')">💬 Send Message</button>';
+        html += '<button class="btn-message" onclick="openChat(\'' + studentId + '\', \'' + student.name + '\')">💬 Send Message</button>';
         html += '<button class="btn-hire" onclick="hireStudent(\'' + student.name + '\', ' + student.rate + ')">💰 Hire Now</button>';
         html += '</div>';
         html += '</div>';
         html += '</div>';
         html += '<div class="profile-tabs">';
-        html += '<button class="tab-btn active" onclick="showTab(\'posts\')">📷 POSTS</button>';html += '<button class="tab-btn" onclick="showTab(\'portfolio\')">📁 PORTFOLIO</button>';
+        html += '<button class="tab-btn active" onclick="showTab(\'posts\')">📷 POSTS</button>';
+        html += '<button class="tab-btn" onclick="showTab(\'portfolio\')">📁 PORTFOLIO</button>';
         html += '</div>';
         html += '<div id="postsTab">' + postsHtml + '</div>';
         html += '<div id="portfolioTab" style="display: none;">' + portfolioHtml + '</div>';
-        html += '<div style="margin-top: 20px; text-align: center; padding: 20px; border-top: 1px solid #dbdbdb;">';
+        html += '<div style="margin-top: 20px; text-align: center; padding: 20px; border-top: 1px solid var(--border);">';
         html += '<p style="font-size: 12px; color: #8e8e8e;">💰 StarterPool takes 10% commission. Students receive 90%.</p>';
         html += '</div>';
         
         container.innerHTML = html;
-    }
-    
-    function sendMessage(email, name) {
-        window.location.href = 'mailto:' + email + '?subject=Interested in hiring you from StarterPool&body=Hi ' + name + ',%0D%0A%0D%0AI saw your profile on StarterPool and I\'m interested in working with you.%0D%0A%0D%0ACan we discuss further?%0D%0A%0D%0AThanks!';
-    }
-    
-    function hireStudent(name, rate) {
-        var hours = prompt('How many hours will ' + name + ' work? ($' + rate + '/hour)', '10');
-        if (hours && !isNaN(hours) && hours > 0) {
-            var total = rate * hours;
-            var fee = total * 0.1;
-            var studentGets = total - fee;
-            alert('✅ Hire request sent to ' + name + '!\n\nTotal: $' + total + '\nStarterPool fee (10%): $' + fee + '\n' + name + ' receives: $' + studentGets + '\n\nYou will receive payment instructions via email.');
-        }
     }
 </script>
 
