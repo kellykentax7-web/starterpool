@@ -13,6 +13,7 @@
             --text: #262626;
             --border: #dbdbdb;
             --nav-bg: white;
+            --input-bg: #efefef;
         }
         
         body.dark {
@@ -21,6 +22,7 @@
             --text: #ffffff;
             --border: #2c2c2c;
             --nav-bg: #1e1e1e;
+            --input-bg: #2c2c2c;
         }
         
         body {
@@ -30,9 +32,10 @@
             transition: all 0.3s ease;
         }
         
+        /* Instagram-style Top Bar */
         .top-bar {
             background: var(--nav-bg);
-            padding: 12px 20px;
+            padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -40,12 +43,10 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            flex-wrap: wrap;
-            gap: 10px;
         }
         
         .logo {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 800;
             background: linear-gradient(135deg, #0f3460, #e94560);
             -webkit-background-clip: text;
@@ -55,108 +56,110 @@
         
         .nav-icons {
             display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
+            gap: 20px;
         }
         
         .nav-icons button {
             background: none;
             border: none;
-            font-size: 14px;
+            font-size: 24px;
             cursor: pointer;
             color: var(--text);
-            padding: 5px 12px;
-            border-radius: 20px;
         }
         
-        .nav-icons button:hover {
-            background: var(--border);
-        }
-        
-        .theme-toggle {
-            font-size: 16px;
-        }
-        
-        .search-section {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--border);
+        /* TikTok-style Search Bar */
+        .search-container {
+            padding: 12px 16px;
             background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
         }
         
-        .search-box {
+        .search-wrapper {
             display: flex;
-            gap: 10px;
-            max-width: 600px;
-            margin: 0 auto;
+            align-items: center;
+            gap: 12px;
+            background: var(--input-bg);
+            border-radius: 30px;
+            padding: 8px 16px;
+        }
+        
+        .search-icon {
+            font-size: 18px;
+            color: #8e8e8e;
         }
         
         .search-input {
             flex: 1;
-            padding: 12px 16px;
-            border: 1px solid var(--border);
-            border-radius: 25px;
-            background: var(--bg);
+            background: none;
+            border: none;
+            font-size: 16px;
             color: var(--text);
-            font-size: 14px;
+            outline: none;
         }
         
-        .search-btn {
-            padding: 12px 24px;
-            background: #0095f6;
-            color: white;
+        .search-input::placeholder {
+            color: #8e8e8e;
+        }
+        
+        .cancel-btn {
+            background: none;
             border: none;
-            border-radius: 25px;
+            color: #0095f6;
+            font-size: 14px;
             cursor: pointer;
         }
         
-        .categories {
-            display: flex;
-            gap: 10px;
-            padding: 12px 20px;
+        /* Categories Row - Scrollable */
+        .categories-row {
+            padding: 12px 16px;
             overflow-x: auto;
             white-space: nowrap;
             border-bottom: 1px solid var(--border);
             background: var(--nav-bg);
         }
         
-        .category-btn {
-            padding: 6px 16px;
-            border-radius: 20px;
-            background: var(--border);
-            border: none;
-            cursor: pointer;
-            font-size: 13px;
-            color: var(--text);
+        .categories-row::-webkit-scrollbar {
+            display: none;
         }
         
-        .category-btn.active {
+        .category-chip {
+            display: inline-block;
+            padding: 8px 20px;
+            margin-right: 10px;
+            background: var(--input-bg);
+            border-radius: 30px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .category-chip.active {
             background: #0095f6;
             color: white;
         }
         
-        .container {
+        /* Feed Container */
+        .feed-container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0;
         }
         
-        .post-card {
+        /* Instagram-style Post */
+        .post {
             background: var(--card-bg);
-            border-radius: 16px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-            overflow: hidden;
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--border);
         }
         
         .post-header {
-            display: flex;
-            align-items: center;
+            display: flex;align-items: center;
             gap: 12px;
             padding: 12px;
         }
         
-        .post-avatar {width: 44px;
+        .post-avatar {
+            width: 44px;
             height: 44px;
             border-radius: 50%;
             background: linear-gradient(135deg, #0f3460, #e94560);
@@ -166,7 +169,7 @@
             font-size: 24px;
         }
         
-        .post-info {
+        .post-user-info {
             flex: 1;
         }
         
@@ -175,7 +178,7 @@
             font-size: 14px;
         }
         
-        .post-category {
+        .post-category-tag {
             font-size: 11px;
             color: #0095f6;
         }
@@ -185,89 +188,89 @@
             color: #8e8e8e;
         }
         
-        .post-emoji {
+        .post-image {
+            background: var(--input-bg);
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 80px;
-            text-align: center;
-            padding: 20px;
-            background: var(--bg);
             margin: 0 12px;
             border-radius: 12px;
         }
         
-        .post-content {
+        .post-caption {
             padding: 12px;
             font-size: 14px;
         }
         
-        .post-stats {
+        .post-actions {
             display: flex;
             gap: 20px;
-            padding: 10px 12px;
-            border-top: 1px solid var(--border);
+            padding: 8px 12px;
+        }
+        
+        .post-action {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .post-likes {
+            padding: 0 12px 8px;
+            font-weight: 600;
             font-size: 13px;
         }
         
-        .hire-btn {
-            background: #0095f6;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        
-        .profile-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid var(--border);
+        /* Profile Card for Search Results */
+        .profile-result {
             display: flex;
+            align-items: center;
             gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
             cursor: pointer;
         }
         
-        .profile-avatar {
-            width: 60px;
-            height: 60px;
+        .profile-result-avatar {
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             background: linear-gradient(135deg, #0f3460, #e94560);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
+            font-size: 28px;
         }
         
-        .profile-category-badge {
-            background: #0095f6;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            display: inline-block;
+        .profile-result-info {
+            flex: 1;
         }
         
-        .back-btn {
-            background: none;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        .profile-result-name {
+            font-weight: 600;
+            font-size: 15px;
         }
         
+        .profile-result-category {
+            font-size: 12px;
+            color: #0095f6;
+        }
+        
+        .profile-result-rate {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2ecc71;
+        }
+        
+        /* Profile View */
         .profile-view {
             background: var(--card-bg);
-            border-radius: 16px;
-            overflow: hidden;
         }
         
-        .profile-banner {
-            height: 120px;
+        .profile-cover {
+            height: 150px;
             background: linear-gradient(135deg, #0f3460, #e94560);
         }
         
@@ -297,14 +300,25 @@
             margin: 5px 0;
         }
         
-        .profile-bio-large {
+        .profile-bio-section {
             text-align: center;
             padding: 15px;
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
         }
         
-        .modal {
+        .message-btn {
+            background: #0095f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }/* Chat Modal */
+        .chat-modal {
             display: none;
             position: fixed;
             bottom: 0;
@@ -315,15 +329,19 @@
             z-index: 1000;
             max-width: 500px;
             margin: 0 auto;
-        }.modal-header {
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .chat-header {
             padding: 15px;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
+            font-weight: 600;
         }
         
-        .modal-messages {
-            height: 300px;
+        .chat-messages {
+            height: 350px;
             overflow-y: auto;
             padding: 15px;
             display: flex;
@@ -335,39 +353,67 @@
             background: #0095f6;
             color: white;
             align-self: flex-end;
-            padding: 8px 12px;
-            border-radius: 18px;
-            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 75%;
         }
         
         .msg-received {
-            background: var(--border);
+            background: var(--input-bg);
             color: var(--text);
             align-self: flex-start;
-            padding: 8px 12px;
-            border-radius: 18px;
-            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 75%;
         }
         
-        .modal-input {
+        .chat-input-area {
             display: flex;
-            padding: 10px;
+            padding: 12px;
             gap: 10px;
             border-top: 1px solid var(--border);
         }
         
-        .modal-input input {
+        .chat-input {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             border: none;
-            border-radius: 20px;
-            background: var(--border);
+            border-radius: 25px;
+            background: var(--input-bg);
             color: var(--text);
+            font-size: 14px;
+        }
+        
+        .send-btn {
+            background: #0095f6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 15px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #8e8e8e;
         }
         
         @media (max-width: 600px) {
-            .container { padding: 10px; }
-            .search-box { flex-direction: column; }
+            .post-image { min-height: 250px; }
+            .chat-modal { max-width: 100%; }
         }
     </style>
 </head>
@@ -376,44 +422,45 @@
 <div class="top-bar">
     <div class="logo">🏊 StarterPool</div>
     <div class="nav-icons">
-        <button onclick="showFeed()">📱 Feed</button>
-        <button onclick="showSearch()">🔍 Search</button>
-        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        <button onclick="showFeed()">🏠</button>
+        <button onclick="showSearch()">🔍</button>
+        <button onclick="toggleTheme()">🌙</button>
     </div>
 </div>
 
-<div class="search-section" id="searchSection" style="display: none;">
-    <div class="search-box">
-        <input type="text" id="searchInput" class="search-input" placeholder="Search by category... e.g., Engineer, Designer, Developer">
-        <button class="search-btn" onclick="searchProfiles()">Search</button>
+<div class="search-container" id="searchContainer" style="display: none;">
+    <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by category... (e.g., Engineer, Designer, Writer, Any)">
+        <button class="cancel-btn" onclick="clearSearch()">Cancel</button>
     </div>
 </div>
 
-<div class="categories" id="categoriesSection">
-    <button class="category-btn active" data-category="all" onclick="filterByCategory('all')">All</button>
-    <button class="category-btn" data-category="engineer" onclick="filterByCategory('engineer')">🔧 Engineer</button>
-    <button class="category-btn" data-category="designer" onclick="filterByCategory('designer')">🎨 Designer</button>
-    <button class="category-btn" data-category="developer" onclick="filterByCategory('developer')">💻 Developer</button>
-    <button class="category-btn" data-category="writer" onclick="filterByCategory('writer')">✍️ Writer</button>
-    <button class="category-btn" data-category="marketer" onclick="filterByCategory('marketer')">📱 Marketer</button>
-    <button class="category-btn" data-category="editor" onclick="filterByCategory('editor')">🎬 Editor</button>
-    <button class="category-btn" data-category="assistant" onclick="filterByCategory('assistant')">📋 Assistant</button>
-    <button class="category-btn" data-category="translator" onclick="filterByCategory('translator')">🌐 Translator</button>
+<div class="categories-row" id="categoriesRow">
+    <span class="category-chip active" data-cat="all" onclick="filterByCategory('all')">All</span>
+    <span class="category-chip" data-cat="engineer" onclick="filterByCategory('engineer')">🔧 Engineer</span>
+    <span class="category-chip" data-cat="designer" onclick="filterByCategory('designer')">🎨 Designer</span>
+    <span class="category-chip" data-cat="developer" onclick="filterByCategory('developer')">💻 Developer</span>
+    <span class="category-chip" data-cat="writer" onclick="filterByCategory('writer')">✍️ Writer</span>
+    <span class="category-chip" data-cat="marketer" onclick="filterByCategory('marketer')">📱 Marketer</span>
+    <span class="category-chip" data-cat="video" onclick="filterByCategory('video')">🎬 Video</span><span class="category-chip" data-cat="assistant" onclick="filterByCategory('assistant')">📋 Assistant</span>
+    <span class="category-chip" data-cat="translator" onclick="filterByCategory('translator')">🌐 Translator</span>
+    <span class="category-chip" data-cat="other" onclick="filterByCategory('other')">➕ Other</span>
 </div>
 
-<div class="container" id="mainContainer">
-    <div style="text-align:center; padding:50px;">Loading...</div>
+<div class="feed-container" id="mainContainer">
+    <div class="empty-state">Loading...</div>
 </div>
 
-<div id="chatModal" class="modal">
-    <div class="modal-header">
-        <strong id="chatName">Chat</strong>
-        <button onclick="closeChat()" style="background:none; border:none; font-size:20px; cursor:pointer;">×</button>
+<div id="chatModal" class="chat-modal">
+    <div class="chat-header">
+        <span id="chatName">Chat</span>
+        <button onclick="closeChat()" style="background:none; border:none; font-size:24px; cursor:pointer;">×</button>
     </div>
-    <div id="chatMessages" class="modal-messages"></div>
-    <div class="modal-input">
-        <input type="text" id="chatInput" placeholder="Type a message...">
-        <button onclick="sendMessage()" style="background:#0095f6; color:white; border:none; padding:10px 15px; border-radius:20px;">Send</button>
+    <div id="chatMessages" class="chat-messages"></div>
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Message...">
+        <button class="send-btn" onclick="sendMessage()">Send</button>
     </div>
 </div>
 
@@ -423,7 +470,8 @@
         var body = document.body;
         if (body.classList.contains('light')) {
             body.classList.remove('light');
-            body.classList.add('dark');localStorage.setItem('theme', 'dark');
+            body.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
         } else {
             body.classList.remove('dark');
             body.classList.add('light');
@@ -438,64 +486,70 @@
         document.body.classList.add('light');
     }
     
-    // Data
+    // Flexible student data - ANY category works
     var students = [
-        { id: "1", name: "Maria Chen", avatar: "👩‍💻", category: "developer", subCategory: "frontend", rate: 18, bio: "React frontend developer passionate about building beautiful interfaces", location: "UCLA", posts: ["Built a todo app", "E-commerce dashboard"] },
-        { id: "2", name: "James Okafor", avatar: "👨‍💻", category: "developer", subCategory: "backend", rate: 22, bio: "Python backend developer specializing in APIs", location: "MIT", posts: ["REST API", "Database design"] },
-        { id: "3", name: "Sarah Johnson", avatar: "✍️", category: "writer", subCategory: "content", rate: 15, bio: "SEO content writer and blogger", location: "NYU", posts: ["Tech blog", "Travel articles"] },
-        { id: "4", name: "Emma Watson", avatar: "🎨", category: "designer", subCategory: "graphic", rate: 19, bio: "Logo and brand identity designer", location: "RISD", posts: ["Brand identity", "Logo collection"] },
-        { id: "5", name: "David Park", avatar: "📊", category: "analyst", subCategory: "data", rate: 21, bio: "Data analyst skilled in Python and SQL", location: "Carnegie Mellon", posts: ["Sales dashboard", "SQL reports"] },
-        { id: "6", name: "Emily Rodriguez", avatar: "📱", category: "marketer", subCategory: "social", rate: 17, bio: "Social media strategist", location: "USC", posts: ["Instagram campaign", "Facebook ads"] },
-        { id: "7", name: "Alex Wong", avatar: "🎬", category: "editor", subCategory: "video", rate: 21, bio: "Video editor with 4 years experience", location: "NYU Film", posts: ["Short film", "Music video"] },
-        { id: "8", name: "Jessica Taylor", avatar: "📋", category: "assistant", subCategory: "admin", rate: 14, bio: "Virtual assistant and admin specialist", location: "ASU", posts: ["Calendar management", "Email organization"] },
-        { id: "9", name: "Carlos Mendez", avatar: "🌐", category: "translator", subCategory: "spanish", rate: 19, bio: "Spanish/English translator", location: "UT Austin", posts: ["Document translation", "Localization"] },
-        { id: "10", name: "Michael Engineer", avatar: "🔧", category: "engineer", subCategory: "mechanical", rate: 25, bio: "Mechanical engineer skilled in CAD", location: "Texas A&M", posts: ["CAD design", "3D modeling"] }
+        { id: "1", name: "Maria Chen", avatar: "👩‍💻", category: "developer", subCategory: "frontend", rate: 18, bio: "React frontend developer", location: "UCLA" },
+        { id: "2", name: "James Okafor", avatar: "👨‍💻", category: "developer", subCategory: "backend", rate: 22, bio: "Python backend developer", location: "MIT" },
+        { id: "3", name: "Sarah Johnson", avatar: "✍️", category: "writer", subCategory: "content", rate: 15, bio: "SEO content writer", location: "NYU" },
+        { id: "4", name: "Emma Watson", avatar: "🎨", category: "designer", subCategory: "graphic", rate: 19, bio: "Logo designer", location: "RISD" },
+        { id: "5", name: "Michael Chen", avatar: "🔧", category: "engineer", subCategory: "mechanical", rate: 25, bio: "Mechanical engineer", location: "Texas A&M" },
+        { id: "6", name: "Emily Rodriguez", avatar: "📱", category: "marketer", subCategory: "social", rate: 17, bio: "Social media strategist", location: "USC" },
+        { id: "7", name: "Alex Wong", avatar: "🎬", category: "video", subCategory: "editing", rate: 21, bio: "Video editor", location: "NYU Film" },
+        { id: "8", name: "Jessica Taylor", avatar: "📋", category: "assistant", subCategory: "admin", rate: 14, bio: "Virtual assistant", location: "ASU" },
+        { id: "9", name: "Carlos Mendez", avatar: "🌐", category: "translator", subCategory: "spanish", rate: 19, bio: "Spanish translator", location: "UT Austin" },
+        { id: "10", name: "Priya Patel", avatar: "💻", category: "developer", subCategory: "fullstack", rate: 24, bio: "Full-stack developer", location: "Stanford" }
     ];
     
     var posts = [
-        { id: 1, userId: "1", name: "Maria Chen", avatar: "👩‍💻", category: "developer", content: "Just finished a React dashboard! Check it out", emoji: "💻", likes: 45, time: "2h ago" },
-        { id: 2, userId: "2", name: "James Okafor", avatar: "👨‍💻", category: "developer", content: "Deployed my first API on AWS", emoji: "☁️", likes: 89, time: "5h ago" },
+        { id: 1, userId: "1", name: "Maria Chen", avatar: "👩‍💻", category: "developer", content: "Just finished a React dashboard!", emoji: "💻", likes: 45, time: "2h ago" },
+        { id: 2, userId: "2", name: "James Okafor", avatar: "👨‍💻", category: "developer", content: "Deployed my API on AWS", emoji: "☁️", likes: 89, time: "5h ago" },
         { id: 3, userId: "4", name: "Emma Watson", avatar: "🎨", category: "designer", content: "New logo for a coffee shop", emoji: "🎨", likes: 234, time: "1d ago" },
-        { id: 4, userId: "3", name: "Sarah Johnson", avatar: "✍️", category: "writer", content: "Wrote a guide on SEO basics", emoji: "📝", likes: 67, time: "3h ago" },
-        { id: 5, userId: "10", name: "Michael Engineer", avatar: "🔧", category: "engineer", content: "3D model for a mechanical part", emoji: "🔧", likes: 34, time: "1d ago" }
+        { id: 4, userId: "3", name: "Sarah Johnson", avatar: "✍️", category: "writer", content: "SEO guide for beginners", emoji: "📝", likes: 67, time: "3h ago" },{ id: 5, userId: "5", name: "Michael Chen", avatar: "🔧", category: "engineer", content: "3D model for mechanical part", emoji: "🔧", likes: 34, time: "1d ago" }
     ];
     
     var conversations = JSON.parse(localStorage.getItem('starterpool_chats')) || {};
     var currentView = 'feed';
     var currentCategory = 'all';
     var currentChatUser = null;
+    var searchQuery = '';
     
     function showFeed() {
         currentView = 'feed';
-        document.getElementById('searchSection').style.display = 'none';
+        document.getElementById('searchContainer').style.display = 'none';
+        document.getElementById('searchInput').value = '';
+        searchQuery = '';
         renderFeed();
     }
     
     function showSearch() {
         currentView = 'search';
-        document.getElementById('searchSection').style.display = 'block';
-        document.getElementById('searchInput').value = '';
+        document.getElementById('searchContainer').style.display = 'block';
+        document.getElementById('searchInput').focus();
         renderSearchResults(students);
+    }
+    
+    function clearSearch() {
+        document.getElementById('searchInput').value = '';
+        searchQuery = '';
+        renderSearchResults(students);
+        showFeed();
     }
     
     function filterByCategory(category) {
         currentCategory = category;
-        var btns = document.querySelectorAll('.category-btn');
-        btns.forEach(function(btn) {
-            if (btn.getAttribute('data-category') === category) {
-                btn.classList.add('active');
+        var chips = document.querySelectorAll('.category-chip');
+        chips.forEach(function(chip) {
+            if (chip.getAttribute('data-cat') === category) {
+                chip.classList.add('active');
             } else {
-                btn.classList.remove('active');
+                chip.classList.remove('active');
             }
         });
         
         if (currentView === 'feed') {
             renderFeed();
         } else if (currentView === 'search') {
-            var filtered = students.filter(function(s) {
-                return category === 'all' || s.category === category;
-            });
-            renderSearchResults(filtered);
+            renderSearchResults(students);
         }
     }
     
@@ -503,73 +557,99 @@
         var container = document.getElementById('mainContainer');
         var filteredPosts = posts.filter(function(p) {
             if (currentCategory === 'all') return true;
-            var student = students.find(function(s) { return s.id === p.userId; });
-            return student && student.category === currentCategory;
+            return p.category === currentCategory;
         });
+        
+        if (filteredPosts.length === 0) {
+            container.innerHTML = '<div class="empty-state">📭 No posts in this category yet</div>';
+            return;
+        }
         
         var html = '';
         for (var i = 0; i < filteredPosts.length; i++) {
             var p = filteredPosts[i];
-            html += '<div class="post-card">';
+            html += '<div class="post">';
             html += '<div class="post-header">';
             html += '<div class="post-avatar">' + p.avatar + '</div>';
-            html += '<div class="post-info">';
+            html += '<div class="post-user-info">';
             html += '<div class="post-name">' + p.name + '</div>';
-            html += '<div class="post-category">' + p.category.toUpperCase() + '</div>';
+            html += '<div class="post-category-tag">' + p.category.toUpperCase() + '</div>';
             html += '<div class="post-time">' + p.time + '</div>';
             html += '</div>';
-            html += '<button class="hire-btn" onclick="viewProfile(\'' + p.userId + '\')">View Profile</button>';
             html += '</div>';
-            html += '<div class="post-emoji">' + p.emoji + '</div>';
-            html += '<div class="post-content">' + p.content + '</div>';
-            html += '<div class="post-stats">❤️ ' + p.likes + ' likes | 💬 0 comments</div>';
+            html += '<div class="post-image">' + p.emoji + '</div>';
+            html += '<div class="post-caption">' + p.content + '</div>';
+            html += '<div class="post-actions">';
+            html += '<button class="post-action" onclick="likePost(' + p.id + ')">❤️</button>';
+            html += '<button class="post-action" onclick="viewProfile(\'' + p.userId + '\')">👤</button>';
+            html += '</div>';
+            html += '<div class="post-likes">' + p.likes + ' likes</div>';
             html += '</div>';
         }
-        
-        if (filteredPosts.length === 0) {
-            html = '<p style="text-align:center; padding:50px;">No posts in this category yet.</p>';
-        }
-        
         container.innerHTML = html;
     }
     
-    function renderSearchResults(results) {
+    function renderSearchResults(studentsList) {
         var container = document.getElementById('mainContainer');
-        var filtered = results;
+        var searchInput = document.getElementById('searchInput');
+        var query = searchInput ? searchInput.value.toLowerCase() : '';
+        searchQuery = query;
         
-        if (currentCategory !== 'all') {
-            filtered = results.filter(function(s) { return s.category === currentCategory; });
+        var filtered = studentsList.filter(function(s) {
+            if (currentCategory !== 'all' && s.category !== currentCategory) return false;
+            if (query) {
+                return s.category.toLowerCase().includes(query) || 
+                       s.name.toLowerCase().includes(query) ||
+                       s.subCategory.toLowerCase().includes(query);
+            }
+            return true;
+        });
+        
+        if (filtered.length === 0) {
+            container.innerHTML = '<div class="empty-state">🔍 No results found for "' + (query || currentCategory) + '"<br><br>Try "engineer", "designer", "developer", "writer", etc.</div>';
+            return;
         }
         
         var html = '';
         for (var i = 0; i < filtered.length; i++) {
             var s = filtered[i];
-            html += '<div class="profile-card" onclick="viewProfile(\'' + s.id + '\')">';
-            html += '<div class="profile-avatar">' + s.avatar + '</div>';
-            html += '<div style="flex:1;">';
-            html += '<div style="font-weight:600;">' + s.name + '</div>';
-            html += '<div><span class="profile-category-badge">' + s.category.toUpperCase() + '</span></div>';
-            html += '<div style="font-size:13px;">💰 $' + s.rate + '/hour</div>';
-            html += '<div style="font-size:12px; color:#8e8e8e;">' + s.location + '</div>';
+            html += '<div class="profile-result" onclick="viewProfile(\'' + s.id + '\')">';
+            html += '<div class="profile-result-avatar">' + s.avatar + '</div>';
+            html += '<div class="profile-result-info">';
+            html += '<div class="profile-result-name">' + s.name + '</div>';
+            html += '<div class="profile-result-category">' + s.category.toUpperCase() + '</div>';
+            html += '<div class="profile-result-rate">💰 $' + s.rate + '/hour</div>';
+            html += '<div style="font-size:12px; color:#8e8e8e;">📍 ' + s.location + '</div>';
             html += '</div>';
             html += '</div>';
         }
-        
-        if (filtered.length === 0) {
-            html = '<p style="text-align:center; padding:50px;">No profiles found. Try a different search.</p>';
-        }
-        
         container.innerHTML = html;
     }
     
     function searchProfiles() {
-        var query = document.getElementById('searchInput').value.toLowerCase();
-        var results = students.filter(function(s) {
-            return s.category.toLowerCase().includes(query) || 
-                   s.name.toLowerCase().includes(query) ||
-                   s.subCategory.toLowerCase().includes(query);
-        });
-        renderSearchResults(results);
+        renderSearchResults(students);
+    }
+    
+    // Live search as you type
+    document.addEventListener('DOMContentLoaded', function() {
+        var searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                if (currentView === 'search') {
+                    renderSearchResults(students);
+                }
+            });
+        }
+    });
+    
+    function likePost(postId) {
+        for (var i = 0; i < posts.length; i++) {
+            if (posts[i].id === postId) {
+                posts[i].likes++;
+                break;
+            }
+        }
+        renderFeed();
     }
     
     function viewProfile(userId) {
@@ -582,31 +662,31 @@
         var postsHtml = '';
         for (var i = 0; i < userPosts.length; i++) {
             var p = userPosts[i];
-            postsHtml += '<div class="post-card">';
+            postsHtml += '<div class="post">';
             postsHtml += '<div class="post-header">';
             postsHtml += '<div class="post-avatar">' + p.avatar + '</div>';
             postsHtml += '<div><div class="post-name">' + p.name + '</div><div class="post-time">' + p.time + '</div></div>';
             postsHtml += '</div>';
-            postsHtml += '<div class="post-emoji">' + p.emoji + '</div>';
-            postsHtml += '<div class="post-content">' + p.content + '</div>';
+            postsHtml += '<div class="post-image" style="font-size:60px; padding:30px;">' + p.emoji + '</div>';
+            postsHtml += '<div class="post-caption">' + p.content + '</div>';
             postsHtml += '</div>';
         }
         
         var html = '';
-        html += '<button class="back-btn" onclick="showSearch()">← Back to Search</button>';
+        html += '<button class="back-btn" onclick="showSearch()">← Back</button>';
         html += '<div class="profile-view">';
-        html += '<div class="profile-banner"></div>';
+        html += '<div class="profile-cover"></div>';
         html += '<div class="profile-avatar-large">' + student.avatar + '</div>';
         html += '<div class="profile-name-large">' + student.name + '</div>';
         html += '<div class="profile-category-large">' + student.category.toUpperCase() + ' • $' + student.rate + '/hour</div>';
-        html += '<div class="profile-bio-large">';
+        html += '<div class="profile-bio-section">';
         html += '<p>' + student.bio + '</p>';
         html += '<p>📍 ' + student.location + '</p>';
-        html += '<button onclick="openChat(\'' + student.id + '\', \'' + student.name + '\')" style="background:#0095f6; color:white; border:none; padding:10px 20px; border-radius:25px; margin-top:10px;">💬 Message</button>';
+        html += '<button class="message-btn" onclick="openChat(\'' + student.id + '\', \'' + student.name + '\')">💬 Message</button>';
         html += '</div>';
         
         if (userPosts.length > 0) {
-            html += '<div style="padding:15px;"><h3>Recent Work</h3>' + postsHtml + '</div>';
+            html += '<div style="padding:15px;"><h3 style="margin-bottom:10px;">Recent Work</h3>' + postsHtml + '</div>';
         }
         
         html += '</div>';
@@ -615,13 +695,12 @@
     
     function openChat(userId, name) {
         currentChatUser = userId;
-        document.getElementById('chatName').innerText = 'Chat with ' + name;
-        document.getElementById('chatModal').style.display = 'block';
+        document.getElementById('chatName').innerHTML = '💬 ' + name;
+        document.getElementById('chatModal').style.display = 'flex';
         loadMessages();
     }
     
-    function closeChat() {
-        document.getElementById('chatModal').style.display = 'none';
+    function closeChat() {document.getElementById('chatModal').style.display = 'none';
         currentChatUser = null;
     }
     
@@ -653,14 +732,10 @@
         localStorage.setItem('starterpool_chats', JSON.stringify(conversations));
         input.value = '';
         loadMessages();
-        
-        setTimeout(function() {
-            conversations[currentChatUser].push({ sender: 'student', text: 'Thanks for your message! Let me know more about your project.' });
-            localStorage.setItem('starterpool_chats', JSON.stringify(conversations));
-            loadMessages();
-        }, 1000);
     }
     
     showFeed();
-</script></body>
+</script>
+
+</body>
 </html>
