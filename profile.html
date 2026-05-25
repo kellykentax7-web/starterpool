@@ -5,16 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: #fafafa;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #fafafa; }
         
         .top-bar {
             background: white;
@@ -23,30 +15,14 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #dbdbdb;
+            flex-wrap: wrap;
+            gap: 15px;
         }
+        .logo { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #0f3460, #e94560); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .nav-icons { display: flex; gap: 20px; align-items: center; }
+        .nav-icons a { text-decoration: none; font-size: 14px; color: #262626; }
         
-        .logo {
-            font-size: 20px;
-            font-weight: 600;
-        }
-        
-        .nav-icons {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-        
-        .nav-icons a {
-            text-decoration: none;
-            font-size: 24px;
-            color: #262626;
-        }
-        
-        .profile-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        .profile-container { max-width: 800px; margin: 0 auto; padding: 20px; }
         
         .profile-header {
             display: flex;
@@ -55,7 +31,6 @@
             border-bottom: 1px solid #dbdbdb;
             flex-wrap: wrap;
         }
-        
         .profile-avatar {
             width: 120px;
             height: 120px;
@@ -66,89 +41,21 @@
             justify-content: center;
             font-size: 50px;
         }
-        
-        .profile-info {
-            flex: 1;
-        }
-        
-        .profile-name {
-            font-size: 24px;
-            font-weight: 300;
-            margin-bottom: 15px;
-        }
-        
-        .profile-stats {
-            display: flex;
-            gap: 30px;
-            margin-bottom: 15px;
-        }
-        
-        .stat-number {
-            font-weight: 600;
-        }
-        
-        .profile-bio {
-            margin-top: 10px;
-        }
-        
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 15px 0;
-        }
-        
-        .skill {
-            background: #efefef;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .btn-message, .btn-hire {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .btn-message {
-            background: #efefef;
-            color: #262626;
-        }
-        
-        .btn-hire {
-            background: #0095f6;
-            color: white;
-        }
-        
-        .rate {
-            font-size: 20px;
-            font-weight: 600;
-            color: #2ecc71;
-        }
-        
-        .premium-badge {
-            background: linear-gradient(135deg, #f5af19, #f12711);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-left: 10px;
-        }
+        .profile-info { flex: 1; }
+        .profile-name { font-size: 24px; font-weight: 300; margin-bottom: 15px; }
+        .profile-stats { display: flex; gap: 30px; margin-bottom: 15px; }
+        .skills { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; }
+        .skill { background: #efefef; padding: 5px 12px; border-radius: 20px; font-size: 12px; }
+        .action-buttons { display: flex; gap: 15px; margin: 20px 0; }
+        .btn-message, .btn-hire { flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-message { background: #efefef; color: #262626; }
+        .btn-hire { background: #0095f6; color: white; }
+        .rate { font-size: 20px; font-weight: 600; color: #2ecc71; }
+        .premium-badge { background: linear-gradient(135deg, #f5af19, #f12711); color: white; padding: 2px 8px; border-radius: 20px; font-size: 12px; margin-left: 10px; }
         
         @media (max-width: 600px) {
             .profile-header { flex-direction: column; align-items: center; text-align: center; }
             .profile-stats { justify-content: center; }
-            .action-buttons { flex-direction: column; }
         }
     </style>
 </head>
@@ -157,97 +64,52 @@
 <div class="top-bar">
     <div class="logo">🏊 StarterPool</div>
     <div class="nav-icons">
-        <a href="/">🏠</a>
-        <a href="/signup" style="font-size: 16px;">Join</a>
+        <a href="/">🏠 Home</a>
+        <a href="/signup">Join as Talent</a>
     </div>
 </div>
 
 <div class="profile-container" id="profileContainer">
-    <div style="text-align:center; padding:50px;">Loading profile...</div>
+    <p>Loading profile...</p>
 </div>
 
 <script>
-    (function() {// Get student ID from URL
-        var pathParts = window.location.pathname.split('/');
-        var studentId = pathParts[pathParts.length - 1];
-        
-        console.log("Loading student:", studentId);
-        
-        // Student database
-        var students = {
-            maria: {
-                name: "Maria Chen",
-                avatar: "👩‍💻",
-                university: "3rd year CS, UCLA",
-                email: "maria.chen@starterpool.com",
-                rate: 18,
-                bio: "Frontend React developer passionate about building beautiful interfaces.",
-                skills: ["React", "HTML/CSS", "JavaScript"],
-                premium: false,
-                posts: 12,
-                followers: 245,
-                following: 180
-            },
-            james: {
-                name: "James Okafor",
-                avatar: "👨‍💻",
-                university: "Final year, MIT",
-                email: "james.okafor@starterpool.com",
-                rate: 22,
-                bio: "Backend developer specializing in Python and Django.",
-                skills: ["Python", "Django", "PostgreSQL"],
-                premium: true,
-                posts: 8,
-                followers: 512,
-                following: 234
-            },
-            emma: {
-                name: "Emma Watson",
-                avatar: "🎨",
-                university: "2nd year, RISD",
-                email: "emma.watson@starterpool.com",
-                rate: 19,
-                bio: "Graphic designer specializing in branding and logo design.",
-                skills: ["Figma", "Illustrator", "Photoshop"],
-                premium: false,
-                posts: 15,
-                followers: 389,
-                following: 145
-            },
-            sarah: {
-                name: "Sarah Johnson",
-                avatar: "✍️",
-                university: "2nd year, NYU",
-                email: "sarah.johnson@starterpool.com",
-                rate: 15,
-                bio: "Content writer with SEO expertise.",
-                skills: ["Blog Writing", "SEO", "Copywriting"],
-                premium: false,
-                posts: 20,
-                followers: 178,
-                following: 92
-            }
-        };
-        
-        var student = students[studentId];
-        var container = document.getElementById('profileContainer');
-        
-        if (!student) {
-            container.innerHTML = '<div style="text-align:center; padding:50px;"><h2>Student not found</h2><p>ID: ' + studentId + '</p><a href="/">Go back home</a></div>';
-            return;
-        }
-        
-        // Build premium badge
+    var studentId = window.location.pathname.split('/').pop();
+    
+    var students = {
+        maria: { name: "Maria Chen", avatar: "👩‍💻", university: "3rd year CS, UCLA", email: "maria.chen@starterpool.com", rate: 18, bio: "Frontend React developer passionate about building beautiful interfaces.", skills: ["React", "HTML/CSS", "JavaScript"], premium: false, posts: 12, followers: 245, following: 180 },
+        james: { name: "James Okafor", avatar: "👨‍💻", university: "Final year, MIT", email: "james.okafor@starterpool.com", rate: 22, bio: "Backend developer specializing in Python and Django.", skills: ["Python", "Django", "PostgreSQL"], premium: true, posts: 8, followers: 512, following: 234 },
+        alex: { name: "Alex Zhang", avatar: "👨‍💻", university: "Senior, Stanford", email: "alex.zhang@starterpool.com", rate: 20, bio: "Frontend developer specializing in Vue.js.", skills: ["Vue.js", "Tailwind", "JavaScript"], premium: false, posts: 15, followers: 189, following: 120 },emma: { name: "Emma Watson", avatar: "🎨", university: "2nd year, RISD", email: "emma.watson@starterpool.com", rate: 19, bio: "Graphic designer specializing in branding.", skills: ["Figma", "Illustrator"], premium: false, posts: 20, followers: 389, following: 145 },
+        olivia: { name: "Olivia Martinez", avatar: "🎨", university: "Final year, Parsons", email: "olivia.martinez@starterpool.com", rate: 23, bio: "Branding expert with 3 years experience.", skills: ["Branding", "Photoshop"], premium: true, posts: 25, followers: 612, following: 200 },
+        ethan: { name: "Ethan Kim", avatar: "🎨", university: "3rd year, CalArts", email: "ethan.kim@starterpool.com", rate: 17, bio: "Logo design specialist.", skills: ["Logo Design", "Procreate"], premium: false, posts: 10, followers: 156, following: 89 },
+        sarah: { name: "Sarah Johnson", avatar: "✍️", university: "2nd year, NYU", email: "sarah.johnson@starterpool.com", rate: 15, bio: "SEO content writer.", skills: ["Blog Writing", "SEO"], premium: false, posts: 35, followers: 278, following: 92 },
+        david: { name: "David Kim", avatar: "✍️", university: "Senior, UC Berkeley", email: "david.kim@starterpool.com", rate: 20, bio: "Copywriting expert.", skills: ["Copywriting", "Email Marketing"], premium: false, posts: 18, followers: 234, following: 110 },
+        chloe: { name: "Chloe Williams", avatar: "✍️", university: "3rd year, Northwestern", email: "chloe.williams@starterpool.com", rate: 16, bio: "Ghostwriter and editor.", skills: ["Ghostwriting", "Editing"], premium: false, posts: 22, followers: 198, following: 95 },
+        datadavid: { name: "David Park", avatar: "📊", university: "Senior, Carnegie Mellon", email: "david.park@starterpool.com", rate: 21, bio: "Data analyst skilled in Python and SQL.", skills: ["Python", "SQL", "Tableau"], premium: false, posts: 8, followers: 167, following: 88 },
+        michelle: { name: "Michelle Lee", avatar: "📊", university: "3rd year, UPenn", email: "michelle.lee@starterpool.com", rate: 16, bio: "Excel and Power BI expert.", skills: ["Excel", "Power BI"], premium: false, posts: 12, followers: 145, following: 76 },
+        emily: { name: "Emily Rodriguez", avatar: "📱", university: "3rd year, USC", email: "emily.rodriguez@starterpool.com", rate: 17, bio: "Social media strategist.", skills: ["Social Media", "SEO"], premium: false, posts: 45, followers: 890, following: 234 },
+        marcus: { name: "Marcus Brown", avatar: "📱", university: "Senior, Howard", email: "marcus.brown@starterpool.com", rate: 19, bio: "Google Ads certified specialist.", skills: ["Google Ads", "Analytics"], premium: false, posts: 15, followers: 345, following: 120 },
+        alexw: { name: "Alex Wong", avatar: "🎬", university: "Final year, NYU Film", email: "alex.wong@starterpool.com", rate: 21, bio: "Video editor with 4 years experience.", skills: ["Premiere Pro", "After Effects"], premium: false, posts: 30, followers: 567, following: 189 },
+        maya: { name: "Maya Patel", avatar: "🎬", university: "3rd year, Columbia", email: "maya.patel@starterpool.com", rate: 18, bio: "Color grading and DaVinci expert.", skills: ["DaVinci", "Final Cut"], premium: false, posts: 22, followers: 234, following: 98 },
+        jessica: { name: "Jessica Taylor", avatar: "📋", university: "2nd year, ASU", email: "jessica.taylor@starterpool.com", rate: 14, bio: "Virtual assistant with admin experience.", skills: ["Admin", "Scheduling"], premium: false, posts: 8, followers: 123, following: 67 },
+        rachel: { name: "Rachel Green", avatar: "📋", university: "Senior, Texas A&M", email: "rachel.green@starterpool.com", rate: 15, bio: "Email management specialist.", skills: ["Email Mgmt", "Research"], premium: false, posts: 12, followers: 167, following: 89 },
+        carlos: { name: "Carlos Mendez", avatar: "🌐", university: "Senior, UT Austin", email: "carlos.mendez@starterpool.com", rate: 19, bio: "Spanish and French translator.", skills: ["Spanish", "French"], premium: false, posts: 8, followers: 189, following: 76 },ling: { name: "Ling Wei", avatar: "🌐", university: "3rd year, UBC", email: "ling.wei@starterpool.com", rate: 17, bio: "Chinese/English translation expert.", skills: ["Chinese", "English"], premium: false, posts: 10, followers: 156, following: 82 }
+    };
+    
+    var student = students[studentId];
+    var container = document.getElementById('profileContainer');
+    
+    if (!student) {
+        container.innerHTML = '<div style="text-align:center; padding:50px;"><h2>Student not found</h2><a href="/">Go back home</a></div>';
+    } else {
         var premiumBadge = student.premium ? '<span class="premium-badge">⭐ PREMIUM</span>' : '';
         
-        // Build skills HTML
         var skillsHtml = '<div class="skills">';
         for (var i = 0; i < student.skills.length; i++) {
             skillsHtml += '<span class="skill">' + student.skills[i] + '</span>';
         }
         skillsHtml += '</div>';
         
-        // Build the full HTML
         var html = '';
         html += '<div class="profile-header">';
         html += '<div class="profile-avatar">' + student.avatar + '</div>';
@@ -265,9 +127,8 @@
         html += skillsHtml;
         html += '</div>';
         html += '<div class="action-buttons">';
-        html += '<div class="action-buttons">';Kelly Asura, [5/25/2026 11:28 AM]
-html += '<button class="btn-message" onclick="sendEmail()">💬 Send Message</button>';
-        html += '<button class="btn-hire" onclick="hireStudent()">💰 Hire Now</button>';
+        html += '<button class="btn-message" onclick="window.location.href=\'mailto:' + student.email + '\'">💬 Send Message</button>';
+        html += '<button class="btn-hire" onclick="hireStudent(\'' + student.name + '\', ' + student.rate + ')">💰 Hire Now</button>';
         html += '</div>';
         html += '</div>';
         html += '</div>';
@@ -276,22 +137,17 @@ html += '<button class="btn-message" onclick="sendEmail()">💬 Send Message</bu
         html += '</div>';
         
         container.innerHTML = html;
-        
-        // Make functions global so buttons can call them
-        window.sendEmail = function() {
-            window.location.href = 'mailto:' + student.email + '?subject=Interested in hiring you from StarterPool&body=Hi ' + student.name + ', I saw your profile and I am interested in working with you.';
-        };
-        
-        window.hireStudent = function() {
-            var hours = prompt('How many hours will ' + student.name + ' work? ($' + student.rate + '/hour)', '10');
-            if (hours && !isNaN(hours) && hours > 0) {
-                var total = student.rate * hours;
-                var fee = total * 0.1;
-                var studentGets = total - fee;
-                alert('✅ Hire request sent to ' + student.name + '!\n\nTotal: $' + total + '\nStarterPool fee (10%): $' + fee + '\n' + student.name + ' receives: $' + studentGets + '\n\nYou will receive payment instructions via email.');
-            }
-        };
-    })();
+    }
+    
+    function hireStudent(name, rate) {
+        var hours = prompt('How many hours will ' + name + ' work? ($' + rate + '/hour)', '10');
+        if (hours && !isNaN(hours) && hours > 0) {
+            var total = rate * hours;
+            var fee = total * 0.1;
+            var studentGets = total - fee;
+            alert('✅ Hire request sent to ' + name + '!\n\nTotal: $' + total + '\nStarterPool fee (10%): $' + fee + '\n' + name + ' receives: $' + studentGets + '\n\nYou will receive payment instructions via email.');
+        }
+    }
 </script>
 
 </body>

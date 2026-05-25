@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>StarterPool - Connect With Junior Talent</title>
+    <title>StarterPool - Find Junior Talent</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
             margin: 0;
@@ -11,31 +11,43 @@
             box-sizing: border-box;
         }
         
+        /* Light Theme (default) */
+        body.light {
+            --bg: #fafafa;
+            --card-bg: white;
+            --text: #262626;
+            --border: #dbdbdb;
+            --nav-bg: white;
+        }
+        
+        /* Dark Theme */
+        body.dark {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #ffffff;
+            --border: #2c2c2c;
+            --nav-bg: #1e1e1e;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: #f5f7fa;
+            background: var(--bg);
+            color: var(--text);
+            transition: all 0.3s ease;
         }
         
-        /* FULL WIDTH LAYOUT */
-        .container {
-            width: 100%;
-            max-width: 100%;
-            padding: 20px;
-        }
-        
-        /* Top Bar - Instagram style */
         .top-bar {
-            background: white;
-            padding: 15px 25px;
+            background: var(--nav-bg);
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            border-bottom: 1px solid #dbdbdb;
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 100;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         
         .logo {
@@ -47,46 +59,62 @@
             color: transparent;
         }
         
-        .nav-links {
+        .nav-icons {
             display: flex;
             gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
         }
         
-        .nav-links a {
+        .nav-icons a {
             text-decoration: none;
-            color: #262626;
             font-size: 14px;
             font-weight: 500;
+            color: var(--text);
+            padding: 5px 12px;
+            border-radius: 20px;
+            transition: all 0.3s;
         }
         
-        .signup-btn {
-            background: #0095f6;
-            color: white !important;
-            padding: 8px 16px;
-            border-radius: 8px;
+        .nav-icons a:hover {
+            background: #e94560;
+            color: white;
         }
         
-        /* Hero Section */
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text);
+        }
+        
         .hero {
             text-align: center;
             padding: 40px 20px;
-            background: white;
+            background: var(--card-bg);
             margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
         }
         
         .hero h1 {
             font-size: 48px;
             margin-bottom: 15px;
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         
-        /* Filter Bar - Scrollable */
         .filter-section {
-            background: white;
+            background: var(--card-bg);
             padding: 15px;
             margin-bottom: 20px;
             overflow-x: auto;
             white-space: nowrap;
-            border-bottom: 1px solid #dbdbdb;
+            border-bottom: 1px solid var(--border);
         }
         
         .filter-buttons {
@@ -102,6 +130,12 @@
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        body.dark .filter-btn {
+            background: #2c2c2c;
+            color: white;
         }
         
         .filter-btn.active {
@@ -109,7 +143,6 @@
             color: white;
         }
         
-        /* FULL WIDTH SECTIONS */
         .sector-section {
             display: none;
             margin-bottom: 40px;
@@ -120,32 +153,25 @@
         }
         
         .sector-header {
-            display: flex;
-            justify-content: space-between;
+            display: flex;justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
-            background: white;
+            background: var(--card-bg);
             margin-bottom: 15px;
+            border-radius: 12px;
         }
         
-        .sector-header h2 {
-            font-size: 20px;
-        }
-        
-        /* GRID - More flexible */
         .talent-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
-            padding: 0 10px;
         }
         
-        /* Talent Card - Instagram Story style */
         .talent-card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 16px;
             overflow: hidden;
-            border: 1px solid #dbdbdb;
+            border: 1px solid var(--border);
             transition: transform 0.2s;
             cursor: pointer;
         }
@@ -156,13 +182,14 @@
         }
         
         .card-header {
-            padding: 15px;display: flex;
+            padding: 15px;
+            display: flex;
             align-items: center;
             gap: 12px;
-            border-bottom: 1px solid #efefef;
+            border-bottom: 1px solid var(--border);
         }
         
-        .avatar-large {
+        .avatar {
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -191,6 +218,11 @@
             font-size: 12px;
         }
         
+        body.dark .skill {
+            background: #2c2c2c;
+            color: white;
+        }
+        
         .rate {
             color: #2ecc71;
             font-weight: bold;
@@ -198,7 +230,7 @@
             margin: 10px 0;
         }
         
-        .hire-btn {
+        .view-btn {
             background: #0095f6;
             color: white;
             border: none;
@@ -207,114 +239,107 @@
             width: 100%;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
         }
         
-        /* Premium Badge */
         .premium-badge {
             background: linear-gradient(135deg, #f5af19, #f12711);
             color: white;
-            padding: 4px 12px;
+            padding: 2px 8px;
             border-radius: 20px;
-            font-size: 11px;
-            display: inline-block;
-            margin-left: 10px;
+            font-size: 10px;
+            margin-left: 8px;
         }
         
-        @media (max-width: 768px) {
+        .footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            border-top: 1px solid var(--border);
+            color: #8e8e8e;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 700px) {
             .hero h1 { font-size: 32px; }
             .talent-grid { grid-template-columns: 1fr; }
-            .top-bar { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
-<body>
+<body class="light">
 
-<!-- Instagram-style Top Bar -->
 <div class="top-bar">
     <div class="logo">🏊 StarterPool</div>
-    <div class="nav-links">
+    <div class="nav-icons">
         <a href="/">Home</a>
-        <a href="/signup" class="signup-btn">Join as Talent</a>
+        <a href="/signup">Join as Talent</a>
         <a href="/admin">Admin</a>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
     </div>
 </div>
 
-<!-- Hero -->
 <div class="hero">
     <h1>Find Junior Talent</h1>
     <p>Connect with skilled students and professionals ready to work</p>
 </div>
 
-<!-- Filter Bar -->
 <div class="filter-section">
     <div class="filter-buttons">
         <button class="filter-btn active" data-sector="all">All</button>
-        <button class="filter-btn" data-sector="web">Web Dev</button>
-        <button class="filter-btn" data-sector="design">Design</button>
-        <button class="filter-btn" data-sector="writing">Writing</button>
-        <button class="filter-btn" data-sector="data">Data</button>
-        <button class="filter-btn" data-sector="marketing">Marketing</button>
-        <button class="filter-btn" data-sector="video">Video</button>
-        <button class="filter-btn" data-sector="va">VA</button>
-        <button class="filter-btn" data-sector="translation">Translation</button>
+        <button class="filter-btn" data-sector="web">💻 Web Dev</button>
+        <button class="filter-btn" data-sector="design">🎨 Design</button>
+        <button class="filter-btn" data-sector="writing">✍️ Writing</button>
+        <button class="filter-btn" data-sector="data">📊 Data</button>
+        <button class="filter-btn" data-sector="marketing">📱 Marketing</button>
+        <button class="filter-btn" data-sector="video">🎬 Video</button>
+        <button class="filter-btn" data-sector="va">📋 VA</button>
+        <button class="filter-btn" data-sector="translation">🌐 Translation</button>
     </div>
-</div>
+</div><div class="container" style="padding: 0 20px;">
 
-<div class="container">
-
-    <!-- Web Development Sector -->
+    <!-- Web Development -->
     <div class="sector-section" data-sector="web">
         <div class="sector-header">
             <h2>💻 Web Development</h2>
-            <span>12 talents</span>
+            <span>3 talents</span>
         </div>
         <div class="talent-grid">
             <div class="talent-card" onclick="window.location.href='/student/maria'">
                 <div class="card-header">
-                    <div class="avatar-large">👩‍💻</div>
-                    <div>
-                        <strong>Maria Chen</strong>
-                        <div style="font-size: 12px; color: #666;">Student • UCLA</div>
-                    </div>
+                    <div class="avatar">👩‍💻</div>
+                    <div><strong>Maria Chen</strong><br><span style="font-size:12px;">Student • UCLA</span></div>
                 </div>
                 <div class="card-body">
                     <div class="skills"><span class="skill">React</span><span class="skill">Node.js</span></div>
                     <div class="rate">$18/hr</div>
-                    <button class="hire-btn" onclick="event.stopPropagation(); window.location.href='/student/maria'">View Profile →</button>
+                    <button class="view-btn">View Profile →</button>
                 </div>
-            </div><div class="talent-card" onclick="window.location.href='/student/james'">
+            </div>
+            <div class="talent-card" onclick="window.location.href='/student/james'">
                 <div class="card-header">
-                    <div class="avatar-large">👨‍💻</div>
-                    <div>
-                        <strong>James Okafor <span class="premium-badge">⭐ PREMIUM</span></strong>
-                        <div style="font-size: 12px; color: #666;">Student • MIT</div>
-                    </div>
+                    <div class="avatar">👨‍💻</div>
+                    <div><strong>James Okafor</strong> <span class="premium-badge">⭐ PREMIUM</span><br><span style="font-size:12px;">Student • MIT</span></div>
                 </div>
                 <div class="card-body">
                     <div class="skills"><span class="skill">Python</span><span class="skill">Django</span></div>
                     <div class="rate">$22/hr</div>
-                    <button class="hire-btn" onclick="event.stopPropagation(); window.location.href='/student/james'">View Profile →</button>
+                    <button class="view-btn">View Profile →</button>
                 </div>
             </div>
             <div class="talent-card" onclick="window.location.href='/student/alex'">
                 <div class="card-header">
-                    <div class="avatar-large">👨‍💻</div>
-                    <div>
-                        <strong>Alex Zhang</strong>
-                        <div style="font-size: 12px; color: #666;">Student • Stanford</div>
-                    </div>
+                    <div class="avatar">👨‍💻</div>
+                    <div><strong>Alex Zhang</strong><br><span style="font-size:12px;">Student • Stanford</span></div>
                 </div>
                 <div class="card-body">
                     <div class="skills"><span class="skill">Vue.js</span><span class="skill">Tailwind</span></div>
                     <div class="rate">$20/hr</div>
-                    <button class="hire-btn" onclick="event.stopPropagation(); window.location.href='/student/alex'">View Profile →</button>
+                    <button class="view-btn">View Profile →</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Graphic Design Sector -->
+    <!-- Graphic Design -->
     <div class="sector-section" data-sector="design">
         <div class="sector-header">
             <h2>🎨 Graphic Design</h2>
@@ -323,55 +348,286 @@
         <div class="talent-grid">
             <div class="talent-card" onclick="window.location.href='/student/emma'">
                 <div class="card-header">
-                    <div class="avatar-large">🎨</div>
-                    <div>
-                        <strong>Emma Watson</strong>
-                        <div style="font-size: 12px; color: #666;">Student • RISD</div>
-                    </div>
+                    <div class="avatar">🎨</div>
+                    <div><strong>Emma Watson</strong><br><span style="font-size:12px;">Student • RISD</span></div>
                 </div>
                 <div class="card-body">
                     <div class="skills"><span class="skill">Figma</span><span class="skill">Illustrator</span></div>
                     <div class="rate">$19/hr</div>
-                    <button class="hire-btn" onclick="event.stopPropagation(); window.location.href='/student/emma'">View Profile →</button>
+                    <button class="view-btn">View Profile →</button>
                 </div>
             </div>
             <div class="talent-card" onclick="window.location.href='/student/olivia'">
                 <div class="card-header">
-                    <div class="avatar-large">🎨</div>
-                    <div>
-                        <strong>Olivia Martinez <span class="premium-badge">⭐ PREMIUM</span></strong>
-                        <div style="font-size: 12px; color: #666;">Student • Parsons</div>
-                    </div>
+                    <div class="avatar">🎨</div>
+                    <div><strong>Olivia Martinez</strong> <span class="premium-badge">⭐ PREMIUM</span><br><span style="font-size:12px;">Student • Parsons</span></div>
                 </div>
                 <div class="card-body">
                     <div class="skills"><span class="skill">Branding</span><span class="skill">Photoshop</span></div>
                     <div class="rate">$23/hr</div>
-                    <button class="hire-btn" onclick="event.stopPropagation(); window.location.href='/student/olivia'">View Profile →</button>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+            <div class="talent-card" onclick="window.location.href='/student/ethan'">
+                <div class="card-header">
+                    <div class="avatar">🎨</div><div><strong>Ethan Kim</strong><br><span style="font-size:12px;">Student • CalArts</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Logo Design</span><span class="skill">Procreate</span></div>
+                    <div class="rate">$17/hr</div>
+                    <button class="view-btn">View Profile →</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- More sectors will show when clicked -->
+    <!-- Content Writing -->
+    <div class="sector-section" data-sector="writing">
+        <div class="sector-header">
+            <h2>✍️ Content Writing</h2>
+            <span>3 talents</span>
+        </div>
+        <div class="talent-grid">
+            <div class="talent-card" onclick="window.location.href='/student/sarah'">
+                <div class="card-header">
+                    <div class="avatar">✍️</div>
+                    <div><strong>Sarah Johnson</strong><br><span style="font-size:12px;">Student • NYU</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Blogging</span><span class="skill">SEO</span></div>
+                    <div class="rate">$15/hr</div>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+            <div class="talent-card" onclick="window.location.href='/student/david'">
+                <div class="card-header">
+                    <div class="avatar">✍️</div>
+                    <div><strong>David Kim</strong><br><span style="font-size:12px;">Student • UC Berkeley</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Copywriting</span><span class="skill">Email</span></div>
+                    <div class="rate">$20/hr</div>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+            <div class="talent-card" onclick="window.location.href='/student/chloe'">
+                <div class="card-header">
+                    <div class="avatar">✍️</div>
+                    <div><strong>Chloe Williams</strong><br><span style="font-size:12px;">Student • Northwestern</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Ghostwriting</span><span class="skill">Editing</span></div>
+                    <div class="rate">$16/hr</div>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Data & Analytics -->
+    <div class="sector-section" data-sector="data">
+        <div class="sector-header">
+            <h2>📊 Data & Analytics</h2>
+            <span>2 talents</span>
+        </div>
+        <div class="talent-grid">
+            <div class="talent-card" onclick="window.location.href='/student/datadavid'">
+                <div class="card-header">
+                    <div class="avatar">📊</div>
+                    <div><strong>David Park</strong><br><span style="font-size:12px;">Student • Carnegie Mellon</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Python</span><span class="skill">SQL</span></div>
+                    <div class="rate">$21/hr</div>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+            <div class="talent-card" onclick="window.location.href='/student/michelle'">
+                <div class="card-header">
+                    <div class="avatar">📊</div>
+                    <div><strong>Michelle Lee</strong><br><span style="font-size:12px;">Student • UPenn</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Excel</span><span class="skill">Power BI</span></div>
+                    <div class="rate">$16/hr</div><button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Digital Marketing -->
+    <div class="sector-section" data-sector="marketing">
+        <div class="sector-header">
+            <h2>📱 Digital Marketing</h2>
+            <span>2 talents</span>
+        </div>
+        <div class="talent-grid">
+            <div class="talent-card" onclick="window.location.href='/student/emily'">
+                <div class="card-header">
+                    <div class="avatar">📱</div>
+                    <div><strong>Emily Rodriguez</strong><br><span style="font-size:12px;">Student • USC</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Social Media</span><span class="skill">SEO</span></div>
+                    <div class="rate">$17/hr</div>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+            <div class="talent-card" onclick="window.location.href='/student/marcus'">
+                <div class="card-header">
+                    <div class="avatar">📱</div>
+                    <div><strong>Marcus Brown</strong><br><span style="font-size:12px;">Student • Howard</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Google Ads</span><span class="skill">Analytics</span></div>
+                    <div class="rate">$19/hr</div>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Editing -->
+    <div class="sector-section" data-sector="video">
+        <div class="sector-header">
+            <h2>🎬 Video Editing</h2>
+            <span>2 talents</span>
+        </div>
+        <div class="talent-grid">
+            <div class="talent-card" onclick="window.location.href='/student/alexw'">
+                <div class="card-header">
+                    <div class="avatar">🎬</div>
+                    <div><strong>Alex Wong</strong><br><span style="font-size:12px;">Student • NYU Film</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Premiere Pro</span><span class="skill">After Effects</span></div>
+                    <div class="rate">$21/hr</div>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+            <div class="talent-card" onclick="window.location.href='/student/maya'">
+                <div class="card-header">
+                    <div class="avatar">🎬</div>
+                    <div><strong>Maya Patel</strong><br><span style="font-size:12px;">Student • Columbia</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">DaVinci</span><span class="skill">Final Cut</span></div>
+                    <div class="rate">$18/hr</div>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Virtual Assistant -->
+    <div class="sector-section" data-sector="va">
+        <div class="sector-header">
+            <h2>📋 Virtual Assistant</h2>
+            <span>2 talents</span>
+        </div>
+        <div class="talent-grid">
+            <div class="talent-card" onclick="window.location.href='/student/jessica'">
+                <div class="card-header">
+                    <div class="avatar">📋</div>
+                    <div><strong>Jessica Taylor</strong><br><span style="font-size:12px;">Student • ASU</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Admin</span><span class="skill">Scheduling</span></div>
+                    <div class="rate">$14/hr</div>
+                    <button class="view-btn">View Profile →</button></div>
+            </div>
+            <div class="talent-card" onclick="window.location.href='/student/rachel'">
+                <div class="card-header">
+                    <div class="avatar">📋</div>
+                    <div><strong>Rachel Green</strong><br><span style="font-size:12px;">Student • Texas A&M</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Email Mgmt</span><span class="skill">Research</span></div>
+                    <div class="rate">$15/hr</div>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Translation -->
+    <div class="sector-section" data-sector="translation">
+        <div class="sector-header">
+            <h2>🌐 Translation</h2>
+            <span>2 talents</span>
+        </div>
+        <div class="talent-grid">
+            <div class="talent-card" onclick="window.location.href='/student/carlos'">
+                <div class="card-header">
+                    <div class="avatar">🌐</div>
+                    <div><strong>Carlos Mendez</strong><br><span style="font-size:12px;">Student • UT Austin</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Spanish</span><span class="skill">French</span></div>
+                    <div class="rate">$19/hr</div>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+            <div class="talent-card" onclick="window.location.href='/student/ling'">
+                <div class="card-header">
+                    <div class="avatar">🌐</div>
+                    <div><strong>Ling Wei</strong><br><span style="font-size:12px;">Student • UBC</span></div>
+                </div>
+                <div class="card-body">
+                    <div class="skills"><span class="skill">Chinese</span><span class="skill">English</span></div>
+                    <div class="rate">$17/hr</div>
+                    <button class="view-btn">View Profile →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>💰 StarterPool takes 10% commission. Students receive 90%.</p>
+        <p>⭐ <a href="#" onclick="alert('Upgrade to Premium: $8.99/month or $79.99/year for 5% commission!')">Upgrade to Premium</a> for lower fees</p>
+        <p>© 2024 StarterPool — Connecting talent with opportunity</p>
+    </div>
 </div>
 
 <script>
-    const sectors = document.querySelectorAll('.sector-section');
-    const btns = document.querySelectorAll('.filter-btn');
-    
-    function showSector(sectorId) {
-        sectors.forEach(s => s.classList.remove('active-sector'));
-        if (sectorId === 'all') {
-            sectors.forEach(s => s.classList.add('active-sector'));
+    // Theme Toggle
+    function toggleTheme() {
+        var body = document.body;
+        var btn = document.querySelector('.theme-toggle');
+        if (body.classList.contains('light')) {
+            body.classList.remove('light');
+            body.classList.add('dark');
+            btn.innerHTML = '☀️ Light';
         } else {
-            const target = document.querySelector(`.sector-section[data-sector="${sectorId}"]`);if (target) target.classList.add('active-sector');
+            body.classList.remove('dark');
+            body.classList.add('light');
+            btn.innerHTML = '🌙 Dark';
         }
     }
     
-    btns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            btns.forEach(b => b.classList.remove('active'));
+    // Sector Filter
+    var sectors = document.querySelectorAll('.sector-section');
+    var btns = document.querySelectorAll('.filter-btn');
+    
+    function showSector(sectorId) {
+        sectors.forEach(function(s) {
+            s.classList.remove('active-sector');
+        });
+        if (sectorId === 'all') {
+            sectors.forEach(function(s) {
+                s.classList.add('active-sector');
+            });
+        } else {
+            var target = document.querySelector('.sector-section[data-sector="' + sectorId + '"]');
+            if (target) target.classList.add('active-sector');
+        }
+    }
+    
+    btns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            btns.forEach(function(b) {
+                b.classList.remove('active');
+            });
             btn.classList.add('active');
             showSector(btn.getAttribute('data-sector'));
         });
