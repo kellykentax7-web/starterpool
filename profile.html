@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>StarterPool - Student Profile</title>
+    <title>StarterPool - Student Dashboard</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* Light Theme (default) */
         body.light {
             --bg: #fafafa;
             --card-bg: white;
@@ -17,7 +16,6 @@
             --skill-bg: #efefef;
         }
         
-        /* Dark Theme */
         body.dark {
             --bg: #121212;
             --card-bg: #1e1e1e;
@@ -61,28 +59,32 @@
             display: flex;
             gap: 20px;
             align-items: center;
+            flex-wrap: wrap;
         }
         
-        .nav-icons a {
+        .nav-icons a, .nav-icons button {
             text-decoration: none;
             font-size: 14px;
             color: var(--text);
             padding: 5px 12px;
             border-radius: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
         }
         
-        .nav-icons a:hover {
+        .nav-icons a:hover, .nav-icons button:hover {
             background: var(--skill-bg);
+        }
+        
+        .upgrade-btn {
+            background: linear-gradient(135deg, #f5af19, #f12711) !important;
+            color: white !important;
         }
         
         .theme-toggle {
             background: var(--skill-bg);
             border: 1px solid var(--border);
-            padding: 5px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            color: var(--text);
         }
         
         .profile-container {
@@ -124,6 +126,22 @@
             flex-wrap: wrap;
         }
         
+        .badge {
+            background: linear-gradient(135deg, #f5af19, #f12711);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        .verified-badge {
+            background: #0095f6;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+        }
+        
         .profile-stats {
             display: flex;
             gap: 40px;
@@ -131,18 +149,9 @@
             flex-wrap: wrap;
         }
         
-        .stat-number {
-            font-weight: 600;
-        }
-        
-        .profile-bio {
-            margin-top: 10px;
-        }
-        
         .skills {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            flex-wrap: wrap;gap: 8px;
             margin: 15px 0;
         }
         
@@ -151,6 +160,198 @@
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 12px;
+        }
+        
+        /* Subscription Cards */
+        .subscription-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .subscription-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .pricing-card {
+            background: var(--skill-bg);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .pricing-card.popular {
+            border: 2px solid #f5af19;
+        }
+        
+        .plan-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .plan-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2ecc71;
+            margin: 10px 0;
+        }
+        
+        .plan-features {
+            font-size: 11px;
+            color: #8e8e8e;
+            margin: 10px 0;
+        }
+        
+        .subscribe-btn {
+            background: #0095f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .current-plan {
+            background: #2ecc71;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        /* Create Post */
+        .create-post {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        
+        .post-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: var(--skill-bg);
+            border-radius: 20px;
+            color: var(--text);
+            margin-bottom: 10px;
+            resize: none;
+        }
+        
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .post-btn {
+            background: #0095f6;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        .boost-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+        
+        /* Feed */
+        .feed {
+            margin-top: 20px;
+        }
+        
+        .feed-item {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+        }
+        
+        .feed-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .feed-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .feed-name {font-weight: 600;
+        }
+        
+        .feed-time {
+            font-size: 10px;
+            color: #8e8e8e;
+        }
+        
+        .feed-content {
+            margin-bottom: 12px;
+        }
+        
+        .feed-emoji {
+            font-size: 60px;
+            margin: 10px 0;
+        }
+        
+        .feed-stats {
+            display: flex;
+            gap: 20px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+        }
+        
+        .boosted {
+            background: linear-gradient(135deg, #fff8e7, var(--card-bg));
+            border: 2px solid #f5af19;
+        }
+        
+        .boost-badge {
+            background: #f5af19;
+            color: #333;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-left: 8px;
         }
         
         .action-buttons {
@@ -166,7 +367,6 @@
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            font-size: 14px;
         }
         
         .btn-message {
@@ -179,180 +379,9 @@
             color: white;
         }
         
-        .rate {
-            font-size: 20px;
-            font-weight: 600;
-            color: #2ecc71;
-        }
-        
-        .premium-badge {
-            background: linear-gradient(135deg, #f5af19, #f12711);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-        
-        .profile-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            padding: 15px 0;
-            border-top: 1px solid var(--border);
-            margin-top: 20px;
-        }
-        
-        .tab-btn {
-            background: none;
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            color: #8e8e8e;
-            cursor: pointer;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .tab-btn.active {
-            color: var(--text);
-            border-top: 1px solid var(--text);
-            margin-top: -16px;
-        }
-        
-        .posts-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            margin-top: 10px;
-        }
-        
-        .post-item {
-            aspect-ratio: 1;
-            background: var(--skill-bg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-            transition: transform 0.2s;
-        }
-        
-        .post-item:hover {
-            transform: scale(1.02);
-            opacity: 0.9;
-        }
-        
-        .post-emoji {
-            font-size: 40px;
-        }
-        
-        .post-caption {
-            font-size: 11px;
-            margin-top: 8px;
-            text-align: center;
-            padding: 0 10px;
-        }
-        
-        .post-stats {
-            position: absolute;
-            bottom: 5px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 4px;
-            font-size: 10px;
-        }
-        
-        /* Chat Modal */
-        .chat-modal {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            right: 20px;
-            width: 350px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 15px 15px 0 0;
-            box-shadow: 0 -2px 20px rgba(0,0,0,0.15);
-            z-index: 1000;
-            flex-direction: column;
-        }
-        
-        .chat-header {
-            padding: 15px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .chat-messages {
-            height: 300px;
-            overflow-y: auto;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .message {
-            max-width: 80%;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-        }
-        
-        .message-sent {
-            background: #0095f6;
-            color: white;
-            align-self: flex-end;
-        }
-        
-        .message-received {
-            background: var(--skill-bg);
-            color: var(--text);
-            align-self: flex-start;}
-        
-        .chat-input-area {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid var(--border);
-            gap: 10px;
-        }
-        
-        .chat-input {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: var(--skill-bg);
-            border-radius: 20px;
-            color: var(--text);
-        }
-        
-        .send-btn {
-            background: #0095f6;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-        
         @media (max-width: 735px) {
             .profile-header { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
-            .profile-stats { justify-content: center; }
-            .profile-name { justify-content: center; }
-            .action-buttons { flex-direction: column; }
-            .chat-modal { width: 100%; right: 0; left: 0; bottom: 0; }
+            .pricing-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -362,30 +391,31 @@
     <div class="logo">🏊 StarterPool</div>
     <div class="nav-icons">
         <a href="/">🏠 Home</a>
-        <a href="/signup">Join as Talent</a>
+        <button onclick="showFeed()">📱 Feed</button>
+        <button onclick="showSubscriptions()">⭐ Upgrade</button>
         <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn">🌙 Dark</button>
     </div>
 </div>
 
 <div class="profile-container" id="profileContainer">
-    <div style="text-align:center; padding:50px;">Loading profile...</div>
+    <div style="text-align:center; padding:50px;">Loading...</div>
 </div>
 
 <!-- Chat Modal -->
-<div id="chatModal" class="chat-modal">
-    <div class="chat-header">
+<div id="chatModal" class="chat-modal" style="display:none; position:fixed; bottom:0; right:20px; width:350px; background:var(--card-bg); border:1px solid var(--border); border-radius:15px 15px 0 0; z-index:1000;">
+    <div class="chat-header" style="padding:15px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between;">
         <strong id="chatStudentName">Chat</strong>
-        <button onclick="closeChat()" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text);">×</button>
+        <button onclick="closeChat()" style="background:none; border:none; font-size:20px; cursor:pointer;">×</button>
     </div>
-    <div id="chatMessages" class="chat-messages"></div>
-    <div class="chat-input-area">
-        <input type="text" id="chatInput" class="chat-input" placeholder="Type a message...">
-        <button class="send-btn" onclick="sendChatMessage()">Send</button>
+    <div id="chatMessages" style="height:300px; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:10px;"></div>
+    <div style="display:flex; padding:10px; gap:10px; border-top:1px solid var(--border);">
+        <input type="text" id="chatInput" style="flex:1; padding:10px; border:none; background:var(--skill-bg); border-radius:20px;" placeholder="Message...">
+        <button onclick="sendChatMessage()" style="background:#0095f6; color:white; border:none; padding:10px 15px; border-radius:20px;">Send</button>
     </div>
 </div>
 
 <script>
-    // Theme handling - saves preference
+    // Theme
     function toggleTheme() {
         var body = document.body;
         var btn = document.getElementById('themeToggleBtn');
@@ -402,13 +432,10 @@
         }
     }
     
-    // Load saved theme
     var savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
         document.body.classList.remove('light');
         document.body.classList.add('dark');
-        var themeBtn = document.getElementById('themeToggleBtn');
-        if (themeBtn) themeBtn.innerHTML = '☀️ Light';
     } else {
         document.body.classList.add('light');
     }
@@ -416,85 +443,261 @@
     var studentId = window.location.pathname.split('/').pop();
     var currentChatStudent = null;
     var conversations = JSON.parse(localStorage.getItem('starterpool_chats')) || {};
+    var posts = JSON.parse(localStorage.getItem('starterpool_posts')) || [];
+    var subscriptions = JSON.parse(localStorage.getItem('starterpool_subscriptions')) || {};
+    var currentView = 'profile';
     
-    // Complete student database
-    var students = {
-        maria: {
-            name: "Maria Chen", avatar: "👩‍💻", university: "3rd year CS, UCLA", email: "maria.chen@starterpool.com",
-            rate: 18, bio: "Frontend React developer passionate about building beautiful interfaces.",
-            skills: ["React", "HTML/CSS", "JavaScript"], premium: false,
-            posts: [
-                { emoji: "💻", caption: "Built a todo app with React!", likes: 45, comments: 12 },
-                { emoji: "🎨", caption: "New portfolio design", likes: 89, comments: 23 },
-                { emoji: "📱", caption: "Working on a mobile app", likes: 34, comments: 8 },
-                { emoji: "🚀", caption: "Launched my first API", likes: 67, comments: 15 },
-                { emoji: "📚", caption: "Learning Next.js", likes: 23, comments: 5 },{ emoji: "💡", caption: "UI/UX design ideas", likes: 56, comments: 11 }
-            ],
-            followers: 245, following: 180
-        },
-        james: {
-            name: "James Okafor", avatar: "👨‍💻", university: "Final year, MIT", email: "james.okafor@starterpool.com",
-            rate: 22, bio: "Backend developer specializing in Python and Django.",
-            skills: ["Python", "Django", "PostgreSQL"], premium: true,
-            posts: [
-                { emoji: "🐍", caption: "Built a REST API in 2 hours!", likes: 120, comments: 34 },
-                { emoji: "☁️", caption: "Deployed on AWS", likes: 89, comments: 23 },
-                { emoji: "📖", caption: "Reading 'Clean Code'", likes: 56, comments: 12 }
-            ],
-            followers: 512, following: 234
-        },
-        emma: {
-            name: "Emma Watson", avatar: "🎨", university: "2nd year, RISD", email: "emma.watson@starterpool.com",
-            rate: 19, bio: "Graphic designer specializing in branding.",
-            skills: ["Figma", "Illustrator"], premium: false,
-            posts: [
-                { emoji: "🎨", caption: "New logo design", likes: 234, comments: 45 },
-                { emoji: "🖌️", caption: "Brand identity", likes: 189, comments: 34 },
-                { emoji: "📱", caption: "App UI design", likes: 156, comments: 28 }
-            ],
-            followers: 389, following: 145
-        },
-        sarah: {
-            name: "Sarah Johnson", avatar: "✍️", university: "2nd year, NYU", email: "sarah.johnson@starterpool.com",
-            rate: 15, bio: "Content writer with SEO expertise.",
-            skills: ["Blog Writing", "SEO"], premium: false,
-            posts: [
-                { emoji: "📝", caption: "New blog post: SEO tips", likes: 89, comments: 23 },
-                { emoji: "✍️", caption: "Copywriting portfolio", likes: 67, comments: 12 },
-                { emoji: "📊", caption: "Content strategy", likes: 45, comments: 8 }
-            ],
-            followers: 278, following: 92
-        }
+    var student = {
+        name: "Maria Chen",
+        avatar: "👩‍💻",
+        university: "3rd year CS, UCLA",
+        email: "maria.chen@starterpool.com",
+        rate: 18,
+        bio: "Frontend React developer passionate about building beautiful interfaces.",
+        skills: ["React", "HTML/CSS", "JavaScript"],
+        subscription: subscriptions[studentId] || 'basic',
+        verified: subscriptions[studentId] === 'platinum' || subscriptions[studentId] === 'spotlight',
+        followers: 245,
+        following: 180
     };
     
-    var student = students[studentId];
-    var container = document.getElementById('profileContainer');
+    function showProfile() {
+        currentView = 'profile';
+        renderProfile();
+    }
     
-    function showTab(tabId) {
-        var postsTab = document.getElementById('postsTab');
-        var portfolioTab = document.getElementById('portfolioTab');
-        var btns = document.querySelectorAll('.tab-btn');
+    function showFeed() {
+        currentView = 'feed';
+        renderFeed();
+    }
+    
+    function showSubscriptions() {
+        currentView = 'subscriptions';
+        renderSubscriptions();
+    }
+    
+    function renderProfile() {
+        var container = document.getElementById('profileContainer');
+        var verifiedBadge = student.verified ? '<span class="verified-badge">✓ Verified</span>' : '';
+        var subscriptionBadge = '';
+        if (student.subscription === 'featured') subscriptionBadge = '<span class="badge" style="background:#f5af19;">⭐ Featured</span>';
+        if (student.subscription === 'spotlight') subscriptionBadge = '<span class="badge" style="background:#e94560;">🔥 Spotlight</span>';
+        if (student.subscription === 'platinum') subscriptionBadge = '<span class="badge" style="background:#0f3460;">💎 Platinum</span>';
         
-        if (tabId === 'posts') {
-            postsTab.style.display = 'block';
-            portfolioTab.style.display = 'none';
-            btns[0].classList.add('active');
-            btns[1].classList.remove('active');
-        } else {
-            postsTab.style.display = 'none';
-            portfolioTab.style.display = 'block';
-            btns[0].classList.remove('active');
-            btns[1].classList.add('active');
+        var skillsHtml = '<div class="skills">';
+        for (var i = 0; i < student.skills.length; i++) {
+            skillsHtml += '<span class="skill">' + student.skills[i] + '</span>';
+        }
+        skillsHtml += '</div>';
+        
+        var html = '';
+        html += '<div class="profile-header">';
+        html += '<div class="profile-avatar">' + student.avatar + '</div>';
+        html += '<div class="profile-info">';
+        html += '<div class="profile-name">' + student.name + ' ' + verifiedBadge + ' ' + subscriptionBadge + '</div>';
+        html += '<div class="profile-stats">';
+        html += '<div><span class="stat-number">' + posts.length + '</span> posts</div>';
+        html += '<div><span class="stat-number">' + student.followers + '</span> followers</div>';
+        html += '<div><span class="stat-number">' + student.following + '</span> following</div>';
+        html += '</div>';
+        html += '<div class="profile-bio">';
+        html += '<p><strong>' + student.university + '</strong></p>';
+        html += '<p>' + student.bio + '</p>';
+        html += '<div class="rate">💰 $' + student.rate + '/hour</div>';
+        html += skillsHtml;
+        html += '</div>';
+        html += '<div class="action-buttons">';
+        html += '<button class="btn-message" onclick="openChat(\'' + studentId + '\', \'' + student.name + '\')">💬 Message</button>';
+        html += '<button class="btn-hire" onclick="hireStudent()">💰 Hire Now</button>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        
+        // Create Post Section
+        html += '<div class="create-post">';
+        html += '<textarea id="postContent" class="post-input" rows="2" placeholder="Share your work, skills, or project..."></textarea>';
+        html += '<div class="post-actions">';
+        html += '<div class="boost-checkbox"><input type="checkbox" id="boostPost"> <label>⭐ Boost this post ($2.99 for 7 days at top)</label></div>';
+        html += '<button class="post-btn" onclick="createPost()">📤 Post</button>';
+        html += '</div>';
+        html += '</div>';
+        
+        // Feed Previewhtml += '<div class="feed"><h3>Recent Posts</h3>';
+        var displayPosts = [...posts].reverse();
+        for (var i = 0; i < Math.min(displayPosts.length, 5); i++) {
+            var p = displayPosts[i];
+            var boostedClass = p.boosted ? 'boosted' : '';
+            var boostedBadge = p.boosted ? '<span class="boost-badge">⭐ Boosted</span>' : '';
+            html += '<div class="feed-item ' + boostedClass + '">';
+            html += '<div class="feed-header">';
+            html += '<div class="feed-avatar">' + (p.avatar || '👤') + '</div>';
+            html += '<div><div class="feed-name">' + p.name + ' ' + boostedBadge + '</div><div class="feed-time">' + p.time + '</div></div>';
+            html += '</div>';
+            html += '<div class="feed-content">' + p.content + '</div>';
+            if (p.emoji) html += '<div class="feed-emoji">' + p.emoji + '</div>';
+            html += '<div class="feed-stats">❤️ ' + (p.likes  0) + ' likes 💬 ' + (p.comments  0) + ' comments</div>';
+            html += '</div>';
+        }
+        if (posts.length === 0) html += '<p style="text-align:center; padding:20px;">No posts yet. Create your first post above!</p>';
+        html += '<button onclick="showFeed()" style="background:none; color:#0095f6; border:none; margin-top:10px; cursor:pointer;">View all posts →</button>';
+        html += '</div>';
+        
+        container.innerHTML = html;
+    }
+    
+    function renderFeed() {
+        var container = document.getElementById('profileContainer');
+        var sortedPosts = [...posts].sort(function(a, b) {
+            if (a.boosted && !b.boosted) return -1;
+            if (!a.boosted && b.boosted) return 1;
+            return new Date(b.timestamp) - new Date(a.timestamp);
+        });
+        
+        var html = '<div style="margin-bottom:20px;"><button onclick="showProfile()" style="background:none; border:none; color:#0095f6; cursor:pointer;">← Back to Profile</button></div>';
+        html += '<h2>📱 Feed</h2>';
+        html += '<p style="margin-bottom:20px;">See what students are working on</p>';
+        
+        for (var i = 0; i < sortedPosts.length; i++) {
+            var p = sortedPosts[i];
+            var boostedClass = p.boosted ? 'boosted' : '';
+            var boostedBadge = p.boosted ? '<span class="boost-badge">⭐ Boosted</span>' : '';
+            html += '<div class="feed-item ' + boostedClass + '">';
+            html += '<div class="feed-header">';
+            html += '<div class="feed-avatar">' + (p.avatar || '👤') + '</div>';
+            html += '<div><div class="feed-name">' + p.name + ' ' + boostedBadge + '</div><div class="feed-time">' + p.time + '</div></div>';
+            html += '</div>';
+            html += '<div class="feed-content">' + p.content + '</div>';
+            if (p.emoji) html += '<div class="feed-emoji">' + p.emoji + '</div>';
+            html += '<div class="feed-stats">❤️ ' + (p.likes  0) + ' likes 💬 ' + (p.comments  0) + ' comments</div>';
+            html += '<button onclick="hireFromPost(\'' + p.userId + '\', \'' + p.name + '\', 18)" style="background:#0095f6; color:white; border:none; padding:8px; border-radius:8px; width:100%; margin-top:10px; cursor:pointer;">💰 Hire ' + p.name + '</button>';
+            html += '</div>';
+        }
+        if (posts.length === 0) html += '<p style="text-align:center; padding:50px;">No posts yet. Create your first post!</p>';
+        
+        container.innerHTML = html;
+    }
+    
+    function renderSubscriptions() {
+        var container = document.getElementById('profileContainer');
+        var currentSub = subscriptions[studentId] || 'basic';
+        
+        var html = '<div style="margin-bottom:20px;"><button onclick="showProfile()" style="background:none; border:none; color:#0095f6; cursor:pointer;">← Back to Profile</button></div>';
+        html += '<div class="subscription-section">';
+        html += '<div class="subscription-title">⭐ Upgrade Your Account</div>';
+        html += '<p>Get more visibility and attract more clients</p>';
+        html += '<div class="pricing-grid">';var plans = [
+            { name: "Basic", price: "FREE", features: "1 post • Bottom of feed", tier: "basic", popular: false },
+            { name: "Featured", price: "$4.99", features: "Unlimited posts • Middle placement", tier: "featured", popular: false, period: "/month" },
+            { name: "Spotlight", price: "$9.99", features: "Unlimited posts • TOP placement • Verified badge", tier: "spotlight", popular: true, period: "/month" },
+            { name: "Platinum", price: "$99", features: "All Spotlight benefits • Priority support • Save $20", tier: "platinum", popular: false, period: "/year" }
+        ];
+        
+        for (var i = 0; i < plans.length; i++) {
+            var p = plans[i];
+            var isCurrent = currentSub === p.tier;
+            var popularClass = p.popular ? 'popular' : '';
+            html += '<div class="pricing-card ' + popularClass + '">';
+            html += '<div class="plan-name">' + p.name + '</div>';
+            html += '<div class="plan-price">' + p.price + '<span style="font-size:12px;">' + (p.period || '') + '</span></div>';
+            html += '<div class="plan-features">' + p.features + '</div>';
+            if (isCurrent) {
+                html += '<div class="current-plan">✓ Current Plan</div>';
+            } else if (p.price !== "FREE") {
+                html += '<button class="subscribe-btn" onclick="upgradeTo(\'' + p.tier + '\', \'' + p.price + '\')">Upgrade →</button>';
+            } else {
+                html += '<button class="subscribe-btn" onclick="stayBasic()">Stay Basic</button>';
+            }
+            html += '</div>';
+        }
+        
+        html += '</div></div>';
+        html += '<div style="margin-top:20px; padding:20px; background:var(--skill-bg); border-radius:16px;">';
+        html += '<h3>💳 Payment Methods Accepted</h3>';
+        html += '<p style="margin-top:10px;">PayPal • Mobile Money (MTN/Airtel) • Apple Pay • Samsung Pay • Credit/Debit Card</p>';
+        html += '</div>';
+        
+        container.innerHTML = html;
+    }
+    
+    function upgradeTo(tier, price) {
+        alert('⭐ Upgrade to ' + tier.toUpperCase() + ' for ' + price + '\n\nWe will send payment instructions to your email.\n\nAccepted payment methods:\n• PayPal\n• Mobile Money (MTN/Airtel)\n• Apple Pay\n• Samsung Pay\n• Credit/Debit Card');
+        subscriptions[studentId] = tier;
+        localStorage.setItem('starterpool_subscriptions', JSON.stringify(subscriptions));
+        student.subscription = tier;
+        student.verified = (tier === 'platinum' || tier === 'spotlight');
+        showProfile();
+    }
+    
+    function stayBasic() {
+        subscriptions[studentId] = 'basic';
+        localStorage.setItem('starterpool_subscriptions', JSON.stringify(subscriptions));
+        student.subscription = 'basic';
+        student.verified = false;
+        showProfile();
+    }
+    
+    function createPost() {
+        var content = document.getElementById('postContent').value;
+        var boost = document.getElementById('boostPost').checked;
+        
+        if (!content.trim()) {
+            alert('Please write something in your post');
+            return;
+        }
+        
+        if (boost) {
+            var confirmBoost = confirm('⭐ Boost this post for $2.99?\n\nYour post will appear at the top of the feed for 7 days.\n\nPayment methods: PayPal, Mobile Money, Apple Pay, Samsung Pay');
+            if (!confirmBoost) return;
+        }
+        
+        var newPost = {
+            id: Date.now(),
+            userId: studentId,
+            name: student.name,
+            avatar: student.avatar,
+            content: content,
+            emoji: getRandomEmoji(),
+            boosted: boost,
+            boostExpiry: boost ? Date.now() + 7 * 24 * 60 * 60 * 1000 : null,
+            timestamp: new Date().toISOString(),
+            time: new Date().toLocaleDateString(),
+            likes: 0,
+            comments: 0
+        };
+        
+        posts.unshift(newPost);
+        localStorage.setItem('starterpool_posts', JSON.stringify(posts));
+        document.getElementById('postContent').value = '';
+        document.getElementById('boostPost').checked = false;
+        
+        alert('✅ Post created!' + (boost ? ' Your post is boosted to the top for 7 days!' : ''));
+        showFeed();
+    }
+    
+    function getRandomEmoji() {
+        var emojis = ['💻', '🎨', '✍️', '📊', '📱', '🎬', '📋', '🌐', '🚀', '💡', '🎯', '📚'];
+        return emojis[Math.floor(Math.random() * emojis.length)];
+    }
+    
+    function hireStudent() {
+        var hours = prompt('How many hours will ' + student.name + ' work? ($' + student.rate + '/hour)', '10');
+        if (hours && !isNaN(hours) && hours > 0) {
+            alert('✅ Hire request sent to ' + student.name + '!\n\nYou can now message them directly to arrange payment and project details.\n\nNo platform commission — you pay the student directly!');
+            openChat(studentId, student.name);
         }
     }
     
-    function viewPost(post) {
-        alert('📌 ' + post.caption + '\n\n❤️ ' + post.likes + ' likes\n💬 ' + post.comments + ' comments');
+    function hireFromPost(userId, name, rate) {
+        var hours = prompt('How many hours will ' + name + ' work? ($' + rate + '/hour)', '10');
+        if (hours && !isNaN(hours) && hours > 0) {
+            alert('✅ Hire request sent to ' + name + '!\n\nYou can now message them directly.\n\nNo platform commission!');
+            openChat(userId, name);
+        }
     }
     
-    function openChat(studentId, studentName) {
-        currentChatStudent = studentId;
-        document.getElementById('chatStudentName').innerText = 'Chat with ' + studentName;
+    function openChat(id, name) {
+        currentChatStudent = id;
+        document.getElementById('chatStudentName').innerText = 'Chat with ' + name;
         document.getElementById('chatModal').style.display = 'flex';
         loadChatMessages();
     }
@@ -533,85 +736,14 @@
         input.value = '';
         loadChatMessages();
         
-        // Auto-reply for demo
         setTimeout(function() {
-            conversations[currentChatStudent].push({ sender: 'student', text: 'Thanks for your message! I will get back to you soon.', time: new Date().toISOString() });
+            conversations[currentChatStudent].push({ sender: 'student', text: 'Thanks for your message! Let\'s discuss the project.', time: new Date().toISOString() });
             localStorage.setItem('starterpool_chats', JSON.stringify(conversations));
             loadChatMessages();
         }, 1000);
     }
     
-    function hireStudent(name, rate) {
-        var hours = prompt('How many hours will ' + name + ' work? ($' + rate + '/hour)', '10');
-        if (hours && !isNaN(hours) && hours > 0) {
-            var total = rate * hours;
-            var fee = total * 0.1;
-            var studentGets = total - fee;
-            alert('✅ Hire request sent to ' + name + '!\n\nTotal: $' + total + '\nStarterPool fee (10%): $' + fee + '\n' + name + ' receives: $' + studentGets + '\n\nYou will receive payment instructions via email.');
-        }
-    }
-    
-    if (!student) {
-        container.innerHTML = '<div style="text-align:center; padding:50px;"><h2>Student not found</h2><a href="/">Go back home</a></div>';
-    } else {
-        var premiumBadge = student.premium ? '<span class="premium-badge">⭐ PREMIUM</span>' : '';
-        
-        var skillsHtml = '<div class="skills">';
-        for (var s = 0; s < student.skills.length; s++) {
-            skillsHtml += '<span class="skill">' + student.skills[s] + '</span>';
-        }
-        skillsHtml += '</div>';
-        
-        var postsHtml = '<div class="posts-grid">';
-        for (var p = 0; p < student.posts.length; p++) {
-            var post = student.posts[p];
-            postsHtml += '<div class="post-item" onclick="viewPost(' + JSON.stringify(post).replace(/"/g, '&quot;') + ')">';
-            postsHtml += '<div class="post-emoji">' + post.emoji + '</div>';
-            postsHtml += '<div class="post-caption">' + post.caption.substring(0, 30) + '</div>';
-            postsHtml += '<div class="post-stats">❤️ ' + post.likes + ' 💬 ' + post.comments + '</div>';
-            postsHtml += '</div>';
-        }
-        postsHtml += '</div>';
-        
-        var portfolioHtml = '<div class="posts-grid">';
-        portfolioHtml += '<div class="post-item" onclick="alert(\'Portfolio: React Project\')"><div class="post-emoji">📁</div><div class="post-caption">React E-commerce Site</div></div>';
-        portfolioHtml += '<div class="post-item" onclick="alert(\'Portfolio: API Project\')"><div class="post-emoji">📁</div><div class="post-caption">REST API with Node.js</div></div>';
-        portfolioHtml += '<div class="post-item" onclick="alert(\'Portfolio: Design Project\')"><div class="post-emoji">📁</div><div class="post-caption">Brand Identity Design</div></div>';
-        portfolioHtml += '</div>';
-        
-        var html = '';
-        html += '<div class="profile-header">';
-        html += '<div class="profile-avatar">' + student.avatar + '</div>';
-        html += '<div class="profile-info">';
-        html += '<div class="profile-name">' + student.name + ' ' + premiumBadge + '</div>';
-        html += '<div class="profile-stats">';
-        html += '<div><span class="stat-number">' + student.posts.length + '</span> posts</div>';
-        html += '<div><span class="stat-number">' + student.followers + '</span> followers</div>';
-        html += '<div><span class="stat-number">' + student.following + '</span> following</div>';
-        html += '</div>';
-        html += '<div class="profile-bio">';html += '<p><strong>' + student.university + '</strong></p>';
-        html += '<p>' + student.bio + '</p>';
-        html += '<div class="rate">💰 $' + student.rate + '/hour</div>';
-        html += skillsHtml;
-        html += '</div>';
-        html += '<div class="action-buttons">';
-        html += '<button class="btn-message" onclick="openChat(\'' + studentId + '\', \'' + student.name + '\')">💬 Send Message</button>';
-        html += '<button class="btn-hire" onclick="hireStudent(\'' + student.name + '\', ' + student.rate + ')">💰 Hire Now</button>';
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-        html += '<div class="profile-tabs">';
-        html += '<button class="tab-btn active" onclick="showTab(\'posts\')">📷 POSTS</button>';
-        html += '<button class="tab-btn" onclick="showTab(\'portfolio\')">📁 PORTFOLIO</button>';
-        html += '</div>';
-        html += '<div id="postsTab">' + postsHtml + '</div>';
-        html += '<div id="portfolioTab" style="display: none;">' + portfolioHtml + '</div>';
-        html += '<div style="margin-top: 20px; text-align: center; padding: 20px; border-top: 1px solid var(--border);">';
-        html += '<p style="font-size: 12px; color: #8e8e8e;">💰 StarterPool takes 10% commission. Students receive 90%.</p>';
-        html += '</div>';
-        
-        container.innerHTML = html;
-    }
+    renderProfile();
 </script>
 
 </body>
