@@ -3,7 +3,7 @@
 <head>
     <title>StarterPool - Find Talent</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -196,7 +196,6 @@
             margin: 0 12px;
             border-radius: 12px;
             position: relative;
-            cursor: pointer;
             overflow: hidden;
         }
         
@@ -343,6 +342,7 @@
             justify-content: center;
             cursor: pointer;
             font-size: 14px;
+            border: 2px solid var(--card-bg);
         }
         
         .profile-name-large {
@@ -382,6 +382,7 @@
             font-weight: 600;
             width: 100%;
             border: none;
+            margin: 5px 0;
         }
         
         .follow-btn {
@@ -398,7 +399,6 @@
         .message-profile-btn {
             background: var(--input-bg);
             color: var(--text);
-            margin-top: 8px;
         }
         
         .stats-row {
@@ -467,7 +467,7 @@
             margin-top: 10px;
         }
         
-        /* DM Page */
+        /* DM Page - Fixed Bottom Input */
         .dm-page {
             display: none;
             position: fixed;
@@ -489,6 +489,7 @@
             background: var(--nav-bg);
             position: sticky;
             top: 0;
+            z-index: 10;
         }
         
         .dm-back {
@@ -550,6 +551,7 @@
             border-radius: 25px;
             background: var(--input-bg);
             color: var(--text);
+            font-size: 16px;
         }
         
         .dm-send-btn {
@@ -694,10 +696,12 @@
         { id: "5", name: "Michael Chen", avatar: "🔧", avatarImg: null, category: "engineer", rate: 25, bio: "Mechanical engineer", location: "Texas A&M", link: "https://linkedin.com/in/michaelchen", posts: 10, followers: 167, following: 88 }
     ];
     
-    // Video posts with working videos
+    // Working video URL
+    var workingVideoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
+    
     var posts = [
         { id: 1, userId: "1", name: userProfile.name, avatar: userProfile.avatar, avatarImg: userProfile.avatarImg, category: "developer", content: "Just finished a React dashboard! Check it out", mediaType: "emoji", mediaUrl: "💻", likes: 45, comments: [], time: "2h ago" },
-        { id: 2, userId: "2", name: "James Okafor", avatar: "👨‍💻", avatarImg: null, category: "developer", content: "Watch my API deployment tutorial", mediaType: "video", mediaUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", likes: 89, comments: [], time: "5h ago" },
+        { id: 2, userId: "2", name: "James Okafor", avatar: "👨‍💻", avatarImg: null, category: "developer", content: "Watch my API deployment tutorial", mediaType: "video", mediaUrl: workingVideoUrl, likes: 89, comments: [], time: "5h ago" },
         { id: 3, userId: "4", name: "Emma Watson", avatar: "🎨", avatarImg: null, category: "designer", content: "New logo for a coffee shop", mediaType: "emoji", mediaUrl: "🎨", likes: 234, comments: [], time: "1d ago" }
     ];
     
@@ -760,7 +764,7 @@
             var avatarHtml = p.avatarImg ? '<img src="' + p.avatarImg + '">' : p.avatar;
             var mediaHtml = '';
             if (p.mediaType === 'video') {
-                mediaHtml = '<video class="post-video" controls preload="metadata" src="' + p.mediaUrl + '"></video>';
+                mediaHtml = '<video class="post-video" controls preload="auto" playsinline src="' + p.mediaUrl + '"></video>';
             } else {
                 mediaHtml = '<div class="post-emoji">' + p.mediaUrl + '</div>';
             }
@@ -922,11 +926,9 @@
     
     function followUser(userId, userName) {
         if (userFollowing[userId]) {
-            // Unfollow
             delete userFollowing[userId];
             alert("You unfollowed " + userName);
         } else {
-            // Follow
             userFollowing[userId] = true;
             alert("You are now following " + userName);
         }
@@ -973,8 +975,12 @@
         html += '<div class="stat-item"><div class="stat-number">' + student.followers + '</div><div class="stat-label">followers</div></div>';
         html += '<div class="stat-item"><div class="stat-number">' + student.following + '</div><div class="stat-label">following</div></div>';
         html += '</div>';
-        if (isOwner) html += '<button class="edit-profile-btn" onclick="openEditModal()">✏️ Edit Profile</button>';
-        else html += followButtonHtml + '<button class="message-profile-btn" onclick="openDM(\'' + student.id + '\', \'' + student.name + '\')">💬 Message</button>';
+        if (isOwner) {
+            html += '<button class="edit-profile-btn" onclick="openEditModal()">✏️ Edit Profile</button>';
+        } else {
+            html += followButtonHtml;
+            html += '<button class="message-profile-btn" onclick="openDM(\'' + student.id + '\', \'' + student.name + '\')">💬 Message</button>';
+        }
         html += '</div>';
         if (userPosts.length > 0) html += '<div style="padding:15px;"><h3>Recent Work</h3>' + postsHtml + '</div>';
         html += '</div>';
@@ -1018,14 +1024,6 @@
         localStorage.setItem('starterpool_conversations', JSON.stringify(conversations));
         input.value = '';
         loadDMMessages();
-        
-        setTimeout(function() {
-            if (conversations[currentDMUser]) {
-                conversations[currentDMUser].push({ sender: 'student', text: 'Thanks for reaching out! Let me know more about your project.' });
-                localStorage.setItem('starterpool_conversations', JSON.stringify(conversations));
-                loadDMMessages();
-            }
-        }, 1000);
     }
     
     showFeed();
