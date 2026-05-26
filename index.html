@@ -151,7 +151,8 @@
         .post-avatar {
             width: 44px;
             height: 44px;
-            border-radius: 50%;background: linear-gradient(135deg, #0f3460, #e94560);
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0f3460, #e94560);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -313,7 +314,8 @@
             height: 100px;
             border-radius: 50%;
             background: var(--card-bg);
-            display: flex;align-items: center;
+            display: flex;
+            align-items: center;
             justify-content: center;
             font-size: 50px;
             margin-top: -50px;
@@ -472,7 +474,8 @@
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;background: var(--card-bg);
+            bottom: 0;
+            background: var(--card-bg);
             z-index: 200;
             flex-direction: column;
         }
@@ -614,7 +617,8 @@
     <span class="category-chip active" data-cat="all" onclick="filterByCategory('all')">All</span>
     <span class="category-chip" data-cat="engineer" onclick="filterByCategory('engineer')">🔧 Engineer</span>
     <span class="category-chip" data-cat="designer" onclick="filterByCategory('designer')">🎨 Designer</span>
-    <span class="category-chip" data-cat="developer" onclick="filterByCategory('developer')">💻 Developer</span><span class="category-chip" data-cat="writer" onclick="filterByCategory('writer')">✍️ Writer</span>
+    <span class="category-chip" data-cat="developer" onclick="filterByCategory('developer')">💻 Developer</span>
+    <span class="category-chip" data-cat="writer" onclick="filterByCategory('writer')">✍️ Writer</span>
     <span class="category-chip" data-cat="marketer" onclick="filterByCategory('marketer')">📱 Marketer</span>
     <span class="category-chip" data-cat="video" onclick="filterByCategory('video')">🎬 Video</span>
     <span class="category-chip" data-cat="assistant" onclick="filterByCategory('assistant')">📋 Assistant</span>
@@ -773,7 +777,8 @@
             html += '<div class="post-avatar" onclick="viewProfile(\'' + p.userId + '\')">' + avatarHtml + '</div>';
             html += '<div class="post-user-info" onclick="viewProfile(\'' + p.userId + '\')">';
             html += '<div class="post-name">' + p.name + '</div>';
-            html += '<div class="post-category-tag">' + p.category.toUpperCase() + '</div>';html += '<div class="post-time">' + p.time + '</div>';
+            html += '<div class="post-category-tag">' + p.category.toUpperCase() + '</div>';
+            html += '<div class="post-time">' + p.time + '</div>';
             html += '</div>';
             html += '</div>';
             html += '<div class="post-media">' + mediaHtml + '</div>';
@@ -855,76 +860,8 @@
             html += '<div class="profile-result" onclick="viewProfile(\'' + s.id + '\')">';
             html += '<div class="profile-result-avatar">' + avatarHtml + '</div>';
             html += '<div style="flex:1;">';
-            html += '<div class="profile-result-name">' + s.name + '</div>';followButtonHtml = '<button class="follow-btn" onclick="followUser(\'' + student.id + '\', \'' + student.name + '\')">Follow</button>';
-            }
-        }
-        
-        var html = '';
-        html += '<button class="back-btn" onclick="showSearch()">← Back</button>';
-        html += '<div class="profile-view">';
-        html += '<div class="profile-cover"></div>';
-        html += '<div class="profile-info-section">';
-        html += '<div class="profile-avatar-large">' + avatarHtml + (isOwner ? '<div class="edit-avatar-btn" onclick="openEditModal()">✏️</div>' : '') + '</div>';
-        html += '<div class="profile-name-large">' + student.name + '</div>';
-        html += '<div class="profile-category-large">' + student.category.toUpperCase() + ' • $' + student.rate + '/hour</div>';
-        html += '<div class="profile-bio-text">' + (student.bio || "No bio yet") + '</div>';
-        html += '<div>📍 ' + student.location + '</div>';
-        if (student.link) html += '<div><a href="' + student.link + '" target="_blank" class="profile-link">🔗 ' + student.link + '</a></div>';
-        html += '<div class="stats-row">';
-        html += '<div class="stat-item"><div class="stat-number">' + student.posts + '</div><div class="stat-label">posts</div></div>';
-        html += '<div class="stat-item"><div class="stat-number">' + student.followers + '</div><div class="stat-label">followers</div></div>';
-        html += '<div class="stat-item"><div class="stat-number">' + student.following + '</div><div class="stat-label">following</div></div>';
-        html += '</div>';
-        if (isOwner) html += '<button class="edit-profile-btn" onclick="openEditModal()">✏️ Edit Profile</button>';
-        else html += followButtonHtml + '<button class="message-profile-btn" onclick="openDM(\'' + student.id + '\', \'' + student.name + '\')">💬 Message</button>';
-        html += '</div>';
-        if (userPosts.length > 0) html += '<div style="padding:15px;"><h3>Recent Work</h3>' + postsHtml + '</div>';
-        html += '</div>';
-        document.getElementById('mainContainer').innerHTML = html;
-    }
-    
-    function openDM(userId, name) {
-        currentDMUser = userId;
-        document.getElementById('dmName').innerHTML = name;
-        document.getElementById('dmPage').style.display = 'flex';
-        document.getElementById('mainContainer').style.display = 'none';
-        loadDMMessages();
-    }
-    
-    function closeDM() {
-        document.getElementById('dmPage').style.display = 'none';
-        document.getElementById('mainContainer').style.display = 'block';
-        currentDMUser = null;
-    }
-    
-    function loadDMMessages() {
-        if (!conversations[currentDMUser]) conversations[currentDMUser] = [];
-        var msgsDiv = document.getElementById('dmMessages');
-        msgsDiv.innerHTML = '';
-        for (var i = 0; i < conversations[currentDMUser].length; i++) {
-            var msg = conversations[currentDMUser][i];
-            var div = document.createElement('div');
-            div.className = msg.sender === 'employer' ? 'dm-msg-sent' : 'dm-msg-received';
-            div.innerHTML = msg.text;
-            msgsDiv.appendChild(div);
-        }
-        msgsDiv.scrollTop = msgsDiv.scrollHeight;
-    }
-    
-    function sendDM() {
-        var input = document.getElementById('dmInput');
-        var message = input.value.trim();
-        if (!message || !currentDMUser) return;
-        if (!conversations[currentDMUser]) conversations[currentDMUser] = [];
-        conversations[currentDMUser].push({ sender: 'employer', text: message });
-        localStorage.setItem('starterpool_conversations', JSON.stringify(conversations));
-        input.value = '';
-        loadDMMessages();
-        
-        setTimeout(function() {
-            if (conversations[currentDMUser]) {
-                conversations[currentDMUser].push({ sender: 'student', text: 'Thanks for reaching out! Let me know more about your project.' });
-                localStorage.setItem('starterpool_conversations', JSON.stringify(conversations));html += '<div class="profile-result-category">' + s.category.toUpperCase() + '</div>';
+            html += '<div class="profile-result-name">' + s.name + '</div>';
+            html += '<div class="profile-result-category">' + s.category.toUpperCase() + '</div>';
             html += '<div>💰 $' + s.rate + '/hour</div>';
             html += '</div>';
             html += '</div>';
@@ -1015,7 +952,78 @@
         if (!isOwner) {
             if (isFollowing) {
                 followButtonHtml = '<button class="following-btn" onclick="followUser(\'' + student.id + '\', \'' + student.name + '\')">✓ Following</button>';
-            } else {loadDMMessages();
+            } else {
+                followButtonHtml = '<button class="follow-btn" onclick="followUser(\'' + student.id + '\', \'' + student.name + '\')">Follow</button>';
+            }
+        }
+        
+        var html = '';
+        html += '<button class="back-btn" onclick="showSearch()">← Back</button>';
+        html += '<div class="profile-view">';
+        html += '<div class="profile-cover"></div>';
+        html += '<div class="profile-info-section">';
+        html += '<div class="profile-avatar-large">' + avatarHtml + (isOwner ? '<div class="edit-avatar-btn" onclick="openEditModal()">✏️</div>' : '') + '</div>';
+        html += '<div class="profile-name-large">' + student.name + '</div>';
+        html += '<div class="profile-category-large">' + student.category.toUpperCase() + ' • $' + student.rate + '/hour</div>';
+        html += '<div class="profile-bio-text">' + (student.bio || "No bio yet") + '</div>';
+        html += '<div>📍 ' + student.location + '</div>';
+        if (student.link) html += '<div><a href="' + student.link + '" target="_blank" class="profile-link">🔗 ' + student.link + '</a></div>';
+        html += '<div class="stats-row">';
+        html += '<div class="stat-item"><div class="stat-number">' + student.posts + '</div><div class="stat-label">posts</div></div>';
+        html += '<div class="stat-item"><div class="stat-number">' + student.followers + '</div><div class="stat-label">followers</div></div>';
+        html += '<div class="stat-item"><div class="stat-number">' + student.following + '</div><div class="stat-label">following</div></div>';
+        html += '</div>';
+        if (isOwner) html += '<button class="edit-profile-btn" onclick="openEditModal()">✏️ Edit Profile</button>';
+        else html += followButtonHtml + '<button class="message-profile-btn" onclick="openDM(\'' + student.id + '\', \'' + student.name + '\')">💬 Message</button>';
+        html += '</div>';
+        if (userPosts.length > 0) html += '<div style="padding:15px;"><h3>Recent Work</h3>' + postsHtml + '</div>';
+        html += '</div>';
+        document.getElementById('mainContainer').innerHTML = html;
+    }
+    
+    function openDM(userId, name) {
+        currentDMUser = userId;
+        document.getElementById('dmName').innerHTML = name;
+        document.getElementById('dmPage').style.display = 'flex';
+        document.getElementById('mainContainer').style.display = 'none';
+        loadDMMessages();
+    }
+    
+    function closeDM() {
+        document.getElementById('dmPage').style.display = 'none';
+        document.getElementById('mainContainer').style.display = 'block';
+        currentDMUser = null;
+    }
+    
+    function loadDMMessages() {
+        if (!conversations[currentDMUser]) conversations[currentDMUser] = [];
+        var msgsDiv = document.getElementById('dmMessages');
+        msgsDiv.innerHTML = '';
+        for (var i = 0; i < conversations[currentDMUser].length; i++) {
+            var msg = conversations[currentDMUser][i];
+            var div = document.createElement('div');
+            div.className = msg.sender === 'employer' ? 'dm-msg-sent' : 'dm-msg-received';
+            div.innerHTML = msg.text;
+            msgsDiv.appendChild(div);
+        }
+        msgsDiv.scrollTop = msgsDiv.scrollHeight;
+    }
+    
+    function sendDM() {
+        var input = document.getElementById('dmInput');
+        var message = input.value.trim();
+        if (!message || !currentDMUser) return;
+        if (!conversations[currentDMUser]) conversations[currentDMUser] = [];
+        conversations[currentDMUser].push({ sender: 'employer', text: message });
+        localStorage.setItem('starterpool_conversations', JSON.stringify(conversations));
+        input.value = '';
+        loadDMMessages();
+        
+        setTimeout(function() {
+            if (conversations[currentDMUser]) {
+                conversations[currentDMUser].push({ sender: 'student', text: 'Thanks for reaching out! Let me know more about your project.' });
+                localStorage.setItem('starterpool_conversations', JSON.stringify(conversations));
+                loadDMMessages();
             }
         }, 1000);
     }
