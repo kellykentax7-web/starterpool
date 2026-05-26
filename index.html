@@ -412,7 +412,6 @@
         
         .stat-item {
             text-align: center;
-            cursor: pointer;
         }
         
         .stat-number {
@@ -425,7 +424,6 @@
             color: #8e8e8e;
         }
         
-        /* Edit Modal */
         .edit-modal {
             display: none;
             position: fixed;
@@ -467,7 +465,6 @@
             margin-top: 10px;
         }
         
-        /* DM Page - Fixed Bottom Input */
         .dm-page {
             display: none;
             position: fixed;
@@ -610,7 +607,7 @@
 
 <div class="search-container" id="searchContainer" style="display: none;">
     <div class="search-wrapper">
-        <input type="text" id="searchInput" class="search-input" placeholder="Search by category...">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by category or name...">
         <button class="cancel-btn" onclick="clearSearch()">Cancel</button>
     </div>
 </div>
@@ -631,7 +628,6 @@
     <div class="empty-state">Loading...</div>
 </div>
 
-<!-- DM Page -->
 <div id="dmPage" class="dm-page">
     <div class="dm-header">
         <button class="dm-back" onclick="closeDM()">←</button>
@@ -688,15 +684,25 @@
     var userLikedPosts = JSON.parse(localStorage.getItem('userLikedPosts')) || {};
     var userFollowing = JSON.parse(localStorage.getItem('userFollowing')) || {};
     
+    // All students - complete list
     var students = [
-        userProfile,
+        { id: "1", name: "Maria Chen", avatar: "👩‍💻", avatarImg: null, category: "developer", rate: 18, bio: "React frontend developer", location: "UCLA", link: "https://github.com/mariachen", posts: 12, followers: 245, following: 180 },
         { id: "2", name: "James Okafor", avatar: "👨‍💻", avatarImg: null, category: "developer", rate: 22, bio: "Python backend developer", location: "MIT", link: "https://github.com/jamesokafor", posts: 8, followers: 512, following: 234 },
         { id: "3", name: "Sarah Johnson", avatar: "✍️", avatarImg: null, category: "writer", rate: 15, bio: "SEO content writer", location: "NYU", link: "https://sarahjohnson.contently.com", posts: 20, followers: 278, following: 92 },
         { id: "4", name: "Emma Watson", avatar: "🎨", avatarImg: null, category: "designer", rate: 19, bio: "Logo designer", location: "RISD", link: "https://behance.net/emmawatson", posts: 15, followers: 389, following: 145 },
-        { id: "5", name: "Michael Chen", avatar: "🔧", avatarImg: null, category: "engineer", rate: 25, bio: "Mechanical engineer", location: "Texas A&M", link: "https://linkedin.com/in/michaelchen", posts: 10, followers: 167, following: 88 }
+        { id: "5", name: "Michael Chen", avatar: "🔧", avatarImg: null, category: "engineer", rate: 25, bio: "Mechanical engineer", location: "Texas A&M", link: "https://linkedin.com/in/michaelchen", posts: 10, followers: 167, following: 88 },
+        { id: "6", name: "Emily Rodriguez", avatar: "📱", avatarImg: null, category: "marketer", rate: 17, bio: "Social media strategist", location: "USC", link: "#", posts: 14, followers: 234, following: 120 },
+        { id: "7", name: "Alex Wong", avatar: "🎬", avatarImg: null, category: "video", rate: 21, bio: "Video editor", location: "NYU Film", link: "#", posts: 9, followers: 189, following: 76 }
     ];
     
-    // Working video URL
+    // Update user profile in students array
+    for (var i = 0; i < students.length; i++) {
+        if (students[i].id === "1") {
+            students[i] = userProfile;
+            break;
+        }
+    }
+    
     var workingVideoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
     
     var posts = [
@@ -741,8 +747,11 @@
                 chip.classList.remove('active');
             }
         });
-        if (currentView === 'feed') renderFeed();
-        else renderSearchResults(students);
+        if (currentView === 'feed') {
+            renderFeed();
+        } else if (currentView === 'search') {
+            renderSearchResults(students);
+        }
     }
     
     function renderFeed() {
@@ -806,7 +815,7 @@
     }
     
     function likePost(postId) {
-        if (userLikedPosts[postId]) { alert("You already liked this post!"); return; }
+        if (userLikedPosts[postId]) return;
         for (var i = 0; i < posts.length; i++) {
             if (posts[i].id === postId) {
                 posts[i].likes++;
@@ -845,15 +854,20 @@
     function renderSearchResults(studentsList) {
         var container = document.getElementById('mainContainer');
         var searchInput = document.getElementById('searchInput');
-        var query = searchInput ? searchInput.value.toLowerCase() : '';
+        var query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        
         var filtered = studentsList.filter(function(s) {
             if (currentCategory !== 'all' && s.category !== currentCategory) return false;
-            if (query) return s.category.toLowerCase().includes(query) || s.name.toLowerCase().includes(query);
+            if (query) {
+                return s.category.toLowerCase().includes(query) || 
+                       s.name.toLowerCase().includes(query) ||
+                       s.location.toLowerCase().includes(query);
+            }
             return true;
         });
         
         if (filtered.length === 0) {
-            container.innerHTML = '<div class="empty-state">No results found</div>';
+            container.innerHTML = '<div class="empty-state">No results found for "' + (query || currentCategory) + '"</div>';
             return;
         }
         
@@ -867,20 +881,22 @@
             html += '<div class="profile-result-name">' + s.name + '</div>';
             html += '<div class="profile-result-category">' + s.category.toUpperCase() + '</div>';
             html += '<div>💰 $' + s.rate + '/hour</div>';
+            html += '<div>📍 ' + s.location + '</div>';
             html += '</div>';
             html += '</div>';
         }
         container.innerHTML = html;
     }
     
-    document.addEventListener('DOMContentLoaded', function() {
-        var searchInput = document.getElementById('searchInput');
-        if (searchInput) {
-            searchInput.addEventListener('input', function() {
-                if (currentView === 'search') renderSearchResults(students);
-            });
-        }
-    });
+    // Live search
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            if (currentView === 'search') {
+                renderSearchResults(students);
+            }
+        });
+    }
     
     function openEditModal() {
         document.getElementById('editName').value = userProfile.name;
@@ -907,18 +923,36 @@
                 userProfile.avatarImg = e.target.result;
                 userProfile.avatar = null;
                 localStorage.setItem('userProfile', JSON.stringify(userProfile));
-                students[0] = userProfile;
-                posts[0].name = userProfile.name;
-                posts[0].avatar = userProfile.avatar;
-                posts[0].avatarImg = userProfile.avatarImg;
+                for (var i = 0; i < students.length; i++) {
+                    if (students[i].id === "1") {
+                        students[i] = userProfile;
+                        break;
+                    }
+                }
+                for (var p = 0; p < posts.length; p++) {
+                    if (posts[p].userId === "1") {
+                        posts[p].name = userProfile.name;
+                        posts[p].avatar = userProfile.avatar;
+                        posts[p].avatarImg = userProfile.avatarImg;
+                    }
+                }
                 closeEditModal();
                 renderFeed();
             };
             reader.readAsDataURL(avatarFile);
         } else {
             localStorage.setItem('userProfile', JSON.stringify(userProfile));
-            students[0] = userProfile;
-            posts[0].name = userProfile.name;
+            for (var i = 0; i < students.length; i++) {
+                if (students[i].id === "1") {
+                    students[i] = userProfile;
+                    break;
+                }
+            }
+            for (var p = 0; p < posts.length; p++) {
+                if (posts[p].userId === "1") {
+                    posts[p].name = userProfile.name;
+                }
+            }
             closeEditModal();
             renderFeed();
         }
@@ -927,21 +961,27 @@
     function followUser(userId, userName) {
         if (userFollowing[userId]) {
             delete userFollowing[userId];
-            alert("You unfollowed " + userName);
         } else {
             userFollowing[userId] = true;
-            alert("You are now following " + userName);
         }
         localStorage.setItem('userFollowing', JSON.stringify(userFollowing));
         viewProfile(userId);
     }
     
     function viewProfile(userId) {
-        var student = students.find(function(s) { return s.id === userId; });
+        var student = null;
+        for (var i = 0; i < students.length; i++) {
+            if (students[i].id === userId) {
+                student = students[i];
+                break;
+            }
+        }
         if (!student) return;
+        
         var isOwner = (userId === "1");
         var isFollowing = userFollowing[userId] === true;
         var avatarHtml = student.avatarImg ? '<img src="' + student.avatarImg + '">' : student.avatar;
+        
         var userPosts = posts.filter(function(p) { return p.userId === userId; });
         var postsHtml = '';
         for (var i = 0; i < userPosts.length; i++) {
@@ -950,13 +990,12 @@
             postsHtml += '<div class="post"><div class="post-header"><div class="post-avatar">' + postAvatarHtml + '</div><div><div class="post-name">' + p.name + '</div><div class="post-time">' + p.time + '</div></div></div><div class="post-caption">' + p.content + '</div></div>';
         }
         
-        var followButtonHtml = '';
-        if (!isOwner) {
-            if (isFollowing) {
-                followButtonHtml = '<button class="following-btn" onclick="followUser(\'' + student.id + '\', \'' + student.name + '\')">✓ Following</button>';
-            } else {
-                followButtonHtml = '<button class="follow-btn" onclick="followUser(\'' + student.id + '\', \'' + student.name + '\')">Follow</button>';
-            }
+        var actionButtonsHtml = '';
+        if (isOwner) {
+            actionButtonsHtml = '<button class="edit-profile-btn" onclick="openEditModal()">✏️ Edit Profile</button>';
+        } else {
+            var followBtnHtml = isFollowing ? '<button class="following-btn" onclick="followUser(\'' + student.id + '\', \'' + student.name + '\')">✓ Following</button>' : '<button class="follow-btn" onclick="followUser(\'' + student.id + '\', \'' + student.name + '\')">Follow</button>';
+            actionButtonsHtml = followBtnHtml + '<button class="message-profile-btn" onclick="openDM(\'' + student.id + '\', \'' + student.name + '\')">💬 Message</button>';
         }
         
         var html = '';
@@ -969,18 +1008,13 @@
         html += '<div class="profile-category-large">' + student.category.toUpperCase() + ' • $' + student.rate + '/hour</div>';
         html += '<div class="profile-bio-text">' + (student.bio || "No bio yet") + '</div>';
         html += '<div>📍 ' + student.location + '</div>';
-        if (student.link) html += '<div><a href="' + student.link + '" target="_blank" class="profile-link">🔗 ' + student.link + '</a></div>';
+        if (student.link && student.link !== '#') html += '<div><a href="' + student.link + '" target="_blank" class="profile-link">🔗 ' + student.link + '</a></div>';
         html += '<div class="stats-row">';
         html += '<div class="stat-item"><div class="stat-number">' + student.posts + '</div><div class="stat-label">posts</div></div>';
         html += '<div class="stat-item"><div class="stat-number">' + student.followers + '</div><div class="stat-label">followers</div></div>';
         html += '<div class="stat-item"><div class="stat-number">' + student.following + '</div><div class="stat-label">following</div></div>';
         html += '</div>';
-        if (isOwner) {
-            html += '<button class="edit-profile-btn" onclick="openEditModal()">✏️ Edit Profile</button>';
-        } else {
-            html += followButtonHtml;
-            html += '<button class="message-profile-btn" onclick="openDM(\'' + student.id + '\', \'' + student.name + '\')">💬 Message</button>';
-        }
+        html += actionButtonsHtml;
         html += '</div>';
         if (userPosts.length > 0) html += '<div style="padding:15px;"><h3>Recent Work</h3>' + postsHtml + '</div>';
         html += '</div>';
